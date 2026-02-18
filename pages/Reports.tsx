@@ -1,12 +1,25 @@
 
 import React, { useState, useMemo } from 'react';
 import { GlassCard } from '../components/GlassCard';
-import { ChefHat, UtensilsCrossed, Truck, Store, Signal, Download, Printer, Filter, Search, MapPin, User, Calendar, Clock, Building, ShoppingCart, ChevronDown, Check, ArrowDownUp } from 'lucide-react';
+import { ChefHat, UtensilsCrossed, Truck, Store, Signal, Download, Printer, Filter, Search, MapPin, User, Calendar, Clock, Building, ShoppingCart, ChevronDown, Check, ArrowDownUp, Info, Database } from 'lucide-react';
 import { useData } from '../contexts/DataContext';
 import { TableRowSkeleton } from '../components/Skeletons';
 
-const TableHeader = ({ children }: React.PropsWithChildren<{}>) => (
-  <th className="px-6 py-4 text-left text-[10px] font-bold text-gray-500 uppercase tracking-wider whitespace-nowrap">{children}</th>
+const TableHeader = ({ children, tooltip }: React.PropsWithChildren<{ tooltip?: string }>) => (
+  <th className="px-6 py-4 text-left group relative">
+    <div className="flex items-center gap-1.5 cursor-help w-fit">
+        <span className="text-[10px] font-bold text-gray-500 uppercase tracking-wider whitespace-nowrap group-hover:text-[#064E3B] transition-colors">{children}</span>
+        {tooltip && <Info size={12} className="text-gray-300 group-hover:text-[#D4AF37] transition-colors" />}
+    </div>
+    
+    {/* Tooltip Bubble */}
+    {tooltip && (
+        <div className="absolute bottom-full left-0 mb-2 w-48 bg-[#1f2937] text-white text-[10px] font-medium p-2.5 rounded-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 z-50 shadow-xl pointer-events-none text-left normal-case tracking-normal leading-relaxed border border-white/10 backdrop-blur-md transform translate-y-1 group-hover:translate-y-0">
+            {tooltip}
+            <div className="absolute top-full left-4 border-4 border-transparent border-t-[#1f2937]"></div>
+        </div>
+    )}
+  </th>
 );
 
 const TableRow = ({ children, idx }: React.PropsWithChildren<{ idx: number }>) => (
@@ -336,56 +349,56 @@ export const Reports: React.FC = () => {
                     <tr>
                         {activeTab === 'bumbu' && (
                             <>
-                                <TableHeader>Jenis Bumbu</TableHeader>
-                                <TableHeader>Detail Dapur & PIC</TableHeader>
-                                <TableHeader>Data Bumbu</TableHeader>
-                                <TableHeader>Harga (SAR)</TableHeader>
-                                <TableHeader>Surveyor & Waktu</TableHeader>
+                                <TableHeader tooltip="Nama jenis bumbu dan perusahaan penyedia">Jenis Bumbu</TableHeader>
+                                <TableHeader tooltip="Informasi lokasi dapur, alamat dan Penanggung Jawab">Detail Dapur & PIC</TableHeader>
+                                <TableHeader tooltip="Total volume penggunaan dan bahan tambahan">Data Bumbu</TableHeader>
+                                <TableHeader tooltip="Harga pasar per satuan dalam mata uang Riyal (SAR)">Harga (SAR)</TableHeader>
+                                <TableHeader tooltip="Petugas surveyor yang mengambil data dan waktu survei">Surveyor & Waktu</TableHeader>
                             </>
                         )}
                         {activeTab === 'beras' && (
                             <>
-                                <TableHeader>Perusahaan</TableHeader>
-                                <TableHeader>Jenis & Volume</TableHeader>
-                                <TableHeader>Harga (SAR)</TableHeader>
-                                <TableHeader>Asal Produk</TableHeader>
-                                <TableHeader>Surveyor & Waktu</TableHeader>
+                                <TableHeader tooltip="Nama perusahaan penyedia beras">Perusahaan</TableHeader>
+                                <TableHeader tooltip="Jenis beras (Premium/Basmati) dan volume stok">Jenis & Volume</TableHeader>
+                                <TableHeader tooltip="Harga beli per ton dalam SAR">Harga (SAR)</TableHeader>
+                                <TableHeader tooltip="Negara asal produk dan harga aslinya">Asal Produk</TableHeader>
+                                <TableHeader tooltip="Petugas surveyor dan tanggal pendataan">Surveyor & Waktu</TableHeader>
                             </>
                         )}
                         {activeTab === 'rte' && (
                             <>
-                                <TableHeader>Perusahaan</TableHeader>
-                                <TableHeader>Menu / Jenis</TableHeader>
-                                <TableHeader>Lokasi & PIC</TableHeader>
-                                <TableHeader>Volume & Harga</TableHeader>
-                                <TableHeader>Surveyor & Waktu</TableHeader>
+                                <TableHeader tooltip="Nama perusahaan katering penyedia makanan">Perusahaan</TableHeader>
+                                <TableHeader tooltip="Detail menu makanan yang disediakan">Menu / Jenis</TableHeader>
+                                <TableHeader tooltip="Lokasi dapur, hotel distribusi dan PIC">Lokasi & PIC</TableHeader>
+                                <TableHeader tooltip="Jumlah porsi/paket dan harga satuan">Volume & Harga</TableHeader>
+                                <TableHeader tooltip="Petugas monitoring dan waktu pengecekan">Surveyor & Waktu</TableHeader>
                             </>
                         )}
                         {activeTab === 'tenant' && (
                             <>
-                                <TableHeader>Nama Toko</TableHeader>
-                                <TableHeader>Lokasi Hotel & PIC</TableHeader>
-                                <TableHeader>Produk Utama</TableHeader>
-                                <TableHeader>Biaya Sewa</TableHeader>
-                                <TableHeader>Surveyor & Waktu</TableHeader>
+                                <TableHeader tooltip="Nama toko atau tenant penyewa">Nama Toko</TableHeader>
+                                <TableHeader tooltip="Lokasi hotel tempat tenant berada">Lokasi Hotel & PIC</TableHeader>
+                                <TableHeader tooltip="Jenis produk yang dijual dan produk terlaris">Produk Utama</TableHeader>
+                                <TableHeader tooltip="Biaya sewa lokasi dalam SAR">Biaya Sewa</TableHeader>
+                                <TableHeader tooltip="Petugas survei lapangan">Surveyor & Waktu</TableHeader>
                             </>
                         )}
                         {activeTab === 'ekspedisi' && (
                             <>
-                                <TableHeader>Perusahaan</TableHeader>
-                                <TableHeader>Lokasi Asal & PIC</TableHeader>
-                                <TableHeader>Berat (Kg)</TableHeader>
-                                <TableHeader>Harga / Kg</TableHeader>
-                                <TableHeader>Surveyor & Waktu</TableHeader>
+                                <TableHeader tooltip="Nama perusahaan jasa ekspedisi/kargo">Perusahaan</TableHeader>
+                                <TableHeader tooltip="Lokasi hotel tempat penjemputan barang">Lokasi Asal & PIC</TableHeader>
+                                <TableHeader tooltip="Total berat barang yang dikirim (Kg)">Berat (Kg)</TableHeader>
+                                <TableHeader tooltip="Harga pengiriman per Kilogram dalam SAR">Harga / Kg</TableHeader>
+                                <TableHeader tooltip="Petugas pendataan logistik">Surveyor & Waktu</TableHeader>
                             </>
                         )}
                         {activeTab === 'telco' && (
                             <>
-                                <TableHeader>Provider</TableHeader>
-                                <TableHeader>Identitas Jemaah</TableHeader>
-                                <TableHeader>Paket Roaming</TableHeader>
-                                <TableHeader>Status</TableHeader>
-                                <TableHeader>Surveyor & Waktu</TableHeader>
+                                <TableHeader tooltip="Nama provider telekomunikasi yang digunakan">Provider</TableHeader>
+                                <TableHeader tooltip="Identitas jemaah haji responden">Identitas Jemaah</TableHeader>
+                                <TableHeader tooltip="Jenis paket roaming yang aktif">Paket Roaming</TableHeader>
+                                <TableHeader tooltip="Status keaktifan paket data">Status</TableHeader>
+                                <TableHeader tooltip="Petugas surveyor telekomunikasi">Surveyor & Waktu</TableHeader>
                             </>
                         )}
                     </tr>
@@ -476,59 +489,77 @@ export const Reports: React.FC = () => {
 
         {/* Data Table Card */}
         <GlassCard className="min-h-[500px] !bg-white/70">
-            {/* Filters */}
-            <div className="flex flex-col md:flex-row justify-between items-center mb-8 px-1 gap-4">
-                <div className="relative group w-full md:max-w-sm">
-                    <div className="absolute inset-0 bg-gradient-to-r from-[#D4AF37] to-[#FBBF24] rounded-xl blur opacity-10 group-focus-within:opacity-20 transition-opacity"></div>
-                    <div className="relative flex items-center">
-                        <Search size={18} className="absolute left-4 text-gray-400 group-focus-within:text-[#064E3B] transition-colors" />
-                        <input 
-                            type="text" 
-                            placeholder={`Cari data ${activeTab}...`} 
-                            value={searchTerm}
-                            onChange={(e) => setSearchTerm(e.target.value)}
-                            className="w-full pl-11 pr-4 py-3 bg-white border border-gray-200 rounded-xl text-sm font-medium focus:outline-none focus:border-[#064E3B] focus:ring-4 focus:ring-[#064E3B]/5 transition-all placeholder-gray-400 text-gray-700"
-                        />
+            {/* Filters Row */}
+            <div className="flex flex-col md:flex-row justify-between items-center mb-6 px-1 gap-4">
+                
+                {/* LEFT: Search & Filter Group */}
+                <div className="flex flex-col sm:flex-row items-center gap-2 w-full md:w-auto">
+                    
+                    {/* Search Bar */}
+                    <div className="relative group w-full sm:w-60">
+                        <div className="absolute inset-0 bg-gradient-to-r from-[#D4AF37] to-[#FBBF24] rounded-xl blur opacity-10 group-focus-within:opacity-20 transition-opacity"></div>
+                        <div className="relative flex items-center">
+                            <Search size={16} className="absolute left-4 text-gray-400 group-focus-within:text-[#064E3B] transition-colors" />
+                            <input 
+                                type="text" 
+                                placeholder={`Cari data...`} 
+                                value={searchTerm}
+                                onChange={(e) => setSearchTerm(e.target.value)}
+                                className="w-full pl-10 pr-4 py-2.5 bg-white border border-gray-200 rounded-xl text-xs font-medium focus:outline-none focus:border-[#064E3B] focus:ring-4 focus:ring-[#064E3B]/5 transition-all placeholder-gray-400 text-gray-700"
+                            />
+                        </div>
+                    </div>
+
+                    {/* Filter Dropdown - Compact */}
+                    <div className="relative w-full sm:w-auto">
+                        <button 
+                            onClick={() => setIsFilterOpen(!isFilterOpen)}
+                            className={`flex items-center gap-2 px-4 py-2.5 rounded-xl border transition-all text-[11px] font-bold uppercase tracking-wide w-full sm:w-auto justify-between min-w-[120px]
+                            ${isFilterOpen || filterMode !== 'newest' ? 'bg-[#064E3B] text-white border-[#064E3B] shadow-lg' : 'bg-white text-gray-500 border-gray-200 hover:border-[#064E3B]'}`}
+                        >
+                            <div className="flex items-center gap-2">
+                                    <ArrowDownUp size={14} />
+                                    <span>{filterOptions.find(f => f.id === filterMode)?.label.split(' ')[0] || 'Filter'}</span>
+                            </div>
+                            <ChevronDown size={14} className={`transition-transform duration-300 ${isFilterOpen ? 'rotate-180' : ''}`} />
+                        </button>
+                        
+                        {isFilterOpen && (
+                            <div className="absolute top-full left-0 mt-2 w-full md:w-48 bg-white border border-gray-100 rounded-xl shadow-2xl z-50 overflow-hidden animate-fade-in-up">
+                                <div className="p-1.5">
+                                    {filterOptions.map((opt) => (
+                                        <button
+                                            key={opt.id}
+                                            onClick={() => {
+                                                setFilterMode(opt.id as any);
+                                                setIsFilterOpen(false);
+                                            }}
+                                            className={`w-full text-left px-4 py-2.5 rounded-lg text-xs font-bold transition-all flex items-center justify-between group
+                                                ${filterMode === opt.id 
+                                                    ? 'bg-[#064E3B]/5 text-[#064E3B]' 
+                                                    : 'text-gray-500 hover:bg-gray-50 hover:text-[#064E3B]'}`}
+                                        >
+                                            {opt.label}
+                                            {filterMode === opt.id && <Check size={14} className="text-[#064E3B]" />}
+                                        </button>
+                                    ))}
+                                </div>
+                            </div>
+                        )}
                     </div>
                 </div>
 
-                {/* Filter Dropdown */}
-                <div className="relative">
-                    <button 
-                        onClick={() => setIsFilterOpen(!isFilterOpen)}
-                        className={`flex items-center gap-3 px-5 py-3 rounded-xl border transition-all text-xs font-bold uppercase tracking-wide min-w-[180px] justify-between
-                        ${isFilterOpen || filterMode !== 'newest' ? 'bg-[#064E3B] text-white border-[#064E3B] shadow-lg' : 'bg-white text-gray-500 border-gray-200 hover:border-[#064E3B]'}`}
-                    >
-                        <div className="flex items-center gap-2">
-                             <ArrowDownUp size={16} />
-                             <span>{filterOptions.find(f => f.id === filterMode)?.label || 'Filter'}</span>
-                        </div>
-                        <ChevronDown size={14} className={`transition-transform duration-300 ${isFilterOpen ? 'rotate-180' : ''}`} />
-                    </button>
-                    
-                    {isFilterOpen && (
-                        <div className="absolute top-full right-0 mt-2 w-56 bg-white border border-gray-100 rounded-xl shadow-2xl z-50 overflow-hidden animate-fade-in-up">
-                            <div className="p-1.5">
-                                {filterOptions.map((opt) => (
-                                    <button
-                                        key={opt.id}
-                                        onClick={() => {
-                                            setFilterMode(opt.id as any);
-                                            setIsFilterOpen(false);
-                                        }}
-                                        className={`w-full text-left px-4 py-3 rounded-lg text-xs font-bold transition-all flex items-center justify-between group
-                                            ${filterMode === opt.id 
-                                                ? 'bg-[#064E3B]/5 text-[#064E3B]' 
-                                                : 'text-gray-500 hover:bg-gray-50 hover:text-[#064E3B]'}`}
-                                    >
-                                        {opt.label}
-                                        {filterMode === opt.id && <Check size={14} className="text-[#064E3B]" />}
-                                    </button>
-                                ))}
-                            </div>
-                        </div>
-                    )}
+                {/* RIGHT: Total Record - Compact */}
+                <div className="flex items-center gap-2 px-3 py-2 bg-white border border-gray-200 rounded-lg shadow-sm w-full md:w-auto justify-center md:justify-start">
+                    <div className="p-1 bg-[#064E3B]/10 rounded-md text-[#064E3B]">
+                            <Database size={12} />
+                    </div>
+                    <div className="flex flex-col">
+                        <span className="text-[8px] font-bold text-gray-400 uppercase tracking-wider leading-none mb-0.5">Total Record</span>
+                        <span className="text-[10px] font-bold text-gray-800 leading-none">{processedData.length} <span className="text-[8px] font-medium text-gray-400">Items</span></span>
+                    </div>
                 </div>
+
             </div>
 
             <div className="overflow-x-auto pb-4">
