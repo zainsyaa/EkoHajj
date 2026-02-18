@@ -469,43 +469,43 @@ export const Reports: React.FC = () => {
     <div className="space-y-8 animate-fade-in-up pb-10">
         
         {/* HERO SECTION - MATCHING DASHBOARD EXACTLY */}
-        <div className="bg-[#064E3B] rounded-[2.5rem] p-8 md:p-10 text-white relative overflow-visible shadow-2xl shadow-[#064E3B]/20">
+        <div className="bg-[#064E3B] rounded-[2rem] p-6 text-white relative overflow-hidden shadow-xl shadow-[#064E3B]/20 min-h-[140px] flex flex-col justify-center">
             {/* Ambient Background Effects */}
-            <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-gradient-to-b from-[#10B981] to-[#064E3B] rounded-full blur-[100px] opacity-30 translate-x-1/4 -translate-y-1/4 pointer-events-none"></div>
-            <div className="absolute bottom-0 left-0 w-[300px] h-[300px] bg-[#D4AF37] rounded-full blur-[80px] opacity-20 -translate-x-1/4 translate-y-1/4 pointer-events-none"></div>
+            <div className="absolute top-0 right-0 w-[300px] h-[300px] bg-gradient-to-b from-[#10B981] to-[#064E3B] rounded-full blur-[80px] opacity-30 translate-x-1/3 -translate-y-1/3 pointer-events-none"></div>
+            <div className="absolute bottom-0 left-0 w-[200px] h-[200px] bg-[#D4AF37] rounded-full blur-[60px] opacity-20 -translate-x-1/3 translate-y-1/3 pointer-events-none"></div>
             
-            <div className="relative z-10 flex flex-col md:flex-row justify-between items-end md:items-center gap-6">
+            <div className="relative z-10 flex flex-col md:flex-row justify-between items-end md:items-center gap-4">
                 <div>
-                    <div className="flex items-center gap-2 text-[#D4AF37] font-bold text-xs uppercase tracking-widest mb-3">
-                        <Calendar size={14} /> <span>{currentDate}</span>
+                    <div className="flex items-center gap-2 text-[#D4AF37] font-bold text-[10px] uppercase tracking-widest mb-1.5">
+                        <Calendar size={12} /> <span>{currentDate}</span>
                     </div>
-                    <h1 className="text-3xl md:text-4xl font-bold font-playfair mb-2 leading-tight">
+                    <h1 className="text-2xl md:text-3xl font-bold font-playfair mb-1.5 leading-tight">
                         Laporan <span className="text-[#D4AF37]">Ekosistem Haji</span>
                     </h1>
-                    <p className="text-emerald-100/80 text-sm max-w-lg leading-relaxed">
+                    <p className="text-emerald-100/80 text-xs max-w-lg leading-relaxed">
                         Arsip lengkap dan rekapitulasi data real-time untuk kebutuhan pelaporan, audit, dan evaluasi layanan.
                     </p>
                 </div>
                 
-                <div className="flex flex-col md:flex-row items-end md:items-center gap-4">
+                <div className="flex flex-col md:flex-row items-end md:items-center gap-3">
                      <div className="flex items-center gap-3">
-                         <button className="flex items-center gap-2 px-5 py-3 bg-white/10 backdrop-blur-md border border-white/20 rounded-xl text-xs font-bold text-white hover:bg-white/20 transition-all shadow-lg group">
-                             <Printer size={16} className="text-emerald-200 group-hover:text-white transition-colors" /> Print Laporan
+                         <button className="flex items-center gap-2 px-4 py-2 bg-white/10 backdrop-blur-md border border-white/20 rounded-xl text-[10px] font-bold text-white hover:bg-white/20 transition-all shadow-lg group">
+                             <Printer size={14} className="text-emerald-200 group-hover:text-white transition-colors" /> Print Laporan
                          </button>
-                         <button className="flex items-center gap-2 px-5 py-3 bg-[#D4AF37] text-[#064E3B] rounded-xl text-xs font-bold hover:bg-[#b08d24] hover:text-white shadow-lg shadow-[#D4AF37]/20 transition-all transform hover:-translate-y-0.5">
-                             <Download size={16} /> Export CSV
+                         <button className="flex items-center gap-2 px-4 py-2 bg-[#D4AF37] text-[#064E3B] rounded-xl text-[10px] font-bold hover:bg-[#b08d24] hover:text-white shadow-lg shadow-[#D4AF37]/20 transition-all transform hover:-translate-y-0.5">
+                             <Download size={14} /> Export CSV
                          </button>
                      </div>
 
                      {/* Status Badge */}
-                     <div className="flex items-center gap-4 bg-white/10 backdrop-blur-md px-5 py-2.5 rounded-2xl border border-white/10 h-full min-h-[48px]">
+                     <div className="flex items-center gap-3 bg-white/10 backdrop-blur-md px-4 py-2 rounded-xl border border-white/10 h-full min-h-[38px]">
                         <div className="text-right">
-                            <p className="text-[10px] text-emerald-100 uppercase tracking-wide">Status Data</p>
-                            <p className="text-xs font-bold text-white leading-none">Live Monitoring</p>
+                            <p className="text-[8px] text-emerald-100 uppercase tracking-wide">Status Data</p>
+                            <p className="text-[10px] font-bold text-white leading-none">Live Monitoring</p>
                         </div>
-                        <div className="relative w-2.5 h-2.5">
+                        <div className="relative w-2 h-2">
                             <span className="absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75 animate-ping"></span>
-                            <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500"></span>
+                            <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
                         </div>
                     </div>
                 </div>
