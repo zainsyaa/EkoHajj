@@ -1,7 +1,7 @@
 
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { GlassCard } from '../components/GlassCard';
-import { ChefHat, UtensilsCrossed, Truck, Store, Signal, Download, Printer, Filter, Search, MapPin, User, Calendar, Clock, Building, ShoppingCart } from 'lucide-react';
+import { ChefHat, UtensilsCrossed, Truck, Store, Signal, Download, Printer, Filter, Search, MapPin, User, Calendar, Clock, Building, ShoppingCart, ChevronDown, Check, ArrowDownUp } from 'lucide-react';
 import { useData } from '../contexts/DataContext';
 import { TableRowSkeleton } from '../components/Skeletons';
 
@@ -20,6 +20,72 @@ export const Reports: React.FC = () => {
   const { bumbuMakkah, bumbuMadinah, rteData, tenantData, expeditionData, telecomData, riceData, isLoading } = useData();
   const currentDate = new Date().toLocaleDateString('id-ID', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
 
+  // Search & Filter State
+  const [searchTerm, setSearchTerm] = useState('');
+  const [filterMode, setFilterMode] = useState<'newest' | 'oldest' | 'highest_vol' | 'highest_price'>('newest');
+  const [isFilterOpen, setIsFilterOpen] = useState(false);
+
+  // --- DATA PROCESSING LOGIC ---
+  const processedData = useMemo(() => {
+      let data: any[] = [];
+
+      // 1. Combine/Select Data Source
+      switch (activeTab) {
+          case 'bumbu':
+              data = [
+                  ...bumbuMakkah.filter(i => i.isUsed).map(i => ({ ...i, loc: 'Makkah' })),
+                  ...bumbuMadinah.filter(i => i.isUsed).map(i => ({ ...i, loc: 'Madinah' }))
+              ];
+              break;
+          case 'beras': data = [...riceData]; break;
+          case 'rte': data = [...rteData]; break;
+          case 'tenant': data = [...tenantData]; break;
+          case 'ekspedisi': data = [...expeditionData]; break;
+          case 'telco': data = [...telecomData]; break;
+      }
+
+      // 2. Filter by Search Term (Case Insensitive, multi-field)
+      if (searchTerm) {
+          const lowerTerm = searchTerm.toLowerCase();
+          data = data.filter(item => {
+              return (
+                  (item.name && item.name.toLowerCase().includes(lowerTerm)) ||
+                  (item.companyName && item.companyName.toLowerCase().includes(lowerTerm)) ||
+                  (item.shopName && item.shopName.toLowerCase().includes(lowerTerm)) ||
+                  (item.providerName && item.providerName.toLowerCase().includes(lowerTerm)) ||
+                  (item.menu && item.menu.toLowerCase().includes(lowerTerm)) ||
+                  (item.pic && item.pic.toLowerCase().includes(lowerTerm)) ||
+                  (item.hotelName && item.hotelName.toLowerCase().includes(lowerTerm)) ||
+                  (item.kitchenName && item.kitchenName.toLowerCase().includes(lowerTerm))
+              );
+          });
+      }
+
+      // 3. Sort Data based on Filter Mode
+      data.sort((a, b) => {
+          switch (filterMode) {
+              case 'newest':
+                   // Mock sort by ID desc as proxy for date if date parsing is complex
+                   return b.id - a.id;
+              case 'oldest':
+                   return a.id - b.id;
+              case 'highest_vol':
+                   const volA = parseFloat(a.volume || a.weight || '0');
+                   const volB = parseFloat(b.volume || b.weight || '0');
+                   return volB - volA;
+              case 'highest_price':
+                   const priceA = parseFloat(a.price || a.rentCost || a.pricePerKg || '0');
+                   const priceB = parseFloat(b.price || b.rentCost || b.pricePerKg || '0');
+                   return priceB - priceA;
+              default:
+                   return 0;
+          }
+      });
+
+      return data;
+  }, [activeTab, bumbuMakkah, bumbuMadinah, riceData, rteData, tenantData, expeditionData, telecomData, searchTerm, filterMode]);
+
+
   const renderTableBody = () => {
       if (isLoading) {
           return (
@@ -29,19 +95,31 @@ export const Reports: React.FC = () => {
           );
       }
 
+      if (processedData.length === 0) {
+          return (
+              <tbody>
+                  <tr>
+                      <td colSpan={5} className="p-12 text-center">
+                          <div className="flex flex-col items-center justify-center text-gray-400">
+                              <Search size={32} className="mb-2 opacity-50" />
+                              <p className="font-medium text-sm">Data tidak ditemukan.</p>
+                              <p className="text-xs mt-1">Coba kata kunci pencarian lain.</p>
+                          </div>
+                      </td>
+                  </tr>
+              </tbody>
+          );
+      }
+
       switch(activeTab) {
           case 'bumbu':
-              const allBumbu = [
-                  ...bumbuMakkah.filter(i => i.isUsed).map(i => ({ ...i, loc: 'Makkah' })),
-                  ...bumbuMadinah.filter(i => i.isUsed).map(i => ({ ...i, loc: 'Madinah' }))
-              ];
               return (
                 <tbody className="divide-y divide-gray-100">
-                    {allBumbu.map((row, idx) => (
+                    {processedData.map((row: any, idx) => (
                         <TableRow key={idx} idx={idx}>
                             <td className="px-6 py-4">
                                 <div className="font-bold text-gray-700">{row.name}</div>
-                                <div className="text-[10px] text-gray-400 font-medium">{row.originProduct}</div>
+                                <div className="text-[10px] text-gray-400 font-medium">{row.companyName}</div>
                             </td>
                             <td className="px-6 py-4">
                                 <div className="flex items-center gap-1.5 text-xs font-bold text-[#064E3B]">
@@ -76,7 +154,7 @@ export const Reports: React.FC = () => {
           case 'beras':
               return (
                 <tbody className="divide-y divide-gray-100">
-                    {riceData.map((row, idx) => (
+                    {processedData.map((row: any, idx) => (
                         <TableRow key={row.id} idx={idx}>
                             <td className="px-6 py-4">
                                 <div className="font-bold text-[#064E3B]">{row.companyName}</div>
@@ -107,7 +185,7 @@ export const Reports: React.FC = () => {
           case 'rte':
                return (
                 <tbody className="divide-y divide-gray-100">
-                    {rteData.map((row, idx) => (
+                    {processedData.map((row: any, idx) => (
                         <TableRow key={row.id} idx={idx}>
                             <td className="px-6 py-4">
                                 <div className="font-bold text-[#064E3B]">{row.companyName}</div>
@@ -144,7 +222,7 @@ export const Reports: React.FC = () => {
           case 'tenant':
                return (
                 <tbody className="divide-y divide-gray-100">
-                    {tenantData.map((row, idx) => (
+                    {processedData.map((row: any, idx) => (
                         <TableRow key={row.id} idx={idx}>
                             <td className="px-6 py-4">
                                 <div className="font-bold text-[#064E3B]">{row.shopName}</div>
@@ -181,7 +259,7 @@ export const Reports: React.FC = () => {
           case 'ekspedisi':
               return (
                 <tbody className="divide-y divide-gray-100">
-                    {expeditionData.map((row, idx) => (
+                    {processedData.map((row: any, idx) => (
                         <TableRow key={row.id} idx={idx}>
                             <td className="px-6 py-4 font-bold text-[#064E3B]">{row.companyName}</td>
                             <td className="px-6 py-4">
@@ -213,7 +291,7 @@ export const Reports: React.FC = () => {
           case 'telco':
               return (
                 <tbody className="divide-y divide-gray-100">
-                    {telecomData.map((row, idx) => (
+                    {processedData.map((row: any, idx) => (
                         <TableRow key={row.id} idx={idx}>
                             <td className="px-6 py-4 font-bold text-[#064E3B]">{row.providerName}</td>
                             <td className="px-6 py-4">
@@ -318,6 +396,13 @@ export const Reports: React.FC = () => {
     );
   };
 
+  const filterOptions = [
+      { id: 'newest', label: 'Terbaru Ditambahkan' },
+      { id: 'oldest', label: 'Terlama Ditambahkan' },
+      { id: 'highest_vol', label: 'Volume Tertinggi' },
+      { id: 'highest_price', label: 'Harga Tertinggi' },
+  ];
+
   return (
     <div className="space-y-8 animate-fade-in-up pb-10">
         
@@ -377,7 +462,7 @@ export const Reports: React.FC = () => {
             ].map((tab) => (
                 <button
                     key={tab.id}
-                    onClick={() => setActiveTab(tab.id as any)}
+                    onClick={() => { setActiveTab(tab.id as any); setSearchTerm(''); }}
                     className={`group flex items-center gap-2.5 px-6 py-3.5 rounded-2xl text-xs font-bold uppercase tracking-wider transition-all whitespace-nowrap border
                         ${activeTab === tab.id 
                             ? 'bg-[#064E3B] text-white border-[#064E3B] shadow-lg shadow-[#064E3B]/20' 
@@ -392,22 +477,58 @@ export const Reports: React.FC = () => {
         {/* Data Table Card */}
         <GlassCard className="min-h-[500px] !bg-white/70">
             {/* Filters */}
-            <div className="flex justify-between items-center mb-8 px-1">
-                <div className="relative group w-full max-w-sm">
+            <div className="flex flex-col md:flex-row justify-between items-center mb-8 px-1 gap-4">
+                <div className="relative group w-full md:max-w-sm">
                     <div className="absolute inset-0 bg-gradient-to-r from-[#D4AF37] to-[#FBBF24] rounded-xl blur opacity-10 group-focus-within:opacity-20 transition-opacity"></div>
                     <div className="relative flex items-center">
                         <Search size={18} className="absolute left-4 text-gray-400 group-focus-within:text-[#064E3B] transition-colors" />
                         <input 
                             type="text" 
-                            placeholder="Cari data laporan..." 
+                            placeholder={`Cari data ${activeTab}...`} 
+                            value={searchTerm}
+                            onChange={(e) => setSearchTerm(e.target.value)}
                             className="w-full pl-11 pr-4 py-3 bg-white border border-gray-200 rounded-xl text-sm font-medium focus:outline-none focus:border-[#064E3B] focus:ring-4 focus:ring-[#064E3B]/5 transition-all placeholder-gray-400 text-gray-700"
                         />
                     </div>
                 </div>
-                <button className="flex items-center gap-2 px-4 py-2 text-gray-500 hover:text-[#064E3B] hover:bg-white rounded-xl transition-all border border-transparent hover:border-gray-200">
-                    <Filter size={18} />
-                    <span className="text-xs font-bold uppercase">Filter</span>
-                </button>
+
+                {/* Filter Dropdown */}
+                <div className="relative">
+                    <button 
+                        onClick={() => setIsFilterOpen(!isFilterOpen)}
+                        className={`flex items-center gap-3 px-5 py-3 rounded-xl border transition-all text-xs font-bold uppercase tracking-wide min-w-[180px] justify-between
+                        ${isFilterOpen || filterMode !== 'newest' ? 'bg-[#064E3B] text-white border-[#064E3B] shadow-lg' : 'bg-white text-gray-500 border-gray-200 hover:border-[#064E3B]'}`}
+                    >
+                        <div className="flex items-center gap-2">
+                             <ArrowDownUp size={16} />
+                             <span>{filterOptions.find(f => f.id === filterMode)?.label || 'Filter'}</span>
+                        </div>
+                        <ChevronDown size={14} className={`transition-transform duration-300 ${isFilterOpen ? 'rotate-180' : ''}`} />
+                    </button>
+                    
+                    {isFilterOpen && (
+                        <div className="absolute top-full right-0 mt-2 w-56 bg-white border border-gray-100 rounded-xl shadow-2xl z-50 overflow-hidden animate-fade-in-up">
+                            <div className="p-1.5">
+                                {filterOptions.map((opt) => (
+                                    <button
+                                        key={opt.id}
+                                        onClick={() => {
+                                            setFilterMode(opt.id as any);
+                                            setIsFilterOpen(false);
+                                        }}
+                                        className={`w-full text-left px-4 py-3 rounded-lg text-xs font-bold transition-all flex items-center justify-between group
+                                            ${filterMode === opt.id 
+                                                ? 'bg-[#064E3B]/5 text-[#064E3B]' 
+                                                : 'text-gray-500 hover:bg-gray-50 hover:text-[#064E3B]'}`}
+                                    >
+                                        {opt.label}
+                                        {filterMode === opt.id && <Check size={14} className="text-[#064E3B]" />}
+                                    </button>
+                                ))}
+                            </div>
+                        </div>
+                    )}
+                </div>
             </div>
 
             <div className="overflow-x-auto pb-4">
@@ -417,11 +538,11 @@ export const Reports: React.FC = () => {
             {/* Pagination */}
             <div className="flex justify-between items-center mt-6 pt-6 border-t border-gray-200/60">
                 <p className="text-xs font-medium text-gray-400">
-                    Menampilkan <span className="text-gray-800 font-bold">Semua Data</span> secara real-time
+                    Menampilkan <span className="text-gray-800 font-bold">{processedData.length} Data</span> dari total tersedia
                 </p>
                 <div className="flex gap-2">
-                    <button className="px-3 py-1.5 rounded-lg border border-gray-200 text-xs font-bold text-gray-400 hover:text-gray-600 hover:bg-gray-50 disabled:opacity-50">Prev</button>
-                    <button className="px-3 py-1.5 rounded-lg border border-gray-200 text-xs font-bold text-gray-400 hover:text-gray-600 hover:bg-gray-50 disabled:opacity-50">Next</button>
+                    <button disabled className="px-3 py-1.5 rounded-lg border border-gray-200 text-xs font-bold text-gray-400 hover:text-gray-600 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed">Prev</button>
+                    <button disabled className="px-3 py-1.5 rounded-lg border border-gray-200 text-xs font-bold text-gray-400 hover:text-gray-600 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed">Next</button>
                 </div>
             </div>
         </GlassCard>
