@@ -13,8 +13,11 @@ const TableHeader = ({ children }: React.PropsWithChildren<{}>) => (
   </th>
 );
 
-const TableRow = ({ children, idx }: React.PropsWithChildren<{ idx: number }>) => (
-  <tr className={`transition-colors hover:bg-[#064E3B]/5 ${idx % 2 === 0 ? 'bg-white/30' : 'bg-transparent'}`}>
+const TableRow = ({ children, idx, style }: React.PropsWithChildren<{ idx: number; style?: React.CSSProperties }>) => (
+  <tr 
+    style={style}
+    className={`transition-all duration-300 hover:bg-[#064E3B]/5 ${idx % 2 === 0 ? 'bg-white/30' : 'bg-transparent'} animate-fade-in-up opacity-0 fill-mode-forwards`}
+  >
       {children}
   </tr>
 );
@@ -115,12 +118,14 @@ export const Reports: React.FC = () => {
           );
       }
 
+      const getDelay = (idx: number) => ({ animationDelay: `${idx * 50}ms` });
+
       switch(activeTab) {
           case 'bumbu':
               return (
-                <tbody className="divide-y divide-gray-100">
+                <tbody key={activeTab} className="divide-y divide-gray-100">
                     {processedData.map((row: any, idx) => (
-                        <TableRow key={idx} idx={idx}>
+                        <TableRow key={idx} idx={idx} style={getDelay(idx)}>
                             <td className="px-6 py-4">
                                 <div className="font-bold text-gray-700">{row.name}</div>
                                 <div className="text-[10px] text-gray-400 font-medium">{row.companyName}</div>
@@ -157,9 +162,9 @@ export const Reports: React.FC = () => {
               );
           case 'beras':
               return (
-                <tbody className="divide-y divide-gray-100">
+                <tbody key={activeTab} className="divide-y divide-gray-100">
                     {processedData.map((row: any, idx) => (
-                        <TableRow key={row.id} idx={idx}>
+                        <TableRow key={row.id} idx={idx} style={getDelay(idx)}>
                             <td className="px-6 py-4">
                                 <div className="font-bold text-[#064E3B]">{row.companyName}</div>
                             </td>
@@ -188,9 +193,9 @@ export const Reports: React.FC = () => {
               );
           case 'rte':
                return (
-                <tbody className="divide-y divide-gray-100">
+                <tbody key={activeTab} className="divide-y divide-gray-100">
                     {processedData.map((row: any, idx) => (
-                        <TableRow key={row.id} idx={idx}>
+                        <TableRow key={row.id} idx={idx} style={getDelay(idx)}>
                             <td className="px-6 py-4">
                                 <div className="font-bold text-[#064E3B]">{row.companyName}</div>
                             </td>
@@ -225,9 +230,9 @@ export const Reports: React.FC = () => {
               );
           case 'tenant':
                return (
-                <tbody className="divide-y divide-gray-100">
+                <tbody key={activeTab} className="divide-y divide-gray-100">
                     {processedData.map((row: any, idx) => (
-                        <TableRow key={row.id} idx={idx}>
+                        <TableRow key={row.id} idx={idx} style={getDelay(idx)}>
                             <td className="px-6 py-4">
                                 <div className="font-bold text-[#064E3B]">{row.shopName}</div>
                             </td>
@@ -262,9 +267,9 @@ export const Reports: React.FC = () => {
               );
           case 'ekspedisi':
               return (
-                <tbody className="divide-y divide-gray-100">
+                <tbody key={activeTab} className="divide-y divide-gray-100">
                     {processedData.map((row: any, idx) => (
-                        <TableRow key={row.id} idx={idx}>
+                        <TableRow key={row.id} idx={idx} style={getDelay(idx)}>
                             <td className="px-6 py-4 font-bold text-[#064E3B]">{row.companyName}</td>
                             <td className="px-6 py-4">
                                 <div className="flex items-center gap-1.5 text-xs font-bold text-gray-700">
@@ -294,9 +299,9 @@ export const Reports: React.FC = () => {
              );
           case 'telco':
               return (
-                <tbody className="divide-y divide-gray-100">
+                <tbody key={activeTab} className="divide-y divide-gray-100">
                     {processedData.map((row: any, idx) => (
-                        <TableRow key={row.id} idx={idx}>
+                        <TableRow key={row.id} idx={idx} style={getDelay(idx)}>
                             <td className="px-6 py-4 font-bold text-[#064E3B]">{row.providerName}</td>
                             <td className="px-6 py-4">
                                 <div className="text-xs font-bold text-gray-700">{row.respondentName || '-'}</div>
@@ -515,28 +520,26 @@ export const Reports: React.FC = () => {
                             <ChevronDown size={14} className={`transition-transform duration-300 ${isFilterOpen ? 'rotate-180' : ''}`} />
                         </button>
                         
-                        {isFilterOpen && (
-                            <div className="absolute top-full left-0 mt-2 w-full md:w-48 bg-white border border-gray-100 rounded-xl shadow-2xl z-50 overflow-hidden animate-fade-in-up">
-                                <div className="p-1.5">
-                                    {filterOptions.map((opt) => (
-                                        <button
-                                            key={opt.id}
-                                            onClick={() => {
-                                                setFilterMode(opt.id as any);
-                                                setIsFilterOpen(false);
-                                            }}
-                                            className={`w-full text-left px-4 py-2.5 rounded-lg text-xs font-bold transition-all flex items-center justify-between group
-                                                ${filterMode === opt.id 
-                                                    ? 'bg-[#064E3B]/5 text-[#064E3B]' 
-                                                    : 'text-gray-500 hover:bg-gray-50 hover:text-[#064E3B]'}`}
-                                        >
-                                            {opt.label}
-                                            {filterMode === opt.id && <Check size={14} className="text-[#064E3B]" />}
-                                        </button>
-                                    ))}
-                                </div>
+                        <div className={`absolute top-full left-0 mt-2 w-full md:w-48 bg-white border border-gray-100 rounded-xl shadow-2xl z-50 overflow-hidden transition-all duration-200 ease-out origin-top-left transform ${isFilterOpen ? 'opacity-100 scale-100 translate-y-0 visible' : 'opacity-0 scale-95 -translate-y-2 invisible pointer-events-none'}`}>
+                            <div className="p-1.5">
+                                {filterOptions.map((opt) => (
+                                    <button
+                                        key={opt.id}
+                                        onClick={() => {
+                                            setFilterMode(opt.id as any);
+                                            setIsFilterOpen(false);
+                                        }}
+                                        className={`w-full text-left px-4 py-2.5 rounded-lg text-xs font-bold transition-all flex items-center justify-between group
+                                            ${filterMode === opt.id 
+                                                ? 'bg-[#064E3B]/5 text-[#064E3B]' 
+                                                : 'text-gray-500 hover:bg-gray-50 hover:text-[#064E3B]'}`}
+                                    >
+                                        {opt.label}
+                                        {filterMode === opt.id && <Check size={14} className="text-[#064E3B]" />}
+                                    </button>
+                                ))}
                             </div>
-                        )}
+                        </div>
                     </div>
                 </div>
 
