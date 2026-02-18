@@ -51,20 +51,62 @@ export const Reports: React.FC = () => {
           case 'telco': data = [...telecomData]; break;
       }
 
-      // 2. Filter by Search Term (Case Insensitive, multi-field)
+      // 2. Filter by Search Term (Specific to first 2 columns per tab)
       if (searchTerm) {
           const lowerTerm = searchTerm.toLowerCase();
           data = data.filter(item => {
-              return (
-                  (item.name && item.name.toLowerCase().includes(lowerTerm)) ||
-                  (item.companyName && item.companyName.toLowerCase().includes(lowerTerm)) ||
-                  (item.shopName && item.shopName.toLowerCase().includes(lowerTerm)) ||
-                  (item.providerName && item.providerName.toLowerCase().includes(lowerTerm)) ||
-                  (item.menu && item.menu.toLowerCase().includes(lowerTerm)) ||
-                  (item.pic && item.pic.toLowerCase().includes(lowerTerm)) ||
-                  (item.hotelName && item.hotelName.toLowerCase().includes(lowerTerm)) ||
-                  (item.kitchenName && item.kitchenName.toLowerCase().includes(lowerTerm))
-              );
+              switch (activeTab) {
+                  case 'bumbu':
+                      // Col 1: name, companyName | Col 2: loc, kitchenName, address, pic
+                      return (
+                          (item.name && item.name.toLowerCase().includes(lowerTerm)) ||
+                          (item.companyName && item.companyName.toLowerCase().includes(lowerTerm)) ||
+                          (item.loc && item.loc.toLowerCase().includes(lowerTerm)) ||
+                          (item.kitchenName && item.kitchenName.toLowerCase().includes(lowerTerm)) ||
+                          (item.address && item.address.toLowerCase().includes(lowerTerm)) ||
+                          (item.pic && item.pic.toLowerCase().includes(lowerTerm))
+                      );
+                  case 'beras':
+                      // Col 1: companyName | Col 2: riceType, volume
+                      return (
+                          (item.companyName && item.companyName.toLowerCase().includes(lowerTerm)) ||
+                          (item.riceType && item.riceType.toLowerCase().includes(lowerTerm)) ||
+                          (item.volume && item.volume.toString().toLowerCase().includes(lowerTerm))
+                      );
+                  case 'rte':
+                      // Col 1: companyName | Col 2: menu
+                      return (
+                          (item.companyName && item.companyName.toLowerCase().includes(lowerTerm)) ||
+                          (item.menu && item.menu.toLowerCase().includes(lowerTerm))
+                      );
+                  case 'tenant':
+                      // Col 1: shopName | Col 2: hotelName, location, pic
+                      return (
+                          (item.shopName && item.shopName.toLowerCase().includes(lowerTerm)) ||
+                          (item.hotelName && item.hotelName.toLowerCase().includes(lowerTerm)) ||
+                          (item.location && item.location.toLowerCase().includes(lowerTerm)) ||
+                          (item.pic && item.pic.toLowerCase().includes(lowerTerm))
+                      );
+                  case 'ekspedisi':
+                      // Col 1: companyName | Col 2: hotelName, location, pic
+                      return (
+                          (item.companyName && item.companyName.toLowerCase().includes(lowerTerm)) ||
+                          (item.hotelName && item.hotelName.toLowerCase().includes(lowerTerm)) ||
+                          (item.location && item.location.toLowerCase().includes(lowerTerm)) ||
+                          (item.pic && item.pic.toLowerCase().includes(lowerTerm))
+                      );
+                  case 'telco':
+                      // Col 1: providerName | Col 2: respondentName, kloter, embarkation, province
+                      return (
+                          (item.providerName && item.providerName.toLowerCase().includes(lowerTerm)) ||
+                          (item.respondentName && item.respondentName.toLowerCase().includes(lowerTerm)) ||
+                          (item.kloter && item.kloter.toLowerCase().includes(lowerTerm)) ||
+                          (item.embarkation && item.embarkation.toLowerCase().includes(lowerTerm)) ||
+                          (item.province && item.province.toLowerCase().includes(lowerTerm))
+                      );
+                  default:
+                      return false;
+              }
           });
       }
 
@@ -92,6 +134,17 @@ export const Reports: React.FC = () => {
       return data;
   }, [activeTab, bumbuMakkah, bumbuMadinah, riceData, rteData, tenantData, expeditionData, telecomData, searchTerm, filterMode]);
 
+  const getSearchPlaceholder = () => {
+      switch(activeTab) {
+          case 'bumbu': return 'Cari bumbu, dapur, PIC...';
+          case 'beras': return 'Cari perusahaan, jenis beras...';
+          case 'rte': return 'Cari perusahaan, menu...';
+          case 'tenant': return 'Cari toko, hotel, PIC...';
+          case 'ekspedisi': return 'Cari perusahaan, hotel, PIC...';
+          case 'telco': return 'Cari provider, jemaah, kloter...';
+          default: return 'Cari data...';
+      }
+  };
 
   const renderTableBody = () => {
       if (isLoading) {
@@ -498,7 +551,7 @@ export const Reports: React.FC = () => {
                             <Search size={16} className="absolute left-4 text-gray-400 group-focus-within:text-[#064E3B] transition-colors" />
                             <input 
                                 type="text" 
-                                placeholder={`Cari data...`} 
+                                placeholder={getSearchPlaceholder()} 
                                 value={searchTerm}
                                 onChange={(e) => setSearchTerm(e.target.value)}
                                 className="w-full pl-10 pr-4 py-2.5 bg-white border border-gray-200 rounded-xl text-xs font-medium focus:outline-none focus:border-[#064E3B] focus:ring-4 focus:ring-[#064E3B]/5 transition-all placeholder-gray-400 text-gray-700"
