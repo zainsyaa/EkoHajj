@@ -39,7 +39,7 @@ export const DataEntryPortal: React.FC<DataEntryPortalProps> = ({ onNavigate }) 
         <div className="space-y-6 pb-10 animate-fade-in-up font-sans">
             
             {/* HERO SECTION - EXACT MATCH WITH DASHBOARD */}
-            <div className="bg-[#064E3B] rounded-[2rem] p-6 text-white relative overflow-hidden shadow-xl shadow-[#064E3B]/20 min-h-[140px] flex flex-col justify-center">
+            <div className="bg-[#064E3B] rounded-[2rem] px-8 py-6 md:px-10 text-white relative overflow-hidden shadow-xl shadow-[#064E3B]/20 min-h-[140px] flex flex-col justify-center">
                 {/* Ambient Background Effects */}
                 <div className="absolute top-0 right-0 w-[300px] h-[300px] bg-gradient-to-b from-[#10B981] to-[#064E3B] rounded-full blur-[80px] opacity-30 translate-x-1/3 -translate-y-1/3 pointer-events-none"></div>
                 <div className="absolute bottom-0 left-0 w-[200px] h-[200px] bg-[#D4AF37] rounded-full blur-[60px] opacity-20 -translate-x-1/3 translate-y-1/3 pointer-events-none"></div>
