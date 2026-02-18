@@ -1,24 +1,15 @@
 
 import React, { useState, useMemo } from 'react';
 import { GlassCard } from '../components/GlassCard';
-import { ChefHat, UtensilsCrossed, Truck, Store, Signal, Download, Printer, Filter, Search, MapPin, User, Calendar, Clock, Building, ShoppingCart, ChevronDown, Check, ArrowDownUp, Info, Database } from 'lucide-react';
+import { ChefHat, UtensilsCrossed, Truck, Store, Signal, Download, Printer, Filter, Search, MapPin, User, Calendar, Clock, Building, ShoppingCart, ChevronDown, Check, ArrowDownUp, Database } from 'lucide-react';
 import { useData } from '../contexts/DataContext';
 import { TableRowSkeleton } from '../components/Skeletons';
 
-const TableHeader = ({ children, tooltip }: React.PropsWithChildren<{ tooltip?: string }>) => (
+const TableHeader = ({ children }: React.PropsWithChildren<{}>) => (
   <th className="px-6 py-4 text-left group relative">
-    <div className="flex items-center gap-1.5 cursor-help w-fit">
+    <div className="flex items-center gap-1.5 w-fit">
         <span className="text-[10px] font-bold text-gray-500 uppercase tracking-wider whitespace-nowrap group-hover:text-[#064E3B] transition-colors">{children}</span>
-        {tooltip && <Info size={12} className="text-gray-300 group-hover:text-[#D4AF37] transition-colors" />}
     </div>
-    
-    {/* Tooltip Bubble */}
-    {tooltip && (
-        <div className="absolute bottom-full left-0 mb-2 w-48 bg-[#1f2937] text-white text-[10px] font-medium p-2.5 rounded-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 z-50 shadow-xl pointer-events-none text-left normal-case tracking-normal leading-relaxed border border-white/10 backdrop-blur-md transform translate-y-1 group-hover:translate-y-0">
-            {tooltip}
-            <div className="absolute top-full left-4 border-4 border-transparent border-t-[#1f2937]"></div>
-        </div>
-    )}
   </th>
 );
 
@@ -349,56 +340,56 @@ export const Reports: React.FC = () => {
                     <tr>
                         {activeTab === 'bumbu' && (
                             <>
-                                <TableHeader tooltip="Nama jenis bumbu dan perusahaan penyedia">Jenis Bumbu</TableHeader>
-                                <TableHeader tooltip="Informasi lokasi dapur, alamat dan Penanggung Jawab">Detail Dapur & PIC</TableHeader>
-                                <TableHeader tooltip="Total volume penggunaan dan bahan tambahan">Data Bumbu</TableHeader>
-                                <TableHeader tooltip="Harga pasar per satuan dalam mata uang Riyal (SAR)">Harga (SAR)</TableHeader>
-                                <TableHeader tooltip="Petugas surveyor yang mengambil data dan waktu survei">Surveyor & Waktu</TableHeader>
+                                <TableHeader>Jenis Bumbu</TableHeader>
+                                <TableHeader>Detail Dapur & PIC</TableHeader>
+                                <TableHeader>Data Bumbu</TableHeader>
+                                <TableHeader>Harga (SAR)</TableHeader>
+                                <TableHeader>Surveyor & Waktu</TableHeader>
                             </>
                         )}
                         {activeTab === 'beras' && (
                             <>
-                                <TableHeader tooltip="Nama perusahaan penyedia beras">Perusahaan</TableHeader>
-                                <TableHeader tooltip="Jenis beras (Premium/Basmati) dan volume stok">Jenis & Volume</TableHeader>
-                                <TableHeader tooltip="Harga beli per ton dalam SAR">Harga (SAR)</TableHeader>
-                                <TableHeader tooltip="Negara asal produk dan harga aslinya">Asal Produk</TableHeader>
-                                <TableHeader tooltip="Petugas surveyor dan tanggal pendataan">Surveyor & Waktu</TableHeader>
+                                <TableHeader>Perusahaan</TableHeader>
+                                <TableHeader>Jenis & Volume</TableHeader>
+                                <TableHeader>Harga (SAR)</TableHeader>
+                                <TableHeader>Asal Produk</TableHeader>
+                                <TableHeader>Surveyor & Waktu</TableHeader>
                             </>
                         )}
                         {activeTab === 'rte' && (
                             <>
-                                <TableHeader tooltip="Nama perusahaan katering penyedia makanan">Perusahaan</TableHeader>
-                                <TableHeader tooltip="Detail menu makanan yang disediakan">Menu / Jenis</TableHeader>
-                                <TableHeader tooltip="Lokasi dapur, hotel distribusi dan PIC">Lokasi & PIC</TableHeader>
-                                <TableHeader tooltip="Jumlah porsi/paket dan harga satuan">Volume & Harga</TableHeader>
-                                <TableHeader tooltip="Petugas monitoring dan waktu pengecekan">Surveyor & Waktu</TableHeader>
+                                <TableHeader>Perusahaan</TableHeader>
+                                <TableHeader>Menu / Jenis</TableHeader>
+                                <TableHeader>Lokasi & PIC</TableHeader>
+                                <TableHeader>Volume & Harga</TableHeader>
+                                <TableHeader>Surveyor & Waktu</TableHeader>
                             </>
                         )}
                         {activeTab === 'tenant' && (
                             <>
-                                <TableHeader tooltip="Nama toko atau tenant penyewa">Nama Toko</TableHeader>
-                                <TableHeader tooltip="Lokasi hotel tempat tenant berada">Lokasi Hotel & PIC</TableHeader>
-                                <TableHeader tooltip="Jenis produk yang dijual dan produk terlaris">Produk Utama</TableHeader>
-                                <TableHeader tooltip="Biaya sewa lokasi dalam SAR">Biaya Sewa</TableHeader>
-                                <TableHeader tooltip="Petugas survei lapangan">Surveyor & Waktu</TableHeader>
+                                <TableHeader>Nama Toko</TableHeader>
+                                <TableHeader>Lokasi Hotel & PIC</TableHeader>
+                                <TableHeader>Produk Utama</TableHeader>
+                                <TableHeader>Biaya Sewa</TableHeader>
+                                <TableHeader>Surveyor & Waktu</TableHeader>
                             </>
                         )}
                         {activeTab === 'ekspedisi' && (
                             <>
-                                <TableHeader tooltip="Nama perusahaan jasa ekspedisi/kargo">Perusahaan</TableHeader>
-                                <TableHeader tooltip="Lokasi hotel tempat penjemputan barang">Lokasi Asal & PIC</TableHeader>
-                                <TableHeader tooltip="Total berat barang yang dikirim (Kg)">Berat (Kg)</TableHeader>
-                                <TableHeader tooltip="Harga pengiriman per Kilogram dalam SAR">Harga / Kg</TableHeader>
-                                <TableHeader tooltip="Petugas pendataan logistik">Surveyor & Waktu</TableHeader>
+                                <TableHeader>Perusahaan</TableHeader>
+                                <TableHeader>Lokasi Asal & PIC</TableHeader>
+                                <TableHeader>Berat (Kg)</TableHeader>
+                                <TableHeader>Harga / Kg</TableHeader>
+                                <TableHeader>Surveyor & Waktu</TableHeader>
                             </>
                         )}
                         {activeTab === 'telco' && (
                             <>
-                                <TableHeader tooltip="Nama provider telekomunikasi yang digunakan">Provider</TableHeader>
-                                <TableHeader tooltip="Identitas jemaah haji responden">Identitas Jemaah</TableHeader>
-                                <TableHeader tooltip="Jenis paket roaming yang aktif">Paket Roaming</TableHeader>
-                                <TableHeader tooltip="Status keaktifan paket data">Status</TableHeader>
-                                <TableHeader tooltip="Petugas surveyor telekomunikasi">Surveyor & Waktu</TableHeader>
+                                <TableHeader>Provider</TableHeader>
+                                <TableHeader>Identitas Jemaah</TableHeader>
+                                <TableHeader>Paket Roaming</TableHeader>
+                                <TableHeader>Status</TableHeader>
+                                <TableHeader>Surveyor & Waktu</TableHeader>
                             </>
                         )}
                     </tr>
