@@ -70,19 +70,29 @@ export const TenantForm: React.FC<TenantFormProps> = ({ onBack }) => {
       updateIdentity('time', formatted);
   };
 
+  // THEME COLOR: BLUE #1E3A8A
+  const THEME_COLOR = '#1E3A8A';
+
   return (
     <div className="flex flex-col relative font-sans bg-white/60 backdrop-blur-xl rounded-[2.5rem] border border-white/60 shadow-2xl overflow-hidden animate-fade-in-up">
-      <div className="relative z-20 bg-white/40 backdrop-blur-lg border-b border-white/50 px-8 py-6">
-         <div className="flex flex-col xl:flex-row xl:items-center justify-between gap-6 mb-8">
+      <div className="relative z-20 bg-white/40 backdrop-blur-lg border-b border-white/50 px-8 py-6 overflow-hidden">
+         {/* Watermark */}
+         <div className="absolute top-[-20%] right-[-5%] text-[#1E3A8A] opacity-5 pointer-events-none transform rotate-12 scale-150">
+           <Store size={300} strokeWidth={0.5} />
+         </div>
+
+         <div className="flex flex-col xl:flex-row xl:items-center justify-between gap-6 mb-8 relative z-10">
              <div className="flex items-center gap-6">
-                 <button onClick={onBack} className="p-3 rounded-2xl hover:bg-white text-gray-500 hover:text-[#064E3B] transition-all border border-transparent hover:border-gray-200"><ArrowLeft size={22} /></button>
+                 <button onClick={onBack} className="p-3 rounded-2xl hover:bg-white text-gray-500 hover:text-[#1E3A8A] transition-all border border-transparent hover:border-gray-200"><ArrowLeft size={22} /></button>
                  <div className="flex items-center gap-5">
-                    <div className="w-16 h-16 rounded-2xl flex items-center justify-center shadow-lg shadow-[#064E3B]/20 bg-gradient-to-br from-[#064E3B] to-[#042f24] text-white ring-4 ring-white/50">
+                    <div className="w-16 h-16 rounded-2xl flex items-center justify-center shadow-lg shadow-[#1E3A8A]/20 bg-gradient-to-br from-[#1E3A8A] to-[#172554] text-white ring-4 ring-white/50">
                         <Store size={32} strokeWidth={1.5} />
                     </div>
                     <div>
-                        <h1 className="text-2xl font-bold text-[#064E3B] font-playfair leading-tight">Potensi Ekonomi (Tenant)</h1>
-                        <p className="text-[10px] font-bold text-[#D4AF37] uppercase tracking-widest bg-[#D4AF37]/10 inline-block px-2 py-0.5 rounded border border-[#D4AF37]/20">Survei Hotel & Toko</p>
+                        <h1 className="text-2xl font-bold text-[#1E3A8A] font-playfair leading-tight">Potensi Ekonomi (Tenant)</h1>
+                        <div className="flex items-center gap-2">
+                             <span className="px-2 py-0.5 rounded-full bg-[#1E3A8A]/10 border border-[#1E3A8A]/20 text-[10px] font-bold text-[#1E3A8A] uppercase tracking-widest">Survei Hotel & Toko</span>
+                        </div>
                     </div>
                  </div>
              </div>
@@ -114,9 +124,9 @@ export const TenantForm: React.FC<TenantFormProps> = ({ onBack }) => {
             </div>
          </div>
 
-         <div className="bg-white/40 backdrop-blur-md border border-white/60 rounded-3xl p-8 shadow-sm">
+         <div className="bg-white/40 backdrop-blur-md border border-white/60 rounded-3xl p-8 shadow-sm relative z-10">
               <div className="flex items-center gap-3 mb-6 pb-4 border-b border-gray-200/50">
-                <div className="p-2 bg-[#064E3B]/10 rounded-xl"><FileText size={18} className="text-[#064E3B]" /></div>
+                <div className="p-2 bg-[#1E3A8A]/10 rounded-xl"><FileText size={18} className="text-[#1E3A8A]" /></div>
                 <h3 className="text-sm font-bold text-gray-800 uppercase tracking-widest">A. Identitas Lokasi & Petugas</h3>
               </div>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -134,9 +144,9 @@ export const TenantForm: React.FC<TenantFormProps> = ({ onBack }) => {
         {/* Section B Header */}
         <div className="flex items-center justify-between mb-6">
             <div className="flex items-center gap-3">
-              <div className="p-2.5 bg-[#064E3B] rounded-xl shadow-lg shadow-[#064E3B]/20"><Store size={20} className="text-white" /></div>
+              <div className="p-2.5 bg-[#1E3A8A] rounded-xl shadow-lg shadow-[#1E3A8A]/20"><Store size={20} className="text-white" /></div>
               <div>
-                  <h3 className="text-lg font-bold text-[#064E3B] font-playfair">B. Potensi Ekonomi Haji</h3>
+                  <h3 className="text-lg font-bold text-[#1E3A8A] font-playfair">B. Potensi Ekonomi Haji</h3>
                   <p className="text-xs text-gray-500 font-medium tracking-wide">Daftar toko dan tenant di sekitar hotel</p>
               </div>
             </div>
@@ -148,7 +158,7 @@ export const TenantForm: React.FC<TenantFormProps> = ({ onBack }) => {
                    <div className="absolute left-0 top-0 bottom-0 w-1.5 bg-[#D4AF37] rounded-l-3xl"></div>
                    <button onClick={() => removeRecord(record.id)} className="absolute top-4 right-4 text-gray-300 hover:text-red-500 opacity-0 group-hover:opacity-100 transition-all bg-red-50 p-2 rounded-lg"><Trash2 size={16} /></button>
                    <div className="flex items-center gap-3 mb-6 pl-2">
-                       <span className="text-xs font-bold text-[#064E3B] bg-[#064E3B]/10 px-2.5 py-1.5 rounded-lg">Tenant #{idx + 1}</span>
+                       <span className="text-xs font-bold text-[#1E3A8A] bg-[#1E3A8A]/10 px-2.5 py-1.5 rounded-lg">Tenant #{idx + 1}</span>
                    </div>
                    <div className="space-y-4">
                        <CardInput icon={Store} placeholder="Nama Toko / Tenant" value={record.shopName} onChange={(e: any) => handleRecordChange(record.id, 'shopName', e.target.value)} />
@@ -160,7 +170,7 @@ export const TenantForm: React.FC<TenantFormProps> = ({ onBack }) => {
                    </div>
                 </div>
             ))}
-            <button onClick={addRecord} className="flex flex-col items-center justify-center min-h-[200px] border-2 border-dashed border-gray-200 rounded-3xl hover:bg-[#064E3B]/5 transition-all text-gray-400 font-bold gap-3 group">
+            <button onClick={addRecord} className="flex flex-col items-center justify-center min-h-[200px] border-2 border-dashed border-gray-200 rounded-3xl hover:bg-[#1E3A8A]/5 transition-all text-gray-400 font-bold gap-3 group">
                 <div className="w-14 h-14 rounded-full bg-white border border-gray-200 flex items-center justify-center text-gray-400 shadow-sm group-hover:scale-110 transition-transform"><Plus size={24} /></div>
                 Tambah Tenant Baru
             </button>
@@ -172,7 +182,7 @@ export const TenantForm: React.FC<TenantFormProps> = ({ onBack }) => {
 
 const PremiumInput = ({ label, icon: Icon, type = "text", value, onChange, placeholder }: any) => (
   <div className="flex flex-col gap-2 group">
-    <label className="text-[10px] font-bold text-gray-400 uppercase tracking-widest flex items-center gap-2 group-focus-within:text-[#064E3B] transition-colors">
+    <label className="text-[10px] font-bold text-gray-400 uppercase tracking-widest flex items-center gap-2 group-focus-within:text-[#1E3A8A] transition-colors">
       <Icon size={12} className="text-gray-300 group-focus-within:text-[#D4AF37] transition-colors" /> {label}
     </label>
     <input 
@@ -182,7 +192,7 @@ const PremiumInput = ({ label, icon: Icon, type = "text", value, onChange, place
             const val = e.target.value;
             onChange(type === 'text' ? val.replace(/\b\w/g, c => c.toUpperCase()) : val);
         }} 
-        className="w-full text-sm font-semibold text-gray-700 bg-white/60 border border-gray-200 rounded-xl px-4 py-3.5 focus:bg-white focus:border-[#064E3B] focus:ring-4 focus:ring-[#064E3B]/5 outline-none transition-all placeholder:text-gray-300" 
+        className="w-full text-sm font-semibold text-gray-700 bg-white/60 border border-gray-200 rounded-xl px-4 py-3.5 focus:bg-white focus:border-[#1E3A8A] focus:ring-4 focus:ring-[#1E3A8A]/5 outline-none transition-all placeholder:text-gray-300" 
         placeholder={placeholder} 
     />
   </div>
@@ -190,7 +200,7 @@ const PremiumInput = ({ label, icon: Icon, type = "text", value, onChange, place
 
 const CardInput = ({ icon: Icon, value, onChange, placeholder, type = "text", highlight = false }: any) => (
     <div className="relative group/input">
-        <div className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 group-focus-within/input:text-[#064E3B] transition-colors">
+        <div className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 group-focus-within/input:text-[#1E3A8A] transition-colors">
             <Icon size={16} className={highlight ? 'text-[#D4AF37]' : ''} />
         </div>
         <input 
@@ -203,7 +213,7 @@ const CardInput = ({ icon: Icon, value, onChange, placeholder, type = "text", hi
                 onChange(e);
             }} 
             placeholder={placeholder}
-            className={`w-full bg-gray-50/50 border border-gray-100 rounded-xl py-3 pl-10 text-sm font-semibold text-gray-700 focus:bg-white focus:border-[#064E3B] focus:ring-2 focus:ring-[#064E3B]/10 outline-none transition-all placeholder:text-gray-300 ${highlight ? 'text-[#064E3B]' : ''}`}
+            className={`w-full bg-gray-50/50 border border-gray-100 rounded-xl py-3 pl-10 text-sm font-semibold text-gray-700 focus:bg-white focus:border-[#1E3A8A] focus:ring-2 focus:ring-[#1E3A8A]/10 outline-none transition-all placeholder:text-gray-300 ${highlight ? 'text-[#1E3A8A]' : ''}`}
         />
     </div>
 );

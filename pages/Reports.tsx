@@ -468,11 +468,11 @@ export const Reports: React.FC = () => {
   return (
     <div className="space-y-8 animate-fade-in-up pb-10">
         
-        {/* HERO SECTION - Styled like Dashboard */}
-        <div className="bg-[#064E3B] rounded-[2.5rem] p-8 md:p-10 text-white relative overflow-hidden shadow-2xl shadow-[#064E3B]/20">
+        {/* HERO SECTION - MATCHING DASHBOARD EXACTLY */}
+        <div className="bg-[#064E3B] rounded-[2.5rem] p-8 md:p-10 text-white relative overflow-visible shadow-2xl shadow-[#064E3B]/20">
             {/* Ambient Background Effects */}
-            <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-gradient-to-b from-[#10B981] to-[#064E3B] rounded-full blur-[100px] opacity-30 translate-x-1/4 -translate-y-1/4"></div>
-            <div className="absolute bottom-0 left-0 w-[300px] h-[300px] bg-[#D4AF37] rounded-full blur-[80px] opacity-20 -translate-x-1/4 translate-y-1/4"></div>
+            <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-gradient-to-b from-[#10B981] to-[#064E3B] rounded-full blur-[100px] opacity-30 translate-x-1/4 -translate-y-1/4 pointer-events-none"></div>
+            <div className="absolute bottom-0 left-0 w-[300px] h-[300px] bg-[#D4AF37] rounded-full blur-[80px] opacity-20 -translate-x-1/4 translate-y-1/4 pointer-events-none"></div>
             
             <div className="relative z-10 flex flex-col md:flex-row justify-between items-end md:items-center gap-6">
                 <div>

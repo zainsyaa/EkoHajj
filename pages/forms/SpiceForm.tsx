@@ -98,38 +98,53 @@ export const SpiceForm: React.FC<SpiceFormProps> = ({ onBack }) => {
 
   const toTitleCase = (str: string) => str.replace(/\b\w/g, c => c.toUpperCase());
 
+  // COLOR CONSTANTS
+  const THEME_COLOR = '#064E3B';
+  const THEME_GRADIENT_FROM = '#064E3B';
+  const THEME_GRADIENT_TO = '#042f24';
+
   return (
     <div className="flex flex-col relative font-sans bg-white/60 backdrop-blur-xl rounded-[2.5rem] border border-white/60 shadow-2xl overflow-hidden transition-all duration-500">
       
       {/* HEADER */}
-      <div className="relative z-20 bg-white/40 backdrop-blur-lg border-b border-white/50">
-          <div className="px-8 py-6 flex flex-col xl:flex-row xl:items-center justify-between gap-6">
+      <div className="relative z-20 bg-white/40 backdrop-blur-lg border-b border-white/50 overflow-hidden">
+          {/* Watermark Icon */}
+          <div className="absolute top-[-20%] right-[-5%] text-[#064E3B] opacity-5 pointer-events-none transform rotate-12 scale-150">
+              <ChefHat size={300} strokeWidth={0.5} />
+          </div>
+
+          <div className="px-8 py-6 flex flex-col xl:flex-row xl:items-center justify-between gap-6 relative z-10">
              <div className="flex items-center gap-6">
                  <button onClick={onBack} className="p-3 rounded-2xl hover:bg-white text-gray-500 hover:text-[#064E3B] transition-all border border-transparent hover:border-gray-200 shadow-sm"><ArrowLeft size={22} /></button>
                  <div className="flex items-center gap-5">
-                    <div className="w-16 h-16 rounded-2xl flex items-center justify-center shadow-lg shadow-[#064E3B]/20 bg-gradient-to-br from-[#064E3B] to-[#042f24] text-white ring-4 ring-white/50">
+                    <div className={`w-16 h-16 rounded-2xl flex items-center justify-center shadow-lg shadow-[#064E3B]/20 bg-gradient-to-br from-[#064E3B] to-[#042f24] text-white ring-4 ring-white/50`}>
                         <ChefHat size={32} strokeWidth={1.5} />
                     </div>
                     <div>
                         <h1 className="text-2xl font-bold text-[#064E3B] leading-none tracking-tight font-playfair mb-1.5">Bumbu Pasta</h1>
                         <div className="flex items-center gap-2">
-                            <span className="px-2 py-0.5 rounded-full bg-[#D4AF37]/10 border border-[#D4AF37]/20 text-[10px] font-bold text-[#D4AF37] uppercase tracking-widest">Layanan Konsumsi</span>
+                            <span className="px-2 py-0.5 rounded-full bg-[#064E3B]/10 border border-[#064E3B]/20 text-[10px] font-bold text-[#064E3B] uppercase tracking-widest">Layanan Konsumsi</span>
                         </div>
                     </div>
                  </div>
              </div>
 
              <div className="flex items-center gap-3 self-end xl:self-auto">
-                {/* Search Bar (Hidden on Mobile) */}
-                <div className="relative group hidden 2xl:block mr-2">
-                    <Search size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 group-focus-within:text-[#064E3B] transition-colors" />
-                    <input 
-                        type="text" 
-                        placeholder="Cari jenis bumbu..." 
-                        value={searchTerm}
-                        onChange={(e) => setSearchTerm(e.target.value)}
-                        className="pl-11 pr-5 py-2.5 w-60 bg-white/60 border border-white rounded-xl text-xs font-medium focus:outline-none focus:bg-white focus:border-[#064E3B] focus:ring-4 focus:ring-[#064E3B]/5 transition-all shadow-sm"
-                    />
+                {/* Search Bar - Enhanced Visibility */}
+                <div className="relative group mr-2 hidden md:block">
+                    {/* Ambient Glow */}
+                    <div className="absolute inset-0 bg-gradient-to-r from-[#064E3B]/5 to-[#D4AF37]/5 rounded-2xl blur-md opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                    
+                    <div className="relative">
+                        <Search size={20} className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 group-focus-within:text-[#064E3B] transition-colors z-10" />
+                        <input 
+                            type="text" 
+                            placeholder="Cari jenis bumbu..." 
+                            value={searchTerm}
+                            onChange={(e) => setSearchTerm(e.target.value)}
+                            className="pl-12 pr-5 py-3 w-72 bg-white border border-gray-200 rounded-2xl text-sm font-semibold text-gray-700 shadow-sm focus:outline-none focus:border-[#064E3B] focus:ring-4 focus:ring-[#064E3B]/10 transition-all placeholder:text-gray-400 group-hover:border-[#064E3B]/30 group-hover:shadow-md"
+                        />
+                    </div>
                 </div>
 
                 {/* ACTION BUTTONS */}
@@ -160,7 +175,7 @@ export const SpiceForm: React.FC<SpiceFormProps> = ({ onBack }) => {
           </div>
 
           {/* Location Toggle Tabs */}
-          <div className="px-8 pb-4">
+          <div className="px-8 pb-4 relative z-10">
               <div className="flex p-1.5 bg-gray-100/50 backdrop-blur-md rounded-2xl w-fit border border-gray-200/50">
                   {['Makkah', 'Madinah'].map((loc) => (
                       <button
@@ -179,7 +194,7 @@ export const SpiceForm: React.FC<SpiceFormProps> = ({ onBack }) => {
           </div>
 
           {/* Identity Panel (A. Identitas Lokasi) */}
-          <div className="px-8 pb-2 relative">
+          <div className="px-8 pb-2 relative z-10">
              <div className={`bg-white/40 backdrop-blur-md border border-white/60 rounded-3xl overflow-hidden transition-all duration-500 ease-[cubic-bezier(0.25,1,0.5,1)] shadow-sm relative z-10 ${isIdentityExpanded ? 'max-h-[600px] opacity-100 mb-8 p-8' : 'max-h-0 opacity-0 mb-0 p-0 border-0'}`}>
                 <div className="flex items-center gap-3 mb-6 pb-4 border-b border-gray-200/50">
                     <div className="p-2 bg-[#064E3B]/10 rounded-xl"><FileText size={18} className="text-[#064E3B]" /></div>
