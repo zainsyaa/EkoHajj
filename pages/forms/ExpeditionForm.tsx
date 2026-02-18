@@ -1,6 +1,6 @@
 
 import React, { useState } from 'react';
-import { Save, Truck, Plus, Trash2, ArrowLeft, MapPin, User, Calendar, Building, DollarSign, Weight, Clock, FileText, Calculator, Layers, Building2 } from 'lucide-react';
+import { Save, Truck, Plus, Trash2, ArrowLeft, MapPin, User, Calendar, Building, DollarSign, Weight, Clock, FileText, Calculator, Layers, Building2, RotateCcw, Send } from 'lucide-react';
 import { ExpeditionRecord } from '../../types';
 import { useData } from '../../contexts/DataContext';
 import { Input } from '../../components/InputFields';
@@ -40,6 +40,17 @@ export const ExpeditionForm: React.FC<ExpeditionFormProps> = ({ onBack }) => {
 
   const removeRecord = (id: number) => setExpeditionData(expeditionData.filter(r => r.id !== id));
 
+  // ACTIONS
+  const handleReset = () => {
+    if(window.confirm('Hapus semua data di form ini?')) {
+       setHotelName(''); setAddress(''); setSector(''); setSurveyor(''); setSurveyDate(''); setSurveyTime('');
+    }
+  };
+  const handleDraft = () => alert('Data disimpan sebagai draft');
+  const handleSubmit = () => {
+    onBack();
+  };
+
   const getDateValue = (dateStr: string) => {
       if (!dateStr) return '';
       const [day, month, year] = dateStr.split('/');
@@ -64,7 +75,7 @@ export const ExpeditionForm: React.FC<ExpeditionFormProps> = ({ onBack }) => {
   return (
     <div className="flex flex-col relative font-sans bg-white/60 backdrop-blur-xl rounded-[2.5rem] border border-white/60 shadow-2xl overflow-hidden animate-fade-in-up">
       <div className="relative z-20 bg-white/40 backdrop-blur-lg border-b border-white/50 px-8 py-6">
-         <div className="flex items-center justify-between gap-6 mb-8">
+         <div className="flex flex-col xl:flex-row xl:items-center justify-between gap-6 mb-8">
              <div className="flex items-center gap-6">
                  <button onClick={onBack} className="p-3 rounded-2xl hover:bg-white text-gray-500 hover:text-[#064E3B] transition-all border border-transparent hover:border-gray-200"><ArrowLeft size={22} /></button>
                  <div className="flex items-center gap-5">
@@ -77,7 +88,32 @@ export const ExpeditionForm: React.FC<ExpeditionFormProps> = ({ onBack }) => {
                     </div>
                  </div>
              </div>
-             <button onClick={onBack} className="flex items-center gap-2 px-6 py-3 bg-[#064E3B] text-white rounded-xl shadow-lg text-sm font-bold hover:scale-105 transition-all"><Save size={18} /> Simpan</button>
+             
+             {/* Action Buttons */}
+            <div className="flex items-center gap-3 self-end xl:self-auto">
+                <button 
+                    onClick={handleReset} 
+                    className="group flex items-center gap-2 px-6 py-2.5 rounded-xl text-xs font-bold text-white bg-gradient-to-br from-red-500 to-red-700 hover:from-red-600 hover:to-red-800 transition-all duration-300 shadow-lg shadow-red-500/30 hover:shadow-red-500/50 hover:-translate-y-0.5 active:scale-95"
+                >
+                    <RotateCcw size={16} className="group-hover:-rotate-180 transition-transform duration-500" /> 
+                    <span className="hidden sm:inline">Reset Form</span>
+                </button>
+
+                <button 
+                    onClick={handleDraft} 
+                    className="group flex items-center gap-2 px-6 py-2.5 rounded-xl text-xs font-bold text-white bg-gradient-to-br from-[#D4AF37] to-[#B4941F] hover:from-[#c4a02f] hover:to-[#967a15] transition-all duration-300 shadow-lg shadow-[#D4AF37]/30 hover:shadow-[#D4AF37]/50 hover:-translate-y-0.5 active:scale-95"
+                >
+                    <Save size={16} /> <span>Simpan Draft</span>
+                </button>
+
+                <button 
+                    onClick={handleSubmit} 
+                    className="group flex items-center gap-2 px-6 py-2.5 rounded-xl text-xs font-bold text-white bg-gradient-to-br from-[#064E3B] to-[#042f24] hover:from-[#053d2e] hover:to-[#064E3B] transition-all duration-300 shadow-lg shadow-[#064E3B]/30 hover:shadow-[#064E3B]/50 hover:-translate-y-0.5 active:scale-95"
+                >
+                    <Send size={16} className="group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" /> 
+                    <span>Submit Laporan</span>
+                </button>
+            </div>
          </div>
 
          <div className="bg-white/40 backdrop-blur-md border border-white/60 rounded-3xl p-8 shadow-sm">

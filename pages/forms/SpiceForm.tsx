@@ -2,7 +2,7 @@
 import React, { useState, useMemo, useEffect } from 'react';
 import { Toggle } from '../../components/InputFields';
 import { BumbuRecord } from '../../types';
-import { Save, Search, ChefHat, ArrowLeft, ChevronDown, ChevronUp, MapPin, Calendar, Clock, User, ClipboardList, Package, DollarSign, Globe, FileText, AlertCircle, Building2 } from 'lucide-react';
+import { Save, Search, ChefHat, ArrowLeft, ChevronDown, ChevronUp, MapPin, Calendar, Clock, User, ClipboardList, Package, DollarSign, Globe, FileText, AlertCircle, Building2, RotateCcw, Send } from 'lucide-react';
 import { useData } from '../../contexts/DataContext';
 
 interface SpiceFormProps {
@@ -43,6 +43,29 @@ export const SpiceForm: React.FC<SpiceFormProps> = ({ onBack }) => {
     );
   }, [records, searchTerm]);
 
+  // Actions
+  const handleReset = () => {
+    if (window.confirm("Apakah Anda yakin ingin menghapus semua isian form ini?")) {
+        setKitchenName(''); setAddress(''); setPic(''); setMonitorDate(''); setMonitorTime(''); setSurveyor('');
+        setOtherReason('');
+        // Reset record values locally if needed, or just identity
+    }
+  };
+
+  const handleDraft = () => {
+      // Simulate save draft
+      alert("Data berhasil disimpan sebagai Draft.");
+  };
+
+  const handleSubmit = () => {
+      if (!surveyor || !monitorDate) {
+          alert("Mohon lengkapi data surveyor dan tanggal monitoring.");
+          return;
+      }
+      // Simulate submit
+      onBack();
+  };
+
   // CONVERSION HELPERS
   const getDateValue = (dateStr: string) => {
       if (!dateStr) return '';
@@ -80,7 +103,7 @@ export const SpiceForm: React.FC<SpiceFormProps> = ({ onBack }) => {
       
       {/* HEADER */}
       <div className="relative z-20 bg-white/40 backdrop-blur-lg border-b border-white/50">
-          <div className="px-8 py-6 flex items-center justify-between gap-6">
+          <div className="px-8 py-6 flex flex-col xl:flex-row xl:items-center justify-between gap-6">
              <div className="flex items-center gap-6">
                  <button onClick={onBack} className="p-3 rounded-2xl hover:bg-white text-gray-500 hover:text-[#064E3B] transition-all border border-transparent hover:border-gray-200 shadow-sm"><ArrowLeft size={22} /></button>
                  <div className="flex items-center gap-5">
@@ -96,23 +119,42 @@ export const SpiceForm: React.FC<SpiceFormProps> = ({ onBack }) => {
                  </div>
              </div>
 
-             <div className="flex items-center gap-4">
-                <div className="relative group hidden xl:block">
-                    <div className="absolute inset-0 bg-gradient-to-r from-[#D4AF37] to-[#FBBF24] rounded-xl blur opacity-10 group-focus-within:opacity-20 transition-opacity"></div>
+             <div className="flex items-center gap-3 self-end xl:self-auto">
+                {/* Search Bar (Hidden on Mobile) */}
+                <div className="relative group hidden 2xl:block mr-2">
                     <Search size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 group-focus-within:text-[#064E3B] transition-colors" />
                     <input 
                         type="text" 
                         placeholder="Cari jenis bumbu..." 
                         value={searchTerm}
                         onChange={(e) => setSearchTerm(e.target.value)}
-                        className="pl-11 pr-5 py-3 w-72 bg-white/60 border border-white rounded-xl text-sm font-medium focus:outline-none focus:bg-white focus:border-[#064E3B] focus:ring-4 focus:ring-[#064E3B]/5 transition-all shadow-sm"
+                        className="pl-11 pr-5 py-2.5 w-60 bg-white/60 border border-white rounded-xl text-xs font-medium focus:outline-none focus:bg-white focus:border-[#064E3B] focus:ring-4 focus:ring-[#064E3B]/5 transition-all shadow-sm"
                     />
                 </div>
+
+                {/* ACTION BUTTONS */}
                 <button 
-                    onClick={onBack}
-                    className="flex items-center gap-2 px-6 py-3 bg-[#064E3B] hover:bg-[#053d2e] text-white rounded-xl shadow-lg shadow-[#064E3B]/20 text-sm font-bold transition-all transform hover:translate-y-[-2px] hover:shadow-xl"
+                    onClick={handleReset}
+                    className="group flex items-center gap-2 px-6 py-2.5 rounded-xl text-xs font-bold text-white bg-gradient-to-br from-red-500 to-red-700 hover:from-red-600 hover:to-red-800 transition-all duration-300 shadow-lg shadow-red-500/30 hover:shadow-red-500/50 hover:-translate-y-0.5 active:scale-95"
+                    title="Hapus semua isian"
                 >
-                    <Save size={18} /> <span>Simpan</span>
+                    <RotateCcw size={16} className="group-hover:-rotate-180 transition-transform duration-500" /> 
+                    <span className="hidden sm:inline">Reset Form</span>
+                </button>
+                
+                <button 
+                    onClick={handleDraft}
+                    className="group flex items-center gap-2 px-6 py-2.5 rounded-xl text-xs font-bold text-white bg-gradient-to-br from-[#D4AF37] to-[#B4941F] hover:from-[#c4a02f] hover:to-[#967a15] transition-all duration-300 shadow-lg shadow-[#D4AF37]/30 hover:shadow-[#D4AF37]/50 hover:-translate-y-0.5 active:scale-95"
+                >
+                    <Save size={16} /> <span>Simpan Draft</span>
+                </button>
+
+                <button 
+                    onClick={handleSubmit}
+                    className="group flex items-center gap-2 px-6 py-2.5 rounded-xl text-xs font-bold text-white bg-gradient-to-br from-[#064E3B] to-[#042f24] hover:from-[#053d2e] hover:to-[#064E3B] transition-all duration-300 shadow-lg shadow-[#064E3B]/30 hover:shadow-[#064E3B]/50 hover:-translate-y-0.5 active:scale-95"
+                >
+                    <Send size={16} className="group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" /> 
+                    <span>Submit Laporan</span>
                 </button>
              </div>
           </div>
@@ -203,33 +245,29 @@ export const SpiceForm: React.FC<SpiceFormProps> = ({ onBack }) => {
             {filteredRecords.map((record, idx) => (
                 <div 
                     key={record.id} 
-                    className={`relative flex flex-col rounded-3xl transition-all duration-300 group overflow-hidden border
-                    ${record.isUsed 
-                        ? 'bg-white shadow-[0_10px_30px_rgba(6,78,59,0.08)] border-[#064E3B]/10 ring-1 ring-[#064E3B]/5' 
-                        : 'bg-white/30 hover:bg-white/60 border-white hover:border-gray-200 hover:shadow-lg opacity-75 hover:opacity-100'}`}
+                    className="relative bg-white rounded-3xl p-6 border border-gray-100 shadow-sm hover:shadow-xl transition-all group"
                 >
-                   <div className={`absolute left-0 top-0 bottom-0 w-1.5 transition-colors duration-300 ${record.isUsed ? 'bg-[#064E3B]' : 'bg-gray-200 group-hover:bg-gray-300'}`}></div>
+                   <div className="absolute left-0 top-0 bottom-0 w-1.5 bg-[#D4AF37] rounded-l-3xl"></div>
 
-                   <div className="pl-6 pr-5 py-5 flex justify-between items-center border-b border-gray-100/50 bg-gradient-to-r from-gray-50/50 to-transparent">
+                   <div className="flex justify-between items-center mb-6 pl-2">
                        <div className="flex items-center gap-4">
-                           <div className={`w-9 h-9 rounded-xl flex items-center justify-center text-xs font-bold transition-all duration-300 ${record.isUsed ? 'bg-[#064E3B] text-white shadow-md' : 'bg-gray-200 text-gray-500'}`}>
+                           <div className="px-2.5 py-1.5 rounded-lg bg-[#064E3B]/10 text-[#064E3B] text-xs font-bold">
                                {idx + 1}
                            </div>
-                           <h3 className={`text-sm font-bold uppercase tracking-tight transition-colors ${record.isUsed ? 'text-[#064E3B]' : 'text-gray-500'}`}>{record.name}</h3>
+                           <h3 className="text-sm font-bold text-[#064E3B] uppercase tracking-tight">{record.name}</h3>
                        </div>
-                       <div className="flex flex-col items-end">
-                            <span className="text-[9px] font-bold text-gray-400 uppercase tracking-widest mb-1 mr-1">Tersedia?</span>
-                            <Toggle checked={record.isUsed} onChange={(val) => handleRecordChange(record.id, 'isUsed', val)} />
+                       <div className="mr-8">
+                            <Toggle checked={record.isUsed} onChange={(val) => handleRecordChange(record.id, 'isUsed', val)} label="Tersedia" />
                        </div>
                    </div>
 
-                   <div className={`pl-6 pr-5 py-6 space-y-6 transition-all duration-500 ${record.isUsed ? 'block opacity-100' : 'hidden opacity-0'}`}>
+                   <div className={`space-y-6 transition-all duration-500 ease-in-out ${record.isUsed ? 'max-h-[800px] opacity-100 mt-2' : 'max-h-0 opacity-0 overflow-hidden mt-0'}`}>
                        
                        <div className="space-y-1.5 pb-4 border-b border-dashed border-gray-200">
                            <label className="text-[10px] font-bold text-gray-400 uppercase tracking-wider flex items-center gap-1.5"><Building2 size={12} className="text-[#064E3B]"/> Perusahaan Penyedia</label>
                            <div className="relative group/input">
                                <input type="text" value={record.companyName || ''} onChange={(e) => handleRecordChange(record.id, 'companyName', toTitleCase(e.target.value))} 
-                                      className="w-full px-4 py-3 bg-white border border-gray-200 rounded-xl text-sm font-semibold text-gray-800 focus:border-[#064E3B] focus:ring-4 focus:ring-[#064E3B]/5 outline-none transition-all placeholder:font-normal placeholder:text-gray-300" placeholder="Nama Perusahaan / Suplier..." />
+                                      className="w-full px-4 py-3 bg-gray-50/50 border border-gray-200 rounded-xl text-sm font-semibold text-gray-800 focus:bg-white focus:border-[#064E3B] focus:ring-4 focus:ring-[#064E3B]/5 outline-none transition-all placeholder:font-normal placeholder:text-gray-300" placeholder="Nama Perusahaan / Suplier..." />
                            </div>
                        </div>
 
@@ -246,7 +284,7 @@ export const SpiceForm: React.FC<SpiceFormProps> = ({ onBack }) => {
                                <div className="relative group/input">
                                    <span className="absolute left-3 top-1/2 -translate-y-1/2 text-xs font-bold text-gray-400">SAR</span>
                                    <input type="number" value={record.price} onChange={(e) => handleRecordChange(record.id, 'price', e.target.value)} 
-                                          className="w-full pl-10 pr-3 py-3 bg-[#064E3B]/5 border border-[#064E3B]/20 rounded-xl text-sm font-bold text-[#064E3B] focus:bg-white focus:border-[#064E3B] focus:ring-4 focus:ring-[#064E3B]/10 outline-none transition-all placeholder:font-normal placeholder:text-gray-300" placeholder="0" />
+                                          className="w-full pl-10 pr-3 py-3 bg-gray-50/50 border border-gray-200 rounded-xl text-sm font-bold text-[#064E3B] focus:bg-white focus:border-[#064E3B] focus:ring-4 focus:ring-[#064E3B]/10 outline-none transition-all placeholder:font-normal placeholder:text-gray-300" placeholder="0" />
                                </div>
                            </div>
                        </div>
@@ -254,7 +292,7 @@ export const SpiceForm: React.FC<SpiceFormProps> = ({ onBack }) => {
                        <div className="space-y-1.5">
                             <label className="text-[10px] font-bold text-gray-400 uppercase tracking-wider flex items-center gap-1.5"><ClipboardList size={12} className="text-gray-400"/> Bahan Lain</label>
                             <input type="text" value={record.otherIngredients} onChange={(e) => handleRecordChange(record.id, 'otherIngredients', toTitleCase(e.target.value))} 
-                                   className="w-full px-4 py-3 bg-white border border-gray-200 rounded-xl text-sm text-gray-600 focus:border-[#D4AF37] focus:ring-4 focus:ring-[#D4AF37]/10 outline-none transition-all placeholder:text-gray-300" placeholder="Bahan tambahan..." />
+                                   className="w-full px-4 py-3 bg-gray-50/50 border border-gray-200 rounded-xl text-sm text-gray-600 focus:bg-white focus:border-[#D4AF37] focus:ring-4 focus:ring-[#D4AF37]/10 outline-none transition-all placeholder:text-gray-300" placeholder="Bahan tambahan..." />
                        </div>
 
                        <div className="pt-4 border-t border-dashed border-gray-200 grid grid-cols-2 gap-5">

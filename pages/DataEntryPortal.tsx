@@ -90,10 +90,14 @@ export const DataEntryPortal: React.FC<DataEntryPortalProps> = ({ onNavigate }) 
             {searchTerm ? (
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     {searchResults.map((r, idx) => (
-                        <button key={idx} onClick={() => onNavigate(r.page)} className="flex items-center gap-5 p-6 bg-white/60 backdrop-blur-xl border border-white/60 rounded-[1.5rem] shadow-sm hover:shadow-xl transition-all text-left group">
-                            <div className="p-4 rounded-2xl bg-[#064E3B] text-white"><r.icon size={24} /></div>
-                            <div className="flex-1"><p className="text-[10px] font-bold text-[#D4AF37] uppercase">{r.type}</p><h4 className="text-lg font-bold text-gray-800">{r.title}</h4><p className="text-sm text-gray-500">{r.subtitle}</p></div>
-                            <ArrowRight size={16} className="text-gray-400 group-hover:translate-x-1 transition-transform" />
+                        <button key={idx} onClick={() => onNavigate(r.page)} className="flex items-center gap-5 p-6 bg-white/60 backdrop-blur-xl border border-white/60 rounded-[1.5rem] shadow-sm hover:shadow-xl transition-all text-left group overflow-hidden relative">
+                             {/* Watermark for Search Results */}
+                             <div className="absolute -right-6 -bottom-6 text-[#064E3B] opacity-[0.03] group-hover:opacity-[0.07] transition-all duration-500 pointer-events-none transform rotate-12 scale-110">
+                                <r.icon size={120} strokeWidth={1.5} />
+                             </div>
+                            <div className="p-4 rounded-2xl bg-[#064E3B] text-white relative z-10"><r.icon size={24} /></div>
+                            <div className="flex-1 relative z-10"><p className="text-[10px] font-bold text-[#D4AF37] uppercase">{r.type}</p><h4 className="text-lg font-bold text-gray-800">{r.title}</h4><p className="text-sm text-gray-500">{r.subtitle}</p></div>
+                            <ArrowRight size={16} className="text-gray-400 group-hover:translate-x-1 transition-transform relative z-10" />
                         </button>
                     ))}
                 </div>
@@ -101,17 +105,23 @@ export const DataEntryPortal: React.FC<DataEntryPortalProps> = ({ onNavigate }) 
                 <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
                     {portalItems.map(item => (
                         <button key={item.id} onClick={() => onNavigate(item.targetPage)} className="group relative flex flex-col text-left h-full bg-gradient-to-br from-white/80 via-white/60 to-white/40 backdrop-blur-xl border border-white/60 rounded-[2rem] shadow-sm hover:shadow-xl transition-all p-7 overflow-hidden">
-                            <div className="flex justify-between items-start mb-6">
-                                <div className="w-14 h-14 flex items-center justify-center rounded-2xl bg-gradient-to-br from-[#064E3B] to-[#042f24] text-white shadow-xl"><item.icon size={26} /></div>
-                                <div className={`px-3 py-1.5 rounded-full text-[10px] font-bold uppercase tracking-wider flex items-center gap-1.5 border ${item.status === 'draft' ? 'bg-amber-50 text-amber-700 border-amber-100' : 'bg-gray-50 text-gray-400'}`}>
+                            
+                             {/* Visual Background (Watermark) */}
+                             <div className="absolute -right-8 -top-8 text-[#064E3B] opacity-[0.04] group-hover:opacity-[0.08] transition-all duration-700 pointer-events-none transform rotate-12 group-hover:rotate-6 scale-125">
+                                <item.icon size={220} strokeWidth={0.8} />
+                             </div>
+
+                            <div className="flex justify-between items-start mb-6 relative z-10">
+                                <div className="w-14 h-14 flex items-center justify-center rounded-2xl bg-gradient-to-br from-[#064E3B] to-[#042f24] text-white shadow-xl group-hover:scale-110 transition-transform duration-300"><item.icon size={26} /></div>
+                                <div className={`px-3 py-1.5 rounded-full text-[10px] font-bold uppercase tracking-wider flex items-center gap-1.5 border backdrop-blur-sm ${item.status === 'draft' ? 'bg-amber-50/80 text-amber-700 border-amber-100' : 'bg-gray-50/80 text-gray-400'}`}>
                                     {item.status === 'draft' ? <History size={12} /> : <Activity size={12} />}
                                     <span>{item.status === 'draft' ? 'Draft' : 'Belum'}</span>
                                 </div>
                             </div>
-                            <div className="mb-2"><span className="text-[10px] font-bold text-[#D4AF37] uppercase tracking-widest">{item.subtitle}</span><h3 className="text-2xl font-bold text-gray-800 group-hover:text-[#064E3B] transition-colors font-playfair">{item.title}</h3></div>
-                            <p className="text-sm text-gray-500 font-medium leading-relaxed mb-8">{item.description}</p>
-                            <div className="mt-auto"><div className="flex justify-between mb-2"><span className="text-[10px] text-gray-400 font-bold">PROGRESS</span><span className="text-sm font-bold text-gray-600">{item.progress}%</span></div><div className="w-full bg-gray-100 h-1.5 rounded-full overflow-hidden"><div className="h-full bg-gradient-to-r from-[#D4AF37] to-[#FBBF24] transition-all duration-1000" style={{ width: `${item.progress}%` }}></div></div></div>
-                            <div className="absolute bottom-6 right-6 w-10 h-10 bg-white rounded-full shadow-lg flex items-center justify-center text-[#064E3B] opacity-0 group-hover:opacity-100 group-hover:translate-y-0 translate-y-4 transition-all"><ChevronRight size={20} /></div>
+                            <div className="mb-2 relative z-10"><span className="text-[10px] font-bold text-[#D4AF37] uppercase tracking-widest">{item.subtitle}</span><h3 className="text-2xl font-bold text-gray-800 group-hover:text-[#064E3B] transition-colors font-playfair">{item.title}</h3></div>
+                            <p className="text-sm text-gray-500 font-medium leading-relaxed mb-8 relative z-10">{item.description}</p>
+                            <div className="mt-auto relative z-10"><div className="flex justify-between mb-2"><span className="text-[10px] text-gray-400 font-bold">PROGRESS</span><span className="text-sm font-bold text-gray-600">{item.progress}%</span></div><div className="w-full bg-gray-100 h-1.5 rounded-full overflow-hidden"><div className="h-full bg-gradient-to-r from-[#D4AF37] to-[#FBBF24] transition-all duration-1000" style={{ width: `${item.progress}%` }}></div></div></div>
+                            <div className="absolute bottom-6 right-6 w-10 h-10 bg-white rounded-full shadow-lg flex items-center justify-center text-[#064E3B] opacity-0 group-hover:opacity-100 group-hover:translate-y-0 translate-y-4 transition-all z-20"><ChevronRight size={20} /></div>
                         </button>
                     ))}
                 </div>
