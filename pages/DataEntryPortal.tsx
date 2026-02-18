@@ -3,6 +3,7 @@ import React, { useState, useMemo } from 'react';
 import { Page } from '../types';
 import { ChefHat, UtensilsCrossed, Store, Truck, Signal, ArrowRight, Activity, CheckCircle2, Clock, History, Search, X, ChevronRight, Calendar, ShoppingCart } from 'lucide-react';
 import { useData } from '../contexts/DataContext';
+import { HeroSection } from '../components/HeroSection';
 
 interface DataEntryPortalProps {
     onNavigate: (page: Page) => void;
@@ -76,54 +77,37 @@ export const DataEntryPortal: React.FC<DataEntryPortalProps> = ({ onNavigate }) 
     return (
         <div className="space-y-6 pb-10 animate-fade-in-up font-sans">
             
-            {/* HERO SECTION - EXACT MATCH WITH DASHBOARD */}
-            <div className="bg-[#064E3B] rounded-[2rem] px-8 py-6 md:px-10 text-white relative overflow-hidden shadow-xl shadow-[#064E3B]/20 min-h-[140px] flex flex-col justify-center">
-                {/* Ambient Background Effects */}
-                <div className="absolute top-0 right-0 w-[300px] h-[300px] bg-gradient-to-b from-[#10B981] to-[#064E3B] rounded-full blur-[80px] opacity-30 translate-x-1/3 -translate-y-1/3 pointer-events-none"></div>
-                <div className="absolute bottom-0 left-0 w-[200px] h-[200px] bg-[#D4AF37] rounded-full blur-[60px] opacity-20 -translate-x-1/3 translate-y-1/3 pointer-events-none"></div>
-                
-                <div className="relative z-10 flex flex-col md:flex-row justify-between items-end md:items-center gap-4">
-                    <div>
-                        <div className="flex items-center gap-2 text-[#D4AF37] font-bold text-[10px] uppercase tracking-widest mb-1.5">
-                            <Calendar size={12} /> <span>{currentDate}</span>
-                        </div>
-                        <h1 className="text-2xl md:text-3xl font-bold font-playfair mb-1.5 leading-tight">
-                            Pusat Input Data <span className="text-[#D4AF37]">Monitoring</span>
-                        </h1>
-                        <p className="text-emerald-100/80 text-xs max-w-lg leading-relaxed">
-                            Kelola input dan validasi data lapangan untuk seluruh sektor ekosistem haji secara real-time.
-                        </p>
-                    </div>
-                    
-                    <div className="flex flex-col md:flex-row items-end md:items-center gap-3">
-                        {/* Search Bar - Height matched to Badge */}
-                        <div className="relative group/search w-full md:w-64">
-                            <div className="relative bg-white/10 backdrop-blur-md border border-white/20 rounded-xl flex items-center shadow-lg transition-all focus-within:bg-white/20 focus-within:border-white/40 focus-within:shadow-xl px-2 min-h-[38px]">
-                                <div className="pl-2 text-emerald-200 group-focus-within/search:text-[#D4AF37] transition-colors"><Search size={16} /></div>
-                                <input 
-                                    type="text" 
-                                    value={searchTerm} 
-                                    onChange={e => setSearchTerm(e.target.value)} 
-                                    placeholder="Cari data (mis: Bumbu Rendang)..." 
-                                    className="w-full bg-transparent border-none py-2 px-3 text-white placeholder-emerald-200/50 text-xs font-bold focus:ring-0 tracking-wide" 
-                                />
-                            </div>
-                        </div>
-
-                        {/* Status Badge - EXACT MATCH WITH DASHBOARD */}
-                        <div className="flex items-center gap-3 bg-white/10 backdrop-blur-md px-4 py-2 rounded-xl border border-white/10 h-full min-h-[38px]">
-                            <div className="text-right">
-                                <p className="text-[8px] text-emerald-100 uppercase tracking-wide">Status Data</p>
-                                <p className="text-[10px] font-bold text-white leading-none">Live Monitoring</p>
-                            </div>
-                            <div className="relative w-2 h-2">
-                                <span className="absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75 animate-ping"></span>
-                                <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
-                            </div>
-                        </div>
+            <HeroSection
+                title={<span>Pusat Input Data <span className="text-[#D4AF37]">Monitoring</span></span>}
+                subtitle="Kelola input dan validasi data lapangan untuk seluruh sektor ekosistem haji secara real-time."
+                currentDate={currentDate}
+            >
+                {/* Search Bar - Height matched to Badge */}
+                <div className="relative group/search w-full md:w-64">
+                    <div className="relative bg-white/10 backdrop-blur-md border border-white/20 rounded-xl flex items-center shadow-lg transition-all focus-within:bg-white/20 focus-within:border-white/40 focus-within:shadow-xl px-2 min-h-[38px]">
+                        <div className="pl-2 text-emerald-200 group-focus-within/search:text-[#D4AF37] transition-colors"><Search size={16} /></div>
+                        <input 
+                            type="text" 
+                            value={searchTerm} 
+                            onChange={e => setSearchTerm(e.target.value)} 
+                            placeholder="Cari data (mis: Bumbu Rendang)..." 
+                            className="w-full bg-transparent border-none py-2 px-3 text-white placeholder-emerald-200/50 text-xs font-bold focus:ring-0 tracking-wide" 
+                        />
                     </div>
                 </div>
-            </div>
+
+                {/* Status Badge - EXACT MATCH WITH DASHBOARD */}
+                <div className="flex items-center gap-3 bg-white/10 backdrop-blur-md px-4 py-2 rounded-xl border border-white/10 h-full min-h-[38px]">
+                    <div className="text-right">
+                        <p className="text-[8px] text-emerald-100 uppercase tracking-wide">Status Data</p>
+                        <p className="text-[10px] font-bold text-white leading-none">Live Monitoring</p>
+                    </div>
+                    <div className="relative w-2 h-2">
+                        <span className="absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75 animate-ping"></span>
+                        <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+                    </div>
+                </div>
+            </HeroSection>
 
             {searchTerm ? (
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">

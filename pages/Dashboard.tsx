@@ -5,6 +5,7 @@ import { ResponsiveContainer, AreaChart, Area, XAxis, YAxis, Tooltip, CartesianG
 import { TrendingUp, Activity, Package, Truck, Signal, Calendar, MapPin, ChefHat, UtensilsCrossed, Store, ArrowRight, Wallet, BarChart3, PieChart as PieIcon, History, Filter, ChevronDown, Clock, Check, ShoppingCart, Smartphone } from 'lucide-react';
 import { useData } from '../contexts/DataContext';
 import { ChartSkeleton, ListSkeleton, PieSkeleton, StatCardSkeleton } from '../components/Skeletons';
+import { HeroSection } from '../components/HeroSection';
 
 const StatCard = ({ title, value, icon: Icon, color, trend, footer }: any) => (
   <div className="relative overflow-hidden rounded-3xl p-6 border border-white/60 bg-white/60 backdrop-blur-sm shadow-sm hover:shadow-lg transition-all group h-[160px] flex flex-col justify-between">
@@ -227,79 +228,64 @@ export const Dashboard: React.FC = () => {
     <div className="space-y-6 pb-10 animate-fade-in-up font-sans">
       
       {/* 1. HERO SECTION */}
-      <div className="bg-[#064E3B] rounded-[2rem] px-8 py-6 md:px-10 text-white relative overflow-hidden shadow-xl shadow-[#064E3B]/20 min-h-[140px] flex flex-col justify-center">
-            <div className="absolute top-0 right-0 w-[300px] h-[300px] bg-gradient-to-b from-[#10B981] to-[#064E3B] rounded-full blur-[80px] opacity-30 translate-x-1/3 -translate-y-1/3 pointer-events-none"></div>
-            <div className="absolute bottom-0 left-0 w-[200px] h-[200px] bg-[#D4AF37] rounded-full blur-[60px] opacity-20 -translate-x-1/3 translate-y-1/3 pointer-events-none"></div>
-            
-            <div className="relative z-10 flex flex-col md:flex-row justify-between items-end md:items-center gap-4">
-                <div>
-                    <div className="flex items-center gap-2 text-[#D4AF37] font-bold text-[10px] uppercase tracking-widest mb-1.5">
-                        <Calendar size={12} /> <span>{currentDate}</span>
+      <HeroSection 
+        title={<span>Ringkasan <span className="text-[#D4AF37]">Ekosistem 2026</span></span>}
+        subtitle="Executive Summary realisasi layanan konsumsi, potensi ekonomi, dan logistik haji (Sinkronisasi Data Real-time)."
+        currentDate={currentDate}
+      >
+            <div className="relative">
+                <button 
+                    onClick={() => setIsFilterOpen(!isFilterOpen)}
+                    className="flex items-center gap-2 bg-white/10 backdrop-blur-md px-4 py-2 rounded-xl border border-white/20 text-white font-bold text-[10px] hover:bg-white/20 transition-all min-w-[140px] justify-between shadow-lg shadow-black/5"
+                >
+                    <div className="flex items-center gap-2">
+                        <div className="p-1 bg-[#D4AF37]/20 rounded-md">
+                            <Filter size={12} className="text-[#D4AF37]" />
+                        </div>
+                        <div className="flex flex-col items-start">
+                            <span className="text-[8px] text-emerald-100/70 font-normal uppercase tracking-wider leading-none mb-0.5">Filter Waktu</span>
+                            <span className="leading-none">{filterLabel[timeFilter]}</span>
+                        </div>
                     </div>
-                    <h1 className="text-2xl md:text-3xl font-bold font-playfair mb-1.5 leading-tight">
-                        Ringkasan <span className="text-[#D4AF37]">Ekosistem 2026</span>
-                    </h1>
-                    <p className="text-emerald-100/80 text-xs max-w-lg leading-relaxed">
-                        Executive Summary realisasi layanan konsumsi, potensi ekonomi, dan logistik haji (Sinkronisasi Data Real-time).
-                    </p>
+                    <ChevronDown size={14} className={`text-emerald-200 transition-transform duration-300 ${isFilterOpen ? 'rotate-180' : ''}`} />
+                </button>
+                {isFilterOpen && (
+                    <div className="absolute top-full left-0 mt-2 w-48 bg-white/95 backdrop-blur-xl border border-white/40 rounded-xl shadow-2xl z-50 overflow-hidden animate-fade-in-up origin-top-left">
+                        <div className="p-1">
+                            {(['all', 'today', 'week', 'month'] as const).map((key) => (
+                                <button
+                                    key={key}
+                                    onClick={() => {
+                                        setTimeFilter(key);
+                                        setIsFilterOpen(false);
+                                    }}
+                                    className={`w-full text-left px-3 py-2.5 rounded-lg text-[10px] font-bold transition-all flex items-center justify-between group
+                                        ${timeFilter === key 
+                                            ? 'bg-[#064E3B]/5 text-[#064E3B]' 
+                                            : 'text-gray-500 hover:bg-gray-50 hover:text-[#064E3B]'}`}
+                                >
+                                    <span className="flex items-center gap-2">
+                                        {timeFilter === key ? <Check size={12} className="text-[#D4AF37]" /> : <span className="w-3"></span>}
+                                        {filterLabel[key]}
+                                    </span>
+                                    {timeFilter === key && <div className="w-1.5 h-1.5 rounded-full bg-[#D4AF37]"></div>}
+                                </button>
+                            ))}
+                        </div>
+                    </div>
+                )}
+            </div>
+            <div className="flex items-center gap-3 bg-white/10 backdrop-blur-md px-4 py-2 rounded-xl border border-white/10 h-full min-h-[38px]">
+                <div className="text-right">
+                    <p className="text-[8px] text-emerald-100 uppercase tracking-wide">Status Data</p>
+                    <p className="text-[10px] font-bold text-white leading-none">Live Monitoring</p>
                 </div>
-                
-                <div className="flex flex-col md:flex-row items-end md:items-center gap-3">
-                    <div className="relative">
-                        <button 
-                            onClick={() => setIsFilterOpen(!isFilterOpen)}
-                            className="flex items-center gap-2 bg-white/10 backdrop-blur-md px-4 py-2 rounded-xl border border-white/20 text-white font-bold text-[10px] hover:bg-white/20 transition-all min-w-[140px] justify-between shadow-lg shadow-black/5"
-                        >
-                            <div className="flex items-center gap-2">
-                                <div className="p-1 bg-[#D4AF37]/20 rounded-md">
-                                    <Filter size={12} className="text-[#D4AF37]" />
-                                </div>
-                                <div className="flex flex-col items-start">
-                                    <span className="text-[8px] text-emerald-100/70 font-normal uppercase tracking-wider leading-none mb-0.5">Filter Waktu</span>
-                                    <span className="leading-none">{filterLabel[timeFilter]}</span>
-                                </div>
-                            </div>
-                            <ChevronDown size={14} className={`text-emerald-200 transition-transform duration-300 ${isFilterOpen ? 'rotate-180' : ''}`} />
-                        </button>
-                        {isFilterOpen && (
-                            <div className="absolute top-full left-0 mt-2 w-48 bg-white/95 backdrop-blur-xl border border-white/40 rounded-xl shadow-2xl z-50 overflow-hidden animate-fade-in-up origin-top-left">
-                                <div className="p-1">
-                                    {(['all', 'today', 'week', 'month'] as const).map((key) => (
-                                        <button
-                                            key={key}
-                                            onClick={() => {
-                                                setTimeFilter(key);
-                                                setIsFilterOpen(false);
-                                            }}
-                                            className={`w-full text-left px-3 py-2.5 rounded-lg text-[10px] font-bold transition-all flex items-center justify-between group
-                                                ${timeFilter === key 
-                                                    ? 'bg-[#064E3B]/5 text-[#064E3B]' 
-                                                    : 'text-gray-500 hover:bg-gray-50 hover:text-[#064E3B]'}`}
-                                        >
-                                            <span className="flex items-center gap-2">
-                                                {timeFilter === key ? <Check size={12} className="text-[#D4AF37]" /> : <span className="w-3"></span>}
-                                                {filterLabel[key]}
-                                            </span>
-                                            {timeFilter === key && <div className="w-1.5 h-1.5 rounded-full bg-[#D4AF37]"></div>}
-                                        </button>
-                                    ))}
-                                </div>
-                            </div>
-                        )}
-                    </div>
-                    <div className="flex items-center gap-3 bg-white/10 backdrop-blur-md px-4 py-2 rounded-xl border border-white/10 h-full min-h-[38px]">
-                        <div className="text-right">
-                            <p className="text-[8px] text-emerald-100 uppercase tracking-wide">Status Data</p>
-                            <p className="text-[10px] font-bold text-white leading-none">Live Monitoring</p>
-                        </div>
-                        <div className="relative w-2 h-2">
-                            <span className="absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75 animate-ping"></span>
-                            <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
-                        </div>
-                    </div>
+                <div className="relative w-2 h-2">
+                    <span className="absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75 animate-ping"></span>
+                    <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
                 </div>
             </div>
-      </div>
+      </HeroSection>
 
       {/* 2. KPI CARDS - 3 Columns for 6 items */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
