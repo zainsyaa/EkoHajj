@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { LayoutDashboard, BarChart3, PieChart, Settings, LogOut, BookOpen } from 'lucide-react';
 import { Page } from '../types';
@@ -26,7 +27,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ currentPage, onNavigate, onLog
             {/* Logo */}
             <div className="relative w-12 h-12 flex items-center justify-center group cursor-default">
                 <div className="absolute inset-0 bg-[#D4AF37] rounded-xl blur-lg opacity-20 group-hover:opacity-40 transition-opacity duration-500"></div>
-                <div className="relative w-full h-full bg-gradient-to-br from-[#D4AF37] to-[#B4941F] rounded-xl flex items-center justify-center text-[#064E3B] shadow-xl border border-white/20">
+                <div className="relative w-full h-full bg-gradient-to-br from-[#D4AF37] to-[#B4941F] rounded-xl flex items-center justify-center text-[#064E3B] shadow-xl border border-white/20 transform group-hover:scale-105 transition-transform duration-500">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" className="w-6 h-6 drop-shadow-sm">
                         <path d="M3 21h18M5 21V7l8-4 8 4v14" />
                     </svg>
@@ -94,8 +95,10 @@ export const Sidebar: React.FC<SidebarProps> = ({ currentPage, onNavigate, onLog
             onClick={onLogout}
             className={`w-full flex items-center gap-3 p-3.5 rounded-xl text-red-300/80 hover:bg-red-500/10 hover:text-red-200 transition-all duration-300 group border border-transparent hover:border-red-500/20 ${!isOpen && 'justify-center'}`}
         >
-            <LogOut size={20} className="group-hover:-translate-x-1 transition-transform" />
-            {isOpen && <span className="font-medium text-sm">Keluar System</span>}
+            <div className="relative transition-transform duration-300 group-hover:scale-110 group-hover:-translate-x-1">
+                <LogOut size={20} strokeWidth={2} />
+            </div>
+            {isOpen && <span className="font-medium text-sm tracking-wide group-hover:translate-x-1 transition-transform duration-300">Keluar System</span>}
         </button>
       </div>
     </aside>
@@ -108,13 +111,21 @@ const MenuItem = ({ icon: Icon, label, isActive, onClick, isOpen }: any) => (
         className={`w-full flex items-center gap-3.5 p-3.5 rounded-2xl transition-all duration-300 relative overflow-hidden group
             ${isActive 
                 ? 'bg-gradient-to-r from-[#ffffff]/10 to-transparent text-white border border-white/10 shadow-lg' 
-                : 'text-gray-400 hover:bg-white/5 hover:text-white border border-transparent'
+                : 'text-gray-400 hover:bg-white/5 hover:text-white border border-transparent hover:shadow-md'
             } ${!isOpen && 'justify-center'}`}
     >
         {/* Active Indicator Line */}
         {isActive && <div className="absolute left-0 top-1/2 -translate-y-1/2 h-8 w-1 bg-[#D4AF37] rounded-r-full shadow-[0_0_10px_#D4AF37]"></div>}
         
-        <Icon size={20} strokeWidth={isActive ? 2.5 : 2} className={isActive ? 'text-[#D4AF37]' : 'group-hover:text-white transition-colors'} />
-        {isOpen && <span className={`text-sm tracking-wide ${isActive ? 'font-bold' : 'font-medium'}`}>{label}</span>}
+        {/* Icon with hover animation */}
+        <div className={`relative flex items-center justify-center transition-transform duration-300 ${isActive ? 'scale-110' : 'group-hover:scale-110'}`}>
+             <Icon size={20} strokeWidth={isActive ? 2.5 : 2} className={`transition-colors duration-300 ${isActive ? 'text-[#D4AF37] drop-shadow-[0_0_8px_rgba(212,175,55,0.5)]' : 'group-hover:text-white'}`} />
+        </div>
+        
+        {isOpen && (
+            <span className={`text-sm tracking-wide transition-all duration-300 ${isActive ? 'font-bold translate-x-1' : 'font-medium group-hover:translate-x-1'}`}>
+                {label}
+            </span>
+        )}
     </button>
 );
