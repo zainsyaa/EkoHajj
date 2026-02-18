@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Toggle } from '../../components/InputFields';
 import { Save, Plus, Trash2, ArrowLeft, UtensilsCrossed, MapPin, User, Calendar, Box, DollarSign, Clock, FileText, Building2, Building, ChefHat, Users, MenuSquare } from 'lucide-react';
@@ -19,7 +20,12 @@ export const RTEForm: React.FC<RTEFormProps> = ({ onBack }) => {
   const [kloterName, setKloterName] = useState('');
   const [monitorDate, setMonitorDate] = useState(''); 
   const [monitorTime, setMonitorTime] = useState(''); 
-  const [officer, setOfficer] = useState(''); 
+  const [surveyor, setSurveyor] = useState(''); 
+
+  // Sync identity to all records
+  const updateIdentity = (field: keyof RTERecord, value: string) => {
+    setRteData(prev => prev.map(r => ({ ...r, [field]: value })));
+  };
 
   const handleRecordChange = (id: number, field: keyof RTERecord, value: any) => {
       setRteData(prev => prev.map(r => r.id === id ? { ...r, [field]: value } : r));
@@ -27,7 +33,17 @@ export const RTEForm: React.FC<RTEFormProps> = ({ onBack }) => {
 
   const addRecord = () => {
       const newId = rteData.length > 0 ? Math.max(...rteData.map(r => r.id)) + 1 : 1;
-      setRteData([...rteData, { id: newId, companyName: '', menu: '', isUsed: false, volume: '', price: '' }]);
+      setRteData([...rteData, { 
+          id: newId, 
+          companyName: '', 
+          menu: '', 
+          isUsed: false, 
+          volume: '', 
+          price: '',
+          // Pre-fill identity
+          kitchenName, address, hotelName, hotelNumber, kloterName, surveyor,
+          date: monitorDate, time: monitorTime
+      }]);
   };
 
   const removeRecord = (id: number) => setRteData(rteData.filter(r => r.id !== id));
@@ -38,12 +54,18 @@ export const RTEForm: React.FC<RTEFormProps> = ({ onBack }) => {
     return `${year}-${month}-${day}`;
   };
   const handleDateChange = (val: string) => {
-      if (!val) { setMonitorDate(''); return; }
+      if (!val) { setMonitorDate(''); updateIdentity('date', ''); return; }
       const [year, month, day] = val.split('-');
-      setMonitorDate(`${day}/${month}/${year}`);
+      const formatted = `${day}/${month}/${year}`;
+      setMonitorDate(formatted);
+      updateIdentity('date', formatted);
   };
   const getTimeValue = (timeStr: string) => (timeStr ? timeStr.replace('.', ':') : '');
-  const handleTimeChange = (val: string) => setMonitorTime(val.replace(':', '.'));
+  const handleTimeChange = (val: string) => {
+      const formatted = val.replace(':', '.');
+      setMonitorTime(formatted);
+      updateIdentity('time', formatted);
+  };
 
   return (
     <div className="flex flex-col relative font-sans bg-white/60 backdrop-blur-xl rounded-[2.5rem] border border-white/60 shadow-2xl overflow-hidden animate-fade-in-up">
@@ -70,14 +92,14 @@ export const RTEForm: React.FC<RTEFormProps> = ({ onBack }) => {
                 <h3 className="text-sm font-bold text-gray-800 uppercase tracking-widest">A. Identitas Lokasi & Petugas</h3>
              </div>
              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                  <PremiumInput label="1. Nama Dapur" icon={MapPin} value={kitchenName} onChange={setKitchenName} placeholder="Nama Dapur..." />
-                  <PremiumInput label="2. Alamat" icon={MapPin} value={address} onChange={setAddress} placeholder="Alamat..." />
-                  <PremiumInput label="3. Nama Hotel" icon={Building} value={hotelName} onChange={setHotelName} placeholder="Nama Hotel..." />
-                  <PremiumInput label="4. Nomor Hotel" icon={Building2} value={hotelNumber} onChange={setHotelNumber} placeholder="No. Hotel..." />
-                  <PremiumInput label="5. Nama Kloter" icon={Users} value={kloterName} onChange={setKloterName} placeholder="Kloter..." />
+                  <PremiumInput label="1. Nama Dapur" icon={MapPin} value={kitchenName} onChange={(v: string) => { setKitchenName(v); updateIdentity('kitchenName', v); }} placeholder="Nama Dapur..." />
+                  <PremiumInput label="2. Alamat" icon={MapPin} value={address} onChange={(v: string) => { setAddress(v); updateIdentity('address', v); }} placeholder="Alamat..." />
+                  <PremiumInput label="3. Nama Hotel" icon={Building} value={hotelName} onChange={(v: string) => { setHotelName(v); updateIdentity('hotelName', v); }} placeholder="Nama Hotel..." />
+                  <PremiumInput label="4. Nomor Hotel" icon={Building2} value={hotelNumber} onChange={(v: string) => { setHotelNumber(v); updateIdentity('hotelNumber', v); }} placeholder="No. Hotel..." />
+                  <PremiumInput label="5. Nama Kloter" icon={Users} value={kloterName} onChange={(v: string) => { setKloterName(v); updateIdentity('kloterName', v); }} placeholder="Kloter..." />
                   <PremiumInput label="6. Tanggal Monitoring" icon={Calendar} type="date" value={getDateValue(monitorDate)} onChange={handleDateChange} />
                   <PremiumInput label="7. Waktu Monitoring" icon={Clock} type="time" value={getTimeValue(monitorTime)} onChange={handleTimeChange} />
-                  <PremiumInput label="8. Petugas" icon={User} value={officer} onChange={setOfficer} placeholder="Nama Petugas..." />
+                  <PremiumInput label="8. Surveyor" icon={User} value={surveyor} onChange={(v: string) => { setSurveyor(v); updateIdentity('surveyor', v); }} placeholder="Nama Surveyor..." />
              </div>
          </div>
       </div>

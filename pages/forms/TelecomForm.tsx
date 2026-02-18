@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Toggle } from '../../components/InputFields';
 import { Save, Signal, ArrowLeft, Globe, User, Users, MapPin, Calendar, FileText, Plus, Trash2, Smartphone, Wifi } from 'lucide-react';
@@ -19,13 +20,23 @@ export const TelecomForm: React.FC<TelecomFormProps> = ({ onBack }) => {
   const [surveyDate, setSurveyDate] = useState(''); 
   const [surveyor, setSurveyor] = useState(''); 
 
+  // Sync identity
+  const updateIdentity = (field: keyof TelecomRecord, value: string) => {
+    setTelecomData(prev => prev.map(r => ({ ...r, [field]: value })));
+  };
+
   const handleRecordChange = (id: number, field: keyof TelecomRecord, value: any) => {
     setTelecomData(prev => prev.map(r => r.id === id ? { ...r, [field]: value } : r));
   };
 
   const addRecord = () => {
     const newId = telecomData.length > 0 ? Math.max(...telecomData.map(p => p.id)) + 1 : 1;
-    setTelecomData([...telecomData, { id: newId, providerName: '', roamingPackage: '' }]);
+    setTelecomData([...telecomData, { 
+        id: newId, 
+        providerName: '', roamingPackage: '',
+        // Pre-fill identity
+        respondentName, kloter, embarkation, province, surveyor, date: surveyDate
+    }]);
   };
 
   const removeRecord = (id: number) => {
@@ -38,9 +49,11 @@ export const TelecomForm: React.FC<TelecomFormProps> = ({ onBack }) => {
       return `${year}-${month}-${day}`;
   };
   const handleDateChange = (val: string) => {
-      if (!val) { setSurveyDate(''); return; }
+      if (!val) { setSurveyDate(''); updateIdentity('date', ''); return; }
       const [year, month, day] = val.split('-');
-      setSurveyDate(`${day}/${month}/${year}`);
+      const formatted = `${day}/${month}/${year}`;
+      setSurveyDate(formatted);
+      updateIdentity('date', formatted);
   };
 
   return (
@@ -68,12 +81,12 @@ export const TelecomForm: React.FC<TelecomFormProps> = ({ onBack }) => {
                 <h3 className="text-sm font-bold text-gray-800 uppercase tracking-widest">A. Identitas Responden & Petugas</h3>
               </div>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                  <PremiumInput label="1. Nama Responden" icon={User} value={respondentName} onChange={setRespondentName} placeholder="Nama Jemaah..." />
-                  <PremiumInput label="2. Kloter" icon={Users} value={kloter} onChange={setKloter} placeholder="Kloter..." />
-                  <PremiumInput label="3. Embarkasi" icon={MapPin} value={embarkation} onChange={setEmbarkation} placeholder="Kota Embarkasi..." />
-                  <PremiumInput label="4. Provinsi" icon={MapPin} value={province} onChange={setProvince} placeholder="Provinsi..." />
+                  <PremiumInput label="1. Nama Responden" icon={User} value={respondentName} onChange={(v: string) => { setRespondentName(v); updateIdentity('respondentName', v); }} placeholder="Nama Jemaah..." />
+                  <PremiumInput label="2. Kloter" icon={Users} value={kloter} onChange={(v: string) => { setKloter(v); updateIdentity('kloter', v); }} placeholder="Kloter..." />
+                  <PremiumInput label="3. Embarkasi" icon={MapPin} value={embarkation} onChange={(v: string) => { setEmbarkation(v); updateIdentity('embarkation', v); }} placeholder="Kota Embarkasi..." />
+                  <PremiumInput label="4. Provinsi" icon={MapPin} value={province} onChange={(v: string) => { setProvince(v); updateIdentity('province', v); }} placeholder="Provinsi..." />
                   <PremiumInput label="5. Tanggal Survei" icon={Calendar} type="date" value={getDateValue(surveyDate)} onChange={handleDateChange} />
-                  <PremiumInput label="6. Petugas Survei (Surveyor)" icon={User} value={surveyor} onChange={setSurveyor} placeholder="Nama Petugas..." />
+                  <PremiumInput label="6. Surveyor" icon={User} value={surveyor} onChange={(v: string) => { setSurveyor(v); updateIdentity('surveyor', v); }} placeholder="Nama Surveyor..." />
               </div>
          </div>
       </div>

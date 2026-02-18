@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Save, Truck, Plus, Trash2, ArrowLeft, MapPin, User, Calendar, Building, DollarSign, Weight, Clock, FileText, Calculator, Layers, Building2 } from 'lucide-react';
 import { ExpeditionRecord } from '../../types';
@@ -18,13 +19,23 @@ export const ExpeditionForm: React.FC<ExpeditionFormProps> = ({ onBack }) => {
   const [surveyDate, setSurveyDate] = useState(''); 
   const [surveyTime, setSurveyTime] = useState(''); 
 
+  // Sync identity
+  const updateIdentity = (field: keyof ExpeditionRecord, value: string) => {
+    setExpeditionData(prev => prev.map(r => ({ ...r, [field]: value })));
+  };
+
   const handleRecordChange = (id: number, field: keyof ExpeditionRecord, value: string) => {
     setExpeditionData(prev => prev.map(r => r.id === id ? { ...r, [field]: value } : r));
   };
 
   const addRecord = () => {
     const newId = expeditionData.length > 0 ? Math.max(...expeditionData.map(r => r.id)) + 1 : 1;
-    setExpeditionData([...expeditionData, { id: newId, companyName: '', pricePerKg: '', weight: '' }]);
+    setExpeditionData([...expeditionData, { 
+        id: newId, 
+        companyName: '', pricePerKg: '', weight: '',
+        // Pre-fill identity
+        hotelName, address, sector, surveyor, date: surveyDate, time: surveyTime
+    }]);
   };
 
   const removeRecord = (id: number) => setExpeditionData(expeditionData.filter(r => r.id !== id));
@@ -35,12 +46,18 @@ export const ExpeditionForm: React.FC<ExpeditionFormProps> = ({ onBack }) => {
       return `${year}-${month}-${day}`;
   };
   const handleDateChange = (val: string) => {
-      if (!val) { setSurveyDate(''); return; }
+      if (!val) { setSurveyDate(''); updateIdentity('date', ''); return; }
       const [year, month, day] = val.split('-');
-      setSurveyDate(`${day}/${month}/${year}`);
+      const formatted = `${day}/${month}/${year}`;
+      setSurveyDate(formatted);
+      updateIdentity('date', formatted);
   };
   const getTimeValue = (timeStr: string) => (timeStr ? timeStr.replace('.', ':') : '');
-  const handleTimeChange = (val: string) => setSurveyTime(val.replace(':', '.'));
+  const handleTimeChange = (val: string) => {
+      const formatted = val.replace(':', '.');
+      setSurveyTime(formatted);
+      updateIdentity('time', formatted);
+  };
 
   const averageIncome = expeditionData.reduce((acc, curr) => acc + (Number(curr.pricePerKg || 0) * Number(curr.weight || 0)), 0) / (expeditionData.length || 1);
 
@@ -69,10 +86,10 @@ export const ExpeditionForm: React.FC<ExpeditionFormProps> = ({ onBack }) => {
                 <h3 className="text-sm font-bold text-gray-800 uppercase tracking-widest">A. Identitas Lokasi & Petugas</h3>
               </div>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                  <PremiumInput label="1. Nama Hotel" icon={Building} value={hotelName} onChange={setHotelName} placeholder="Hotel..." />
-                  <PremiumInput label="2. Alamat" icon={MapPin} value={address} onChange={setAddress} placeholder="Alamat..." />
-                  <PremiumInput label="3. Sektor" icon={Layers} value={sector} onChange={setSector} placeholder="Sektor..." />
-                  <PremiumInput label="4. Petugas Survei" icon={User} value={surveyor} onChange={setSurveyor} placeholder="Nama Petugas..." />
+                  <PremiumInput label="1. Nama Hotel" icon={Building} value={hotelName} onChange={(v: string) => { setHotelName(v); updateIdentity('hotelName', v); }} placeholder="Hotel..." />
+                  <PremiumInput label="2. Alamat" icon={MapPin} value={address} onChange={(v: string) => { setAddress(v); updateIdentity('address', v); }} placeholder="Alamat..." />
+                  <PremiumInput label="3. Sektor" icon={Layers} value={sector} onChange={(v: string) => { setSector(v); updateIdentity('sector', v); }} placeholder="Sektor..." />
+                  <PremiumInput label="4. Surveyor" icon={User} value={surveyor} onChange={(v: string) => { setSurveyor(v); updateIdentity('surveyor', v); }} placeholder="Nama Surveyor..." />
                   <PremiumInput label="5. Tanggal Survei" icon={Calendar} type="date" value={getDateValue(surveyDate)} onChange={handleDateChange} />
                   <PremiumInput label="6. Waktu Survei" icon={Clock} type="time" value={getTimeValue(surveyTime)} onChange={handleTimeChange} />
               </div>

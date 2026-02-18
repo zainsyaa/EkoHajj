@@ -1,3 +1,4 @@
+
 import React, { useState, useMemo, useEffect } from 'react';
 import { Toggle } from '../../components/InputFields';
 import { BumbuRecord } from '../../types';
@@ -19,13 +20,13 @@ export const SpiceForm: React.FC<SpiceFormProps> = ({ onBack }) => {
   const records = activeTab === 'Makkah' ? bumbuMakkah : bumbuMadinah;
   const setRecords = activeTab === 'Makkah' ? setBumbuMakkah : setBumbuMadinah;
 
-  // Identity State - No longer pre-filled
+  // Identity State
   const [kitchenName, setKitchenName] = useState('');
   const [address, setAddress] = useState('');
   const [pic, setPic] = useState('');
   const [monitorDate, setMonitorDate] = useState('');
   const [monitorTime, setMonitorTime] = useState('');
-  const [officer, setOfficer] = useState('');
+  const [surveyor, setSurveyor] = useState('');
 
   // Helper to update identity fields in bulk for all records
   const updateIdentity = (field: keyof BumbuRecord, value: string) => {
@@ -43,13 +44,12 @@ export const SpiceForm: React.FC<SpiceFormProps> = ({ onBack }) => {
   }, [records, searchTerm]);
 
   // CONVERSION HELPERS
-  // Convert dd/mm/yyyy -> yyyy-mm-dd for input value
   const getDateValue = (dateStr: string) => {
       if (!dateStr) return '';
       const [day, month, year] = dateStr.split('/');
       return `${year}-${month}-${day}`;
   };
-  // Convert yyyy-mm-dd -> dd/mm/yyyy for storage
+
   const handleDateChange = (val: string) => {
       if (!val) {
           setMonitorDate('');
@@ -62,19 +62,17 @@ export const SpiceForm: React.FC<SpiceFormProps> = ({ onBack }) => {
       updateIdentity('date', formatted);
   };
 
-  // Convert HH.mm -> HH:mm for input value
   const getTimeValue = (timeStr: string) => {
       if (!timeStr) return '';
       return timeStr.replace('.', ':');
   };
-  // Convert HH:mm -> HH.mm for storage
+
   const handleTimeChange = (val: string) => {
       const formatted = val.replace(':', '.');
       setMonitorTime(formatted);
       updateIdentity('time', formatted);
   };
 
-  // Helper for title case
   const toTitleCase = (str: string) => str.replace(/\b\w/g, c => c.toUpperCase());
 
   return (
@@ -156,21 +154,19 @@ export const SpiceForm: React.FC<SpiceFormProps> = ({ onBack }) => {
                       onChange={(val: string) => { setPic(val); updateIdentity('pic', val); }} 
                       placeholder="Isi nama PIC..." />
                   
-                  {/* Date Input with Conversion */}
                   <PremiumInput label="4. Tanggal Monitoring" icon={Calendar} type="date" 
                       value={getDateValue(monitorDate)} 
                       onChange={handleDateChange}
                   />
 
-                  {/* Time Input with Conversion */}
                   <PremiumInput label="5. Waktu Monitoring" icon={Clock} type="time" 
                       value={getTimeValue(monitorTime)} 
                       onChange={handleTimeChange} 
                   />
                   
-                  <PremiumInput label="6. Petugas Survei" icon={User} value={officer} 
-                      onChange={(val: string) => { setOfficer(val); updateIdentity('surveyor', val); }} 
-                      placeholder="Isi nama petugas..." />
+                  <PremiumInput label="6. Surveyor" icon={User} value={surveyor} 
+                      onChange={(val: string) => { setSurveyor(val); updateIdentity('surveyor', val); }} 
+                      placeholder="Isi nama surveyor..." />
                 </div>
              </div>
              
@@ -212,10 +208,8 @@ export const SpiceForm: React.FC<SpiceFormProps> = ({ onBack }) => {
                         ? 'bg-white shadow-[0_10px_30px_rgba(6,78,59,0.08)] border-[#064E3B]/10 ring-1 ring-[#064E3B]/5' 
                         : 'bg-white/30 hover:bg-white/60 border-white hover:border-gray-200 hover:shadow-lg opacity-75 hover:opacity-100'}`}
                 >
-                   {/* Left Status Strip */}
                    <div className={`absolute left-0 top-0 bottom-0 w-1.5 transition-colors duration-300 ${record.isUsed ? 'bg-[#064E3B]' : 'bg-gray-200 group-hover:bg-gray-300'}`}></div>
 
-                   {/* Header Row */}
                    <div className="pl-6 pr-5 py-5 flex justify-between items-center border-b border-gray-100/50 bg-gradient-to-r from-gray-50/50 to-transparent">
                        <div className="flex items-center gap-4">
                            <div className={`w-9 h-9 rounded-xl flex items-center justify-center text-xs font-bold transition-all duration-300 ${record.isUsed ? 'bg-[#064E3B] text-white shadow-md' : 'bg-gray-200 text-gray-500'}`}>
@@ -229,10 +223,8 @@ export const SpiceForm: React.FC<SpiceFormProps> = ({ onBack }) => {
                        </div>
                    </div>
 
-                   {/* Data Body */}
                    <div className={`pl-6 pr-5 py-6 space-y-6 transition-all duration-500 ${record.isUsed ? 'block opacity-100' : 'hidden opacity-0'}`}>
                        
-                       {/* Row 0: Nama Perusahaan (NEW) */}
                        <div className="space-y-1.5 pb-4 border-b border-dashed border-gray-200">
                            <label className="text-[10px] font-bold text-gray-400 uppercase tracking-wider flex items-center gap-1.5"><Building2 size={12} className="text-[#064E3B]"/> Perusahaan Penyedia</label>
                            <div className="relative group/input">
@@ -241,7 +233,6 @@ export const SpiceForm: React.FC<SpiceFormProps> = ({ onBack }) => {
                            </div>
                        </div>
 
-                       {/* Row 1: Volume/Ton & Harga */}
                        <div className="grid grid-cols-2 gap-5">
                            <div className="space-y-1.5">
                                <label className="text-[10px] font-bold text-gray-400 uppercase tracking-wider flex items-center gap-1.5"><Package size={12} className="text-[#D4AF37]"/> Volume/Ton</label>
@@ -260,14 +251,12 @@ export const SpiceForm: React.FC<SpiceFormProps> = ({ onBack }) => {
                            </div>
                        </div>
                        
-                       {/* Row 2: Bahan Lain */}
                        <div className="space-y-1.5">
                             <label className="text-[10px] font-bold text-gray-400 uppercase tracking-wider flex items-center gap-1.5"><ClipboardList size={12} className="text-gray-400"/> Bahan Lain</label>
                             <input type="text" value={record.otherIngredients} onChange={(e) => handleRecordChange(record.id, 'otherIngredients', toTitleCase(e.target.value))} 
                                    className="w-full px-4 py-3 bg-white border border-gray-200 rounded-xl text-sm text-gray-600 focus:border-[#D4AF37] focus:ring-4 focus:ring-[#D4AF37]/10 outline-none transition-all placeholder:text-gray-300" placeholder="Bahan tambahan..." />
                        </div>
 
-                       {/* Row 3: Produk Asal & Harga */}
                        <div className="pt-4 border-t border-dashed border-gray-200 grid grid-cols-2 gap-5">
                            <div className="space-y-1.5">
                                 <label className="text-[10px] font-bold text-gray-400 uppercase tracking-wider flex items-center gap-1.5"><Globe size={12}/> Produk Asal</label>
@@ -285,7 +274,6 @@ export const SpiceForm: React.FC<SpiceFormProps> = ({ onBack }) => {
               ))}
           </div>
 
-          {/* Section C */}
           <div className="relative group overflow-hidden rounded-3xl border border-white/60 shadow-xl bg-white/60 backdrop-blur-xl mb-8">
                <div className="absolute top-0 left-0 w-1.5 h-full bg-[#D4AF37]"></div>
                <div className="p-8">

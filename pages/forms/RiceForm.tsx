@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Toggle } from '../../components/InputFields';
 import { RiceRecord } from '../../types';
@@ -15,7 +16,12 @@ export const RiceForm: React.FC<RiceFormProps> = ({ onBack }) => {
   const [pic, setPic] = useState('');
   const [monitorDate, setMonitorDate] = useState('');
   const [monitorTime, setMonitorTime] = useState('');
-  const [officer, setOfficer] = useState('');
+  const [surveyor, setSurveyor] = useState('');
+
+  // Sync identity
+  const updateIdentity = (field: keyof RiceRecord, value: string) => {
+    setRiceData(prev => prev.map(r => ({ ...r, [field]: value })));
+  };
 
   const handleRecordChange = (id: number, field: keyof RiceRecord, value: any) => {
     setRiceData(prev => prev.map(r => r.id === id ? { ...r, [field]: value } : r));
@@ -23,7 +29,12 @@ export const RiceForm: React.FC<RiceFormProps> = ({ onBack }) => {
 
   const addRecord = () => {
     const newId = riceData.length > 0 ? Math.max(...riceData.map(r => r.id)) + 1 : 1;
-    setRiceData([...riceData, { id: newId, companyName: '', riceType: '', isUsed: false, volume: '', price: '', otherRice: '', originProduct: '', productPrice: '' }]);
+    setRiceData([...riceData, { 
+        id: newId, 
+        companyName: '', riceType: '', isUsed: false, volume: '', price: '', otherRice: '', originProduct: '', productPrice: '',
+        // Pre-fill identity
+        kitchenName, address, pic, surveyor, date: monitorDate, time: monitorTime
+    }]);
   };
 
   const removeRecord = (id: number) => setRiceData(riceData.filter(r => r.id !== id));
@@ -34,12 +45,18 @@ export const RiceForm: React.FC<RiceFormProps> = ({ onBack }) => {
     return `${year}-${month}-${day}`;
   };
   const handleDateChange = (val: string) => {
-    if (!val) { setMonitorDate(''); return; }
+    if (!val) { setMonitorDate(''); updateIdentity('date', ''); return; }
     const [year, month, day] = val.split('-');
-    setMonitorDate(`${day}/${month}/${year}`);
+    const formatted = `${day}/${month}/${year}`;
+    setMonitorDate(formatted);
+    updateIdentity('date', formatted);
   };
   const getTimeValue = (timeStr: string) => (timeStr ? timeStr.replace('.', ':') : '');
-  const handleTimeChange = (val: string) => setMonitorTime(val.replace(':', '.'));
+  const handleTimeChange = (val: string) => {
+      const formatted = val.replace(':', '.');
+      setMonitorTime(formatted);
+      updateIdentity('time', formatted);
+  };
 
   return (
     <div className="flex flex-col relative font-sans bg-white/60 backdrop-blur-xl rounded-[2.5rem] border border-white/60 shadow-2xl overflow-hidden animate-fade-in-up">
@@ -66,12 +83,12 @@ export const RiceForm: React.FC<RiceFormProps> = ({ onBack }) => {
             <h3 className="text-sm font-bold text-gray-800 uppercase tracking-widest">A. Identitas Lokasi & Petugas</h3>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            <PremiumInput label="1. Nama Dapur" icon={MapPin} value={kitchenName} onChange={setKitchenName} placeholder="Nama Dapur..." />
-            <PremiumInput label="2. Alamat" icon={MapPin} value={address} onChange={setAddress} placeholder="Lokasi..." />
-            <PremiumInput label="3. Penanggung Jawab Dapur" icon={User} value={pic} onChange={setPic} placeholder="PIC..." />
+            <PremiumInput label="1. Nama Dapur" icon={MapPin} value={kitchenName} onChange={(v: string) => { setKitchenName(v); updateIdentity('kitchenName', v); }} placeholder="Nama Dapur..." />
+            <PremiumInput label="2. Alamat" icon={MapPin} value={address} onChange={(v: string) => { setAddress(v); updateIdentity('address', v); }} placeholder="Lokasi..." />
+            <PremiumInput label="3. Penanggung Jawab Dapur" icon={User} value={pic} onChange={(v: string) => { setPic(v); updateIdentity('pic', v); }} placeholder="PIC..." />
             <PremiumInput label="4. Tanggal Monitoring" icon={Calendar} type="date" value={getDateValue(monitorDate)} onChange={handleDateChange} />
             <PremiumInput label="5. Waktu Monitoring" icon={Clock} type="time" value={getTimeValue(monitorTime)} onChange={handleTimeChange} />
-            <PremiumInput label="6. Petugas" icon={User} value={officer} onChange={setOfficer} placeholder="Nama Petugas..." />
+            <PremiumInput label="6. Surveyor" icon={User} value={surveyor} onChange={(v: string) => { setSurveyor(v); updateIdentity('surveyor', v); }} placeholder="Nama Surveyor..." />
           </div>
         </div>
       </div>
