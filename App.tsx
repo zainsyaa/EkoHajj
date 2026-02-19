@@ -37,7 +37,7 @@ const PlaceholderPage: React.FC<{ title: string; onNavigate: (page: Page) => voi
             
             <div className="flex items-center gap-3 mb-6 justify-center opacity-80">
                 <span className="h-0.5 w-10 bg-gradient-to-r from-transparent to-[#D4AF37] rounded-full"></span>
-                <span className="text-[10px] font-bold text-[#D4AF37] tracking-[0.2em] uppercase">Dalam Pengembangan</span>
+                <span className="text-xs font-bold text-[#D4AF37] tracking-[0.2em] uppercase">Dalam Pengembangan</span>
                 <span className="h-0.5 w-10 bg-gradient-to-l from-transparent to-[#D4AF37] rounded-full"></span>
             </div>
 

@@ -4,6 +4,7 @@ import { Page } from '../types';
 import { ChefHat, UtensilsCrossed, Store, Truck, Signal, ArrowRight, Activity, CheckCircle2, Clock, History, Search, X, ChevronRight, Calendar, ShoppingCart } from 'lucide-react';
 import { useData } from '../contexts/DataContext';
 import { HeroSection } from '../components/HeroSection';
+import { StatusBadge } from '../components/StatusBadge';
 
 interface DataEntryPortalProps {
     onNavigate: (page: Page) => void;
@@ -85,32 +86,23 @@ export const DataEntryPortal: React.FC<DataEntryPortalProps> = ({ onNavigate }) 
                 {/* Search Bar - Height matched to Badge */}
                 <div className="relative group/search w-full md:w-64">
                     <div className="relative bg-white/10 backdrop-blur-md border border-white/20 rounded-xl flex items-center shadow-lg transition-all focus-within:bg-white/20 focus-within:border-white/40 focus-within:shadow-xl px-2 min-h-[38px]">
-                        <div className="pl-2 text-emerald-200 group-focus-within/search:text-[#D4AF37] transition-colors"><Search size={16} /></div>
+                        <div className="pl-2 text-emerald-200 group-focus-within/search:text-[#D4AF37] transition-colors"><Search size={18} /></div>
                         <input 
                             type="text" 
                             value={searchTerm} 
                             onChange={e => setSearchTerm(e.target.value)} 
                             placeholder="Cari data (mis: Bumbu Rendang)..." 
-                            className="w-full bg-transparent border-none py-2 px-3 text-white placeholder-emerald-200/50 text-xs font-bold focus:ring-0 tracking-wide" 
+                            className="w-full bg-transparent border-none py-2 px-3 text-white placeholder-emerald-200/50 text-sm font-bold focus:ring-0 tracking-wide" 
                         />
                     </div>
                 </div>
 
                 {/* Status Badge - EXACT MATCH WITH DASHBOARD */}
-                <div className="flex items-center gap-3 bg-white/10 backdrop-blur-md px-4 py-2 rounded-xl border border-white/10 h-full min-h-[38px]">
-                    <div className="text-right">
-                        <p className="text-[8px] text-emerald-100 uppercase tracking-wide">Status Data</p>
-                        <p className="text-[10px] font-bold text-white leading-none">Live Monitoring</p>
-                    </div>
-                    <div className="relative w-2 h-2">
-                        <span className="absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75 animate-ping"></span>
-                        <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
-                    </div>
-                </div>
+                <StatusBadge />
             </HeroSection>
 
             {searchTerm ? (
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                     {searchResults.length > 0 ? searchResults.map((r, idx) => (
                         <button key={idx} onClick={() => onNavigate(r.page)} className="flex items-center gap-4 p-4 bg-white/60 backdrop-blur-xl border border-white/60 rounded-3xl shadow-sm hover:shadow-xl transition-all text-left group overflow-hidden relative">
                              {/* Watermark for Search Results */}
@@ -121,9 +113,9 @@ export const DataEntryPortal: React.FC<DataEntryPortalProps> = ({ onNavigate }) 
                                 <r.icon size={20} />
                             </div>
                             <div className="flex-1 relative z-10 min-w-0">
-                                <p className="text-[9px] font-bold uppercase truncate" style={{ color: r.color }}>{r.type}</p>
-                                <h4 className="text-sm font-bold text-gray-800 truncate">{r.title}</h4>
-                                <p className="text-[10px] text-gray-500 truncate">{r.subtitle}</p>
+                                <p className="text-[10px] font-bold uppercase truncate" style={{ color: r.color }}>{r.type}</p>
+                                <h4 className="text-base font-bold text-gray-800 truncate">{r.title}</h4>
+                                <p className="text-xs text-gray-500 truncate">{r.subtitle}</p>
                             </div>
                             <ArrowRight size={14} className="text-gray-400 group-hover:translate-x-1 transition-transform relative z-10 flex-shrink-0" />
                         </button>
@@ -135,9 +127,9 @@ export const DataEntryPortal: React.FC<DataEntryPortalProps> = ({ onNavigate }) 
                     )}
                 </div>
             ) : (
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
                     {portalItems.map(item => (
-                        <button key={item.id} onClick={() => onNavigate(item.targetPage)} className="group relative flex flex-col justify-between text-left h-[160px] bg-white/60 backdrop-blur-sm border border-white/60 rounded-3xl shadow-sm hover:shadow-lg transition-all p-6 overflow-hidden">
+                        <button key={item.id} onClick={() => onNavigate(item.targetPage)} className="group relative flex flex-col justify-between text-left min-h-[160px] h-auto bg-white/60 backdrop-blur-sm border border-white/60 rounded-3xl shadow-sm hover:shadow-lg transition-all p-5 overflow-hidden">
                             
                              {/* Visual Background (Watermark) - MATCHING DASHBOARD STAT CARD */}
                              <div className="absolute top-0 right-0 p-3 opacity-10 group-hover:opacity-20 transition-opacity pointer-events-none" style={{ color: item.color }}>
@@ -147,24 +139,24 @@ export const DataEntryPortal: React.FC<DataEntryPortalProps> = ({ onNavigate }) 
                              {/* Top Row: Icon & Badge */}
                             <div className="flex justify-between items-start relative z-10">
                                 {/* ICON CARD STYLE MATCHING DASHBOARD */}
-                                <div className="p-3 rounded-2xl text-white shadow-md flex items-center justify-center group-hover:scale-105 transition-transform duration-300" style={{ backgroundColor: item.color }}>
-                                    <item.icon size={24} strokeWidth={2} />
+                                <div className="p-2.5 rounded-2xl text-white shadow-md flex items-center justify-center group-hover:scale-105 transition-transform duration-300" style={{ backgroundColor: item.color }}>
+                                    <item.icon size={22} strokeWidth={2} />
                                 </div>
-                                <div className={`px-2 py-0.5 rounded-full text-[8px] font-bold uppercase tracking-wider flex items-center gap-1 border backdrop-blur-sm ${item.status === 'draft' ? 'bg-amber-50/80 text-amber-700 border-amber-100' : 'bg-gray-50/80 text-gray-400 border-gray-100'}`}>
-                                    {item.status === 'draft' ? <History size={8} /> : <Activity size={8} />}
+                                <div className={`px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider flex items-center gap-1 border backdrop-blur-sm ${item.status === 'draft' ? 'bg-amber-50/80 text-amber-700 border-amber-100' : 'bg-gray-50/80 text-gray-400 border-gray-100'}`}>
+                                    {item.status === 'draft' ? <History size={10} /> : <Activity size={10} />}
                                     <span>{item.status === 'draft' ? 'Draft' : 'Belum'}</span>
                                 </div>
                             </div>
 
                             {/* Middle: Content (Pushed to bottom by justify-between) */}
                             <div className="relative z-10 mt-2">
-                                <span className="text-[9px] font-bold uppercase tracking-widest block mb-1" style={{ color: item.color }}>{item.subtitle}</span>
-                                <h3 className="text-sm font-bold text-gray-800 group-hover:text-[#064E3B] transition-colors font-playfair leading-tight mb-1">{item.title}</h3>
-                                <p className="text-[10px] text-gray-500 font-medium leading-relaxed line-clamp-2 w-[90%]">{item.description}</p>
+                                <span className="text-[10px] font-bold uppercase tracking-widest block mb-0.5" style={{ color: item.color }}>{item.subtitle}</span>
+                                <h3 className="text-base font-bold text-gray-800 group-hover:text-[#064E3B] transition-colors font-display leading-tight mb-1 truncate">{item.title}</h3>
+                                <p className="text-[11px] text-gray-500 font-medium leading-relaxed line-clamp-2 w-[95%]">{item.description}</p>
                             </div>
 
                             {/* Hover Arrow */}
-                            <div className="absolute bottom-5 right-5 w-6 h-6 bg-white rounded-full shadow-md flex items-center justify-center text-[#064E3B] opacity-0 group-hover:opacity-100 group-hover:translate-x-0 translate-x-2 transition-all duration-300 z-20">
+                            <div className="absolute bottom-4 right-4 w-6 h-6 bg-white rounded-full shadow-md flex items-center justify-center text-[#064E3B] opacity-0 group-hover:opacity-100 group-hover:translate-x-0 translate-x-2 transition-all duration-300 z-20">
                                 <ChevronRight size={12} />
                             </div>
                         </button>

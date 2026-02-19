@@ -5,33 +5,34 @@ import { ResponsiveContainer, AreaChart, Area, XAxis, YAxis, Tooltip, CartesianG
 import { TrendingUp, Activity, Package, Truck, Signal, Calendar, MapPin, ChefHat, UtensilsCrossed, Store, ArrowRight, Wallet, BarChart3, PieChart as PieIcon, History, Filter, ChevronDown, Clock, Check, ShoppingCart, Smartphone } from 'lucide-react';
 import { useData } from '../contexts/DataContext';
 import { ChartSkeleton, ListSkeleton, PieSkeleton, StatCardSkeleton } from '../components/Skeletons';
+import { StatusBadge } from '../components/StatusBadge';
 import { HeroSection } from '../components/HeroSection';
 
 const StatCard = ({ title, value, icon: Icon, color, trend, footer }: any) => (
-  <div className="relative overflow-hidden rounded-3xl p-6 border border-white/60 bg-white/60 backdrop-blur-sm shadow-sm hover:shadow-lg transition-all group h-[160px] flex flex-col justify-between">
+  <div className="relative overflow-hidden rounded-3xl p-5 border border-white/60 bg-white/60 backdrop-blur-sm shadow-sm hover:shadow-lg transition-all group min-h-[160px] h-auto flex flex-col justify-between">
     <div className={`absolute top-0 right-0 p-3 opacity-10 group-hover:opacity-20 transition-opacity pointer-events-none`} style={{ color: color }}>
         <Icon size={80} />
     </div>
     
     {/* Header Section */}
     <div className="flex justify-between items-start relative z-10">
-        <div className={`p-3 rounded-2xl text-white shadow-md flex items-center justify-center group-hover:scale-105 transition-transform duration-300`} style={{ backgroundColor: color }}>
-            <Icon size={24} strokeWidth={2} />
+        <div className={`p-2.5 rounded-2xl text-white shadow-md flex items-center justify-center group-hover:scale-105 transition-transform duration-300`} style={{ backgroundColor: color }}>
+            <Icon size={22} strokeWidth={2} />
         </div>
         {trend && (
-            <span className="flex items-center text-[10px] font-bold text-emerald-600 bg-emerald-50 px-2 py-1 rounded-full border border-emerald-100">
+            <span className="flex items-center text-[10px] font-bold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-full border border-emerald-100">
                 <TrendingUp size={10} className="mr-1" /> {trend}
             </span>
         )}
     </div>
 
     {/* Content Section */}
-    <div className="relative z-10">
-        <h3 className="text-2xl font-bold text-gray-800 font-playfair leading-none mb-1">{value}</h3>
-        <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">{title}</p>
+    <div className="relative z-10 mt-2">
+        <h3 className="text-xl font-bold text-gray-800 font-display leading-tight mb-1 truncate">{value}</h3>
+        <p className="text-[10px] font-bold text-gray-500 uppercase tracking-widest truncate">{title}</p>
         
         {footer && (
-             <div className="mt-2 pt-2 border-t border-gray-200/50 flex items-center gap-2 text-[9px] text-gray-400 font-medium truncate opacity-80">
+             <div className="mt-2 pt-2 border-t border-gray-200/50 flex items-center gap-2 text-[10px] text-gray-500 font-medium truncate opacity-80">
                 {footer}
              </div>
         )}
@@ -42,8 +43,8 @@ const StatCard = ({ title, value, icon: Icon, color, trend, footer }: any) => (
 const CustomTooltip = ({ active, payload, label, unit = '' }: any) => {
   if (active && payload && payload.length) {
     return (
-      <div className="bg-white/95 backdrop-blur-xl border border-white/60 p-4 rounded-2xl shadow-[0_10px_40px_-10px_rgba(0,0,0,0.1)] text-xs z-50 min-w-[150px]">
-        {label && <p className="font-bold text-[#064E3B] mb-3 font-playfair border-b border-gray-100 pb-2">{label}</p>}
+      <div className="bg-white/95 backdrop-blur-xl border border-white/60 p-4 rounded-2xl shadow-[0_10px_40px_-10px_rgba(0,0,0,0.1)] text-sm z-50 min-w-[150px]">
+        {label && <p className="font-bold text-[#064E3B] mb-3 font-display border-b border-gray-100 pb-2">{label}</p>}
         {payload.map((entry: any, index: number) => (
             <div key={index} className="flex items-center justify-between gap-4 mb-2 last:mb-0">
                 <div className="flex items-center gap-2">
@@ -51,7 +52,7 @@ const CustomTooltip = ({ active, payload, label, unit = '' }: any) => {
                     <span className="font-medium text-gray-600 capitalize">{entry.name}</span>
                 </div>
                 <span className="font-bold text-gray-800 tabular-nums">
-                    {entry.value.toLocaleString()} <span className="text-[10px] text-gray-400 font-medium ml-0.5">{unit}</span>
+                    {entry.value.toLocaleString()} <span className="text-xs text-gray-400 font-medium ml-0.5">{unit}</span>
                 </span>
             </div>
         ))}
@@ -233,24 +234,24 @@ export const Dashboard: React.FC = () => {
         subtitle="Executive Summary realisasi layanan konsumsi, potensi ekonomi, dan logistik haji (Sinkronisasi Data Real-time)."
         currentDate={currentDate}
       >
-            <div className="relative">
+            <div className="relative w-full md:w-auto">
                 <button 
                     onClick={() => setIsFilterOpen(!isFilterOpen)}
-                    className="flex items-center gap-2 bg-white/10 backdrop-blur-md px-4 py-2 rounded-xl border border-white/20 text-white font-bold text-[10px] hover:bg-white/20 transition-all min-w-[140px] justify-between shadow-lg shadow-black/5"
+                    className="flex items-center gap-2 bg-white/10 backdrop-blur-md px-4 py-2 rounded-xl border border-white/20 text-white font-bold text-[10px] hover:bg-white/20 transition-all w-full md:w-auto min-w-[140px] justify-between shadow-lg shadow-black/5"
                 >
                     <div className="flex items-center gap-2">
                         <div className="p-1 bg-[#D4AF37]/20 rounded-md">
                             <Filter size={12} className="text-[#D4AF37]" />
                         </div>
                         <div className="flex flex-col items-start">
-                            <span className="text-[8px] text-emerald-100/70 font-normal uppercase tracking-wider leading-none mb-0.5">Filter Waktu</span>
-                            <span className="leading-none">{filterLabel[timeFilter]}</span>
+                            <span className="text-[10px] text-emerald-100/70 font-normal uppercase tracking-wider leading-none mb-0.5">Filter Waktu</span>
+                            <span className="leading-none text-xs">{filterLabel[timeFilter]}</span>
                         </div>
                     </div>
                     <ChevronDown size={14} className={`text-emerald-200 transition-transform duration-300 ${isFilterOpen ? 'rotate-180' : ''}`} />
                 </button>
                 {isFilterOpen && (
-                    <div className="absolute top-full left-0 mt-2 w-48 bg-white/95 backdrop-blur-xl border border-white/40 rounded-xl shadow-2xl z-50 overflow-hidden animate-fade-in-up origin-top-left">
+                    <div className="absolute top-full left-0 mt-2 w-full md:w-48 bg-white/95 backdrop-blur-xl border border-white/40 rounded-xl shadow-2xl z-50 overflow-hidden animate-fade-in-up origin-top-left">
                         <div className="p-1">
                             {(['all', 'today', 'week', 'month'] as const).map((key) => (
                                 <button
@@ -259,7 +260,7 @@ export const Dashboard: React.FC = () => {
                                         setTimeFilter(key);
                                         setIsFilterOpen(false);
                                     }}
-                                    className={`w-full text-left px-3 py-2.5 rounded-lg text-[10px] font-bold transition-all flex items-center justify-between group
+                                    className={`w-full text-left px-3 py-2.5 rounded-lg text-xs font-bold transition-all flex items-center justify-between group
                                         ${timeFilter === key 
                                             ? 'bg-[#064E3B]/5 text-[#064E3B]' 
                                             : 'text-gray-500 hover:bg-gray-50 hover:text-[#064E3B]'}`}
@@ -275,20 +276,11 @@ export const Dashboard: React.FC = () => {
                     </div>
                 )}
             </div>
-            <div className="flex items-center gap-3 bg-white/10 backdrop-blur-md px-4 py-2 rounded-xl border border-white/10 h-full min-h-[38px]">
-                <div className="text-right">
-                    <p className="text-[8px] text-emerald-100 uppercase tracking-wide">Status Data</p>
-                    <p className="text-[10px] font-bold text-white leading-none">Live Monitoring</p>
-                </div>
-                <div className="relative w-2 h-2">
-                    <span className="absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75 animate-ping"></span>
-                    <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
-                </div>
-            </div>
+            <StatusBadge />
       </HeroSection>
 
-      {/* 2. KPI CARDS - 3 Columns for 6 items */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      {/* 2. KPI CARDS - Responsive Grid */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
         {isLoading ? (
             <>
                 <StatCardSkeleton />
@@ -353,15 +345,15 @@ export const Dashboard: React.FC = () => {
       </div>
 
       {/* 3. CHARTS ROW 1 */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-          <div className="lg:col-span-2">
+      <div className="grid grid-cols-1 xl:grid-cols-3 gap-4 md:gap-6">
+          <div className="xl:col-span-2">
             <GlassCard 
                 title="Tren Konsumsi Bumbu" 
                 subtitle={`Analisis Wilayah Makkah & Madinah (${filterLabel[timeFilter]})`}
                 className="!bg-white/70 h-full min-h-[400px]"
                 action={<div className="p-2 bg-emerald-50 rounded-lg text-emerald-700"><TrendingUp size={18}/></div>}
             >
-                <div className="h-[300px] w-full mt-4">
+                <div className="h-[250px] md:h-[300px] w-full mt-4">
                     {isLoading ? <ChartSkeleton /> : (
                         <ResponsiveContainer width="100%" height="100%">
                             <AreaChart data={dataBumbuTrend} margin={{ top: 10, right: 30, left: 0, bottom: 0 }}>
@@ -375,8 +367,8 @@ export const Dashboard: React.FC = () => {
                                         <stop offset="95%" stopColor={COLORS.accent} stopOpacity={0}/>
                                     </linearGradient>
                                 </defs>
-                                <XAxis dataKey="label" axisLine={false} tickLine={false} fontSize={11} stroke="#6B7280" fontWeight={500} dy={10} />
-                                <YAxis axisLine={false} tickLine={false} fontSize={11} stroke="#6B7280" />
+                                <XAxis dataKey="label" axisLine={false} tickLine={false} fontSize={12} stroke="#6B7280" fontWeight={500} dy={10} />
+                                <YAxis axisLine={false} tickLine={false} fontSize={12} stroke="#6B7280" />
                                 <CartesianGrid vertical={false} strokeDasharray="3 3" stroke="#E5E7EB" />
                                 <Tooltip content={<CustomTooltip unit="Ton" />} cursor={{ stroke: COLORS.primary, strokeWidth: 1, strokeDasharray: '4 4' }} />
                                 
@@ -417,7 +409,7 @@ export const Dashboard: React.FC = () => {
                 className="!bg-white/70 h-full min-h-[400px]"
                 action={<div className="p-2 bg-amber-50 rounded-lg text-amber-700"><PieIcon size={18}/></div>}
             >
-                <div className="h-[300px] w-full relative">
+                <div className="h-[250px] md:h-[300px] w-full relative">
                     {isLoading ? <PieSkeleton /> : (
                         rteChartData.length > 0 ? (
                             <>
@@ -443,8 +435,8 @@ export const Dashboard: React.FC = () => {
                                     </PieChart>
                                 </ResponsiveContainer>
                                 <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none pb-8">
-                                    <span className="text-2xl font-bold text-[#064E3B] font-playfair">{totalRTE.toLocaleString()}</span>
-                                    <span className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mt-1">Total Porsi</span>
+                                    <span className="text-4xl font-bold text-[#064E3B] font-display">{totalRTE.toLocaleString()}</span>
+                                    <span className="text-xs font-bold text-gray-400 uppercase tracking-widest mt-1">Total Porsi</span>
                                 </div>
                             </>
                         ) : (
@@ -460,7 +452,7 @@ export const Dashboard: React.FC = () => {
       </div>
 
       {/* 4. ACTIVITY & ALERTS */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 xl:grid-cols-2 gap-4 md:gap-6">
           <GlassCard 
             title="Aktivitas Input Data" 
             subtitle="Real-time Activity Log" 
@@ -477,9 +469,9 @@ export const Dashboard: React.FC = () => {
                                    </div>
                                    <div className="flex-1">
                                        <p className="text-sm font-bold text-gray-700">{log.text}</p>
-                                       <div className="flex justify-between items-center mt-0.5">
-                                           <p className="text-[11px] text-gray-500 font-medium bg-gray-100 px-2 py-0.5 rounded-md">{log.detail}</p>
-                                           <p className="text-[10px] text-gray-400 font-medium flex items-center gap-1"><Calendar size={10}/> {log.time}</p>
+                                       <div className="flex justify-between items-center mt-1">
+                                           <p className="text-xs text-gray-500 font-medium bg-gray-100 px-2 py-0.5 rounded-md">{log.detail}</p>
+                                           <p className="text-[11px] text-gray-400 font-medium flex items-center gap-1"><Calendar size={12}/> {log.time}</p>
                                        </div>
                                    </div>
                                </div>
@@ -496,7 +488,7 @@ export const Dashboard: React.FC = () => {
                 className="!bg-white/70 min-h-[300px]"
                 action={<div className="p-2 bg-orange-50 rounded-lg text-orange-700"><BarChart3 size={18}/></div>}
            >
-                <div className="h-[240px] mt-2">
+                <div className="h-[250px] md:h-[240px] mt-2">
                      {isLoading ? <ChartSkeleton /> : (
                          <ResponsiveContainer width="100%" height="100%">
                             <BarChart data={expeditionChartData} layout="vertical" margin={{ top: 5, right: 30, left: 10, bottom: 5 }}>
@@ -508,7 +500,7 @@ export const Dashboard: React.FC = () => {
                                  </defs>
                                  <CartesianGrid strokeDasharray="3 3" horizontal={false} stroke="#e5e7eb" />
                                  <XAxis type="number" hide />
-                                 <YAxis dataKey="kloter" type="category" axisLine={false} tickLine={false} fontSize={11} fontWeight={600} stroke="#4B5563" width={90} />
+                                 <YAxis dataKey="kloter" type="category" axisLine={false} tickLine={false} fontSize={12} fontWeight={600} stroke="#4B5563" width={90} />
                                  <Tooltip cursor={{fill: 'transparent'}} content={<CustomTooltip unit="Kg" />} />
                                  <Bar dataKey="berat" fill="url(#gradBar)" radius={[0, 6, 6, 0]} barSize={20}>
                                     {expeditionChartData.map((entry, index) => (

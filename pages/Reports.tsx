@@ -5,11 +5,12 @@ import { ChefHat, UtensilsCrossed, Truck, Store, Signal, Download, Printer, Filt
 import { useData } from '../contexts/DataContext';
 import { TableRowSkeleton } from '../components/Skeletons';
 import { HeroSection } from '../components/HeroSection';
+import { StatusBadge } from '../components/StatusBadge';
 
 const TableHeader = ({ children }: React.PropsWithChildren<{}>) => (
-  <th className="px-6 py-4 text-left group relative">
+  <th className="px-5 py-3 text-left group relative">
     <div className="flex items-center gap-1.5 w-fit">
-        <span className="text-[10px] font-bold text-gray-500 uppercase tracking-wider whitespace-nowrap group-hover:text-[#064E3B] transition-colors">{children}</span>
+        <span className="text-xs font-bold text-gray-600 uppercase tracking-wider whitespace-nowrap group-hover:text-[#064E3B] transition-colors">{children}</span>
     </div>
   </th>
 );
@@ -236,33 +237,33 @@ export const Reports: React.FC = () => {
                 <tbody key={activeTab} className="divide-y divide-gray-100">
                     {processedData.map((row: any, idx) => (
                         <TableRow key={idx} idx={idx} style={getDelay(idx)}>
-                            <td className="px-6 py-4">
-                                <div className="font-bold text-gray-700">{row.name}</div>
-                                <div className="text-[10px] text-gray-400 font-medium">{row.companyName}</div>
+                            <td className="px-5 py-3">
+                                <div className="font-bold text-gray-800 text-sm">{row.name}</div>
+                                <div className="text-xs text-gray-500 font-medium">{row.companyName}</div>
                             </td>
-                            <td className="px-6 py-4">
+                            <td className="px-5 py-3">
                                 <div className="flex items-center gap-1.5 text-xs font-bold text-[#064E3B]">
-                                    <MapPin size={12} /> {row.loc}
+                                    <MapPin size={14} /> {row.loc}
                                 </div>
-                                <div className="text-[11px] font-bold text-gray-700 mt-1">{row.kitchenName || '-'}</div>
-                                <div className="text-[10px] text-gray-400">{row.address}</div>
-                                <div className="text-[10px] text-gray-500 mt-0.5">PIC: <span className="font-medium">{row.pic || '-'}</span></div>
+                                <div className="text-xs font-bold text-gray-700 mt-1">{row.kitchenName || '-'}</div>
+                                <div className="text-xs text-gray-500">{row.address}</div>
+                                <div className="text-xs text-gray-500 mt-0.5">PIC: <span className="font-medium">{row.pic || '-'}</span></div>
                             </td>
-                            <td className="px-6 py-4">
-                                <div className="text-gray-600 font-bold">{row.volume} Ton</div>
-                                <div className="text-[10px] text-gray-400">Bahan Lain: {row.otherIngredients || '-'}</div>
+                            <td className="px-5 py-3">
+                                <div className="text-gray-700 font-bold text-sm">{row.volume} Ton</div>
+                                <div className="text-xs text-gray-500">Bahan Lain: {row.otherIngredients || '-'}</div>
                             </td>
-                            <td className="px-6 py-4 text-[#D4AF37] font-bold">SAR {row.price}</td>
-                            <td className="px-6 py-4">
+                            <td className="px-5 py-3 text-[#D4AF37] font-bold text-sm">SAR {row.price}</td>
+                            <td className="px-5 py-3">
                                 <div className="flex items-center gap-1.5 text-xs text-gray-600">
-                                    <User size={12} /> {row.surveyor || '-'}
+                                    <User size={14} /> {row.surveyor || '-'}
                                 </div>
                                 <div className="flex items-center gap-2 mt-1">
-                                    <div className="flex items-center gap-1 text-[10px] text-gray-400">
-                                        <Calendar size={10} /> {row.date || '-'}
+                                    <div className="flex items-center gap-1 text-xs text-gray-500">
+                                        <Calendar size={12} /> {row.date || '-'}
                                     </div>
-                                    <div className="flex items-center gap-1 text-[10px] text-gray-400">
-                                        <Clock size={10} /> {row.time || '-'}
+                                    <div className="flex items-center gap-1 text-xs text-gray-500">
+                                        <Clock size={12} /> {row.time || '-'}
                                     </div>
                                 </div>
                             </td>
@@ -275,19 +276,19 @@ export const Reports: React.FC = () => {
                 <tbody key={activeTab} className="divide-y divide-gray-100">
                     {processedData.map((row: any, idx) => (
                         <TableRow key={row.id} idx={idx} style={getDelay(idx)}>
-                            <td className="px-6 py-4">
+                            <td className="px-5 py-3">
                                 <div className="font-bold text-[#064E3B]">{row.companyName}</div>
                             </td>
-                            <td className="px-6 py-4">
+                            <td className="px-5 py-3">
                                 <div className="text-xs font-bold text-gray-700">{row.riceType}</div>
                                 <div className="text-[10px] text-gray-500 mt-0.5">Vol: {row.volume} Ton</div>
                             </td>
-                            <td className="px-6 py-4 text-[#D4AF37] font-bold">SAR {row.price}</td>
-                            <td className="px-6 py-4">
+                            <td className="px-5 py-3 text-[#D4AF37] font-bold">SAR {row.price}</td>
+                            <td className="px-5 py-3">
                                 <div className="text-xs font-medium text-gray-700">{row.originProduct || '-'}</div>
                                 <div className="text-[10px] text-gray-400">Harga Asal: {row.productPrice || '-'}</div>
                             </td>
-                            <td className="px-6 py-4">
+                            <td className="px-5 py-3">
                                 <div className="flex items-center gap-1.5 text-xs text-gray-600">
                                     <User size={12} /> {row.surveyor || '-'}
                                 </div>
@@ -306,22 +307,22 @@ export const Reports: React.FC = () => {
                 <tbody key={activeTab} className="divide-y divide-gray-100">
                     {processedData.map((row: any, idx) => (
                         <TableRow key={row.id} idx={idx} style={getDelay(idx)}>
-                            <td className="px-6 py-4">
+                            <td className="px-5 py-3">
                                 <div className="font-bold text-[#064E3B]">{row.companyName}</div>
                             </td>
-                            <td className="px-6 py-4 text-gray-700 font-medium">{row.menu}</td>
-                            <td className="px-6 py-4">
+                            <td className="px-5 py-3 text-gray-700 font-medium">{row.menu}</td>
+                            <td className="px-5 py-3">
                                 <div className="text-xs font-bold text-gray-700">{row.kitchenName || '-'}</div>
                                 <div className="text-[10px] text-gray-500 flex items-center gap-1 mt-0.5">
                                     <MapPin size={10} /> {row.address || '-'}
                                 </div>
                                 <div className="text-[10px] text-gray-500 mt-0.5">PIC: <span className="font-medium">{row.pic || '-'}</span></div>
                             </td>
-                            <td className="px-6 py-4">
+                            <td className="px-5 py-3">
                                 <div className="font-medium text-gray-700">{row.volume} Porsi</div>
                                 <div className="text-[10px] font-bold text-[#D4AF37]">SAR {row.price}</div>
                             </td>
-                            <td className="px-6 py-4">
+                            <td className="px-5 py-3">
                                 <div className="flex items-center gap-1.5 text-xs text-gray-600">
                                     <User size={12} /> {row.surveyor || '-'}
                                 </div>
@@ -343,22 +344,22 @@ export const Reports: React.FC = () => {
                 <tbody key={activeTab} className="divide-y divide-gray-100">
                     {processedData.map((row: any, idx) => (
                         <TableRow key={row.id} idx={idx} style={getDelay(idx)}>
-                            <td className="px-6 py-4">
+                            <td className="px-5 py-3">
                                 <div className="font-bold text-[#064E3B]">{row.shopName}</div>
                             </td>
-                            <td className="px-6 py-4">
+                            <td className="px-5 py-3">
                                 <div className="flex items-center gap-1.5 text-xs font-bold text-gray-700">
                                     <Building size={12} className="text-gray-400" /> {row.hotelName || '-'}
                                 </div>
                                 <div className="text-[10px] text-gray-500 ml-4">{row.location || '-'}</div>
                                 <div className="text-[10px] text-gray-500 ml-4">PIC: {row.pic || '-'}</div>
                             </td>
-                            <td className="px-6 py-4 text-gray-700">
+                            <td className="px-5 py-3 text-gray-700">
                                 <div className="font-medium text-xs">{row.productType}</div>
                                 <div className="text-[10px] text-gray-400 mt-0.5">Best: {row.bestSeller}</div>
                             </td>
-                            <td className="px-6 py-4 text-[#D4AF37] font-bold">SAR {row.rentCost}</td>
-                            <td className="px-6 py-4">
+                            <td className="px-5 py-3 text-[#D4AF37] font-bold">SAR {row.rentCost}</td>
+                            <td className="px-5 py-3">
                                 <div className="flex items-center gap-1.5 text-xs text-gray-600">
                                     <User size={12} /> {row.surveyor || '-'}
                                 </div>
@@ -380,17 +381,17 @@ export const Reports: React.FC = () => {
                 <tbody key={activeTab} className="divide-y divide-gray-100">
                     {processedData.map((row: any, idx) => (
                         <TableRow key={row.id} idx={idx} style={getDelay(idx)}>
-                            <td className="px-6 py-4 font-bold text-[#064E3B]">{row.companyName}</td>
-                            <td className="px-6 py-4">
+                            <td className="px-5 py-3 font-bold text-[#064E3B]">{row.companyName}</td>
+                            <td className="px-5 py-3">
                                 <div className="flex items-center gap-1.5 text-xs font-bold text-gray-700">
                                     <Building size={12} className="text-gray-400" /> {row.hotelName || '-'}
                                 </div>
                                 <div className="text-[10px] text-gray-500 ml-4">{row.location || '-'}</div>
                                 <div className="text-[10px] text-gray-500 ml-4">PIC: {row.pic || '-'}</div>
                             </td>
-                            <td className="px-6 py-4 text-gray-700 font-medium">{row.weight} Kg</td>
-                            <td className="px-6 py-4 text-[#D4AF37] font-bold">SAR {row.pricePerKg}</td>
-                            <td className="px-6 py-4">
+                            <td className="px-5 py-3 text-gray-700 font-medium">{row.weight} Kg</td>
+                            <td className="px-5 py-3 text-[#D4AF37] font-bold">SAR {row.pricePerKg}</td>
+                            <td className="px-5 py-3">
                                 <div className="flex items-center gap-1.5 text-xs text-gray-600">
                                     <User size={12} /> {row.surveyor || '-'}
                                 </div>
@@ -412,8 +413,8 @@ export const Reports: React.FC = () => {
                 <tbody key={activeTab} className="divide-y divide-gray-100">
                     {processedData.map((row: any, idx) => (
                         <TableRow key={row.id} idx={idx} style={getDelay(idx)}>
-                            <td className="px-6 py-4 font-bold text-[#064E3B]">{row.providerName}</td>
-                            <td className="px-6 py-4">
+                            <td className="px-5 py-3 font-bold text-[#064E3B]">{row.providerName}</td>
+                            <td className="px-5 py-3">
                                 <div className="text-xs font-bold text-gray-700">{row.respondentName || '-'}</div>
                                 <div className="flex items-center gap-2 mt-0.5">
                                     <span className="text-[10px] bg-gray-100 px-1.5 py-0.5 rounded text-gray-600">Kloter: {row.kloter || '-'}</span>
@@ -421,14 +422,14 @@ export const Reports: React.FC = () => {
                                 </div>
                                 <div className="text-[10px] text-gray-400 mt-0.5">{row.province}</div>
                             </td>
-                            <td className="px-6 py-4 text-gray-700 text-xs">{row.roamingPackage || '-'}</td>
-                            <td className="px-6 py-4">
+                            <td className="px-5 py-3 text-gray-700 text-xs">{row.roamingPackage || '-'}</td>
+                            <td className="px-5 py-3">
                                 <span className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider ${row.roamingPackage ? 'bg-emerald-100 text-emerald-700' : 'bg-gray-100 text-gray-500'}`}>
                                     <span className={`w-1.5 h-1.5 rounded-full ${row.roamingPackage ? 'bg-emerald-600' : 'bg-gray-400'}`}></span>
                                     {row.roamingPackage ? 'Terisi' : 'Kosong'}
                                 </span>
                             </td>
-                            <td className="px-6 py-4">
+                            <td className="px-5 py-3">
                                 <div className="flex items-center gap-1.5 text-xs text-gray-600">
                                     <User size={12} /> {row.surveyor || '-'}
                                 </div>
@@ -531,32 +532,23 @@ export const Reports: React.FC = () => {
             currentDate={currentDate}
         >
              <div className="flex items-center gap-3">
-                 <button className="flex items-center gap-2 px-4 py-2 bg-white/10 backdrop-blur-md border border-white/20 rounded-xl text-[10px] font-bold text-white hover:bg-white/20 transition-all shadow-lg group">
+                 <button className="flex items-center gap-2 px-4 py-2 bg-white/10 backdrop-blur-md border border-white/20 rounded-xl text-xs font-bold text-white hover:bg-white/20 transition-all shadow-lg group">
                      <Printer size={14} className="text-emerald-200 group-hover:text-white transition-colors" /> Print Laporan
                  </button>
                  <button 
                      onClick={handleExport}
-                     className="flex items-center gap-2 px-4 py-2 bg-[#D4AF37] text-[#064E3B] rounded-xl text-[10px] font-bold hover:bg-[#b08d24] hover:text-white shadow-lg shadow-[#D4AF37]/20 transition-all transform hover:-translate-y-0.5"
+                     className="flex items-center gap-2 px-4 py-2 bg-[#D4AF37] text-[#064E3B] rounded-xl text-xs font-bold hover:bg-[#b08d24] hover:text-white shadow-lg shadow-[#D4AF37]/20 transition-all transform hover:-translate-y-0.5"
                  >
                      <Download size={14} /> Export CSV
                  </button>
              </div>
 
              {/* Status Badge */}
-             <div className="flex items-center gap-3 bg-white/10 backdrop-blur-md px-4 py-2 rounded-xl border border-white/10 h-full min-h-[38px]">
-                <div className="text-right">
-                    <p className="text-[8px] text-emerald-100 uppercase tracking-wide">Status Data</p>
-                    <p className="text-[10px] font-bold text-white leading-none">Live Monitoring</p>
-                </div>
-                <div className="relative w-2 h-2">
-                    <span className="absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75 animate-ping"></span>
-                    <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
-                </div>
-            </div>
+             <StatusBadge />
         </HeroSection>
 
         {/* Tab Navigation - Premium Pill Style */}
-        <div className="flex gap-3 overflow-x-auto pb-2 custom-scrollbar px-1">
+        <div className="flex gap-2 md:gap-3 overflow-x-auto pb-2 custom-scrollbar px-1 -mx-4 md:mx-0 px-4 md:px-0">
             {[
                 { id: 'bumbu', label: 'Konsumsi Bumbu', icon: ChefHat },
                 { id: 'beras', label: 'Monitoring Beras', icon: ShoppingCart },
@@ -568,12 +560,12 @@ export const Reports: React.FC = () => {
                 <button
                     key={tab.id}
                     onClick={() => { setActiveTab(tab.id as any); setSearchTerm(''); }}
-                    className={`group flex items-center gap-2.5 px-6 py-3.5 rounded-2xl text-xs font-bold uppercase tracking-wider transition-all whitespace-nowrap border
+                    className={`group flex items-center gap-2 md:gap-2.5 px-4 py-2.5 md:px-6 md:py-3.5 rounded-2xl text-xs md:text-sm font-bold uppercase tracking-wider transition-all whitespace-nowrap border
                         ${activeTab === tab.id 
                             ? 'bg-[#064E3B] text-white border-[#064E3B] shadow-lg shadow-[#064E3B]/20' 
                             : 'bg-white/60 text-gray-500 hover:bg-white hover:text-[#064E3B] border-transparent hover:border-gray-200'}`}
                 >
-                    <tab.icon size={16} className={activeTab === tab.id ? 'text-[#D4AF37]' : 'text-gray-400 group-hover:text-[#064E3B]'} />
+                    <tab.icon size={18} className={activeTab === tab.id ? 'text-[#D4AF37]' : 'text-gray-400 group-hover:text-[#064E3B]'} />
                     {tab.label}
                 </button>
             ))}
@@ -597,7 +589,7 @@ export const Reports: React.FC = () => {
                                 placeholder={getSearchPlaceholder()} 
                                 value={searchTerm}
                                 onChange={(e) => setSearchTerm(e.target.value)}
-                                className="w-full pl-10 pr-4 py-2.5 bg-white border border-gray-200 rounded-xl text-xs font-medium focus:outline-none focus:border-[#064E3B] focus:ring-4 focus:ring-[#064E3B]/5 transition-all placeholder-gray-400 text-gray-700"
+                                className="w-full pl-10 pr-4 py-2.5 bg-white border border-gray-200 rounded-xl text-sm font-medium focus:outline-none focus:border-[#064E3B] focus:ring-4 focus:ring-[#064E3B]/5 transition-all placeholder-gray-400 text-gray-700"
                             />
                         </div>
                     </div>
@@ -606,7 +598,7 @@ export const Reports: React.FC = () => {
                     <div className="relative w-full sm:w-auto">
                         <button 
                             onClick={() => setIsFilterOpen(!isFilterOpen)}
-                            className={`flex items-center gap-2 px-4 py-2.5 rounded-xl border transition-all text-[11px] font-bold uppercase tracking-wide w-full sm:w-auto justify-between min-w-[120px]
+                            className={`flex items-center gap-2 px-4 py-2.5 rounded-xl border transition-all text-xs font-bold uppercase tracking-wide w-full sm:w-auto justify-between min-w-[120px]
                             ${isFilterOpen || filterMode !== 'newest' ? 'bg-[#064E3B] text-white border-[#064E3B] shadow-lg' : 'bg-white text-gray-500 border-gray-200 hover:border-[#064E3B]'}`}
                         >
                             <div className="flex items-center gap-2">
@@ -645,25 +637,87 @@ export const Reports: React.FC = () => {
                             <Database size={12} />
                     </div>
                     <div className="flex flex-col">
-                        <span className="text-[8px] font-bold text-gray-400 uppercase tracking-wider leading-none mb-0.5">Total Record</span>
-                        <span className="text-[10px] font-bold text-gray-800 leading-none">{processedData.length} <span className="text-[8px] font-medium text-gray-400">Items</span></span>
+                        <span className="text-[10px] font-bold text-gray-400 uppercase tracking-wider leading-none mb-0.5">Total Record</span>
+                        <span className="text-xs font-bold text-gray-800 leading-none">{processedData.length} <span className="text-[10px] font-medium text-gray-400">Items</span></span>
                     </div>
                 </div>
 
             </div>
 
-            <div className="overflow-x-auto pb-4">
+            <div className="hidden md:block overflow-x-auto pb-4">
                 {renderTable()}
+            </div>
+
+            {/* Mobile Card View */}
+            <div className="md:hidden space-y-4">
+                {isLoading ? (
+                    [...Array(3)].map((_, i) => (
+                        <div key={i} className="bg-white rounded-2xl p-4 shadow-sm border border-gray-100 animate-pulse">
+                            <div className="h-4 bg-gray-200 rounded w-1/2 mb-3"></div>
+                            <div className="space-y-2">
+                                <div className="h-3 bg-gray-100 rounded w-3/4"></div>
+                                <div className="h-3 bg-gray-100 rounded w-2/3"></div>
+                            </div>
+                        </div>
+                    ))
+                ) : processedData.length === 0 ? (
+                    <div className="p-8 text-center text-gray-400 bg-white/50 rounded-2xl border border-gray-100">
+                        <Search size={32} className="mx-auto mb-2 opacity-50" />
+                        <p className="text-sm font-medium">Data tidak ditemukan.</p>
+                    </div>
+                ) : (
+                    processedData.map((row: any, idx) => (
+                        <div key={idx} className="bg-white/80 backdrop-blur-sm rounded-2xl p-5 shadow-sm border border-gray-100 hover:shadow-md transition-all">
+                            <div className="flex justify-between items-start mb-3">
+                                <div>
+                                    <h4 className="font-bold text-[#064E3B] text-sm line-clamp-1">{row.name || row.companyName || row.shopName || row.providerName}</h4>
+                                    <p className="text-xs text-gray-500 font-medium mt-0.5">{row.loc || row.riceType || row.menu || row.productType || row.respondentName}</p>
+                                </div>
+                                <div className="text-right">
+                                    <span className="block text-sm font-bold text-[#D4AF37]">
+                                        {row.price ? `SAR ${row.price}` : row.rentCost ? `SAR ${row.rentCost}` : row.pricePerKg ? `SAR ${row.pricePerKg}` : ''}
+                                    </span>
+                                    <span className="text-[10px] text-gray-400">
+                                        {row.volume ? `${row.volume} ${activeTab === 'rte' ? 'Porsi' : 'Ton'}` : row.weight ? `${row.weight} Kg` : ''}
+                                    </span>
+                                </div>
+                            </div>
+                            
+                            <div className="space-y-2 pt-3 border-t border-gray-100/50">
+                                {(row.kitchenName || row.hotelName || row.embarkation) && (
+                                    <div className="flex items-start gap-2 text-xs text-gray-600">
+                                        <Building size={14} className="text-gray-400 mt-0.5 shrink-0" />
+                                        <span className="line-clamp-1">{row.kitchenName || row.hotelName || row.embarkation}</span>
+                                    </div>
+                                )}
+                                {(row.address || row.location || row.province) && (
+                                    <div className="flex items-start gap-2 text-xs text-gray-600">
+                                        <MapPin size={14} className="text-gray-400 mt-0.5 shrink-0" />
+                                        <span className="line-clamp-1">{row.address || row.location || row.province}</span>
+                                    </div>
+                                )}
+                                <div className="flex items-center justify-between mt-2 pt-2">
+                                    <div className="flex items-center gap-1.5 text-[10px] text-gray-500 bg-gray-50 px-2 py-1 rounded-lg">
+                                        <User size={10} /> {row.pic || row.surveyor || '-'}
+                                    </div>
+                                    <div className="flex items-center gap-1 text-[10px] text-gray-400">
+                                        <Clock size={10} /> {row.date}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    ))
+                )}
             </div>
 
             {/* Pagination */}
             <div className="flex justify-between items-center mt-6 pt-6 border-t border-gray-200/60">
-                <p className="text-xs font-medium text-gray-400">
+                <p className="text-sm font-medium text-gray-400">
                     Menampilkan <span className="text-gray-800 font-bold">{processedData.length} Data</span> dari total tersedia
                 </p>
                 <div className="flex gap-2">
-                    <button disabled className="px-3 py-1.5 rounded-lg border border-gray-200 text-xs font-bold text-gray-400 hover:text-gray-600 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed">Prev</button>
-                    <button disabled className="px-3 py-1.5 rounded-lg border border-gray-200 text-xs font-bold text-gray-400 hover:text-gray-600 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed">Next</button>
+                    <button disabled className="px-3 py-1.5 rounded-lg border border-gray-200 text-sm font-bold text-gray-400 hover:text-gray-600 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed">Prev</button>
+                    <button disabled className="px-3 py-1.5 rounded-lg border border-gray-200 text-sm font-bold text-gray-400 hover:text-gray-600 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed">Next</button>
                 </div>
             </div>
         </GlassCard>

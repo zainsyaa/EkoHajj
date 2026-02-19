@@ -6,6 +6,7 @@ import { useData } from '../contexts/DataContext';
 import { PieChart as PieIcon, TrendingUp, Info, BarChart3, MapPin, Activity, Radio, Calendar, Filter, ChevronDown, Check, ShoppingCart } from 'lucide-react';
 import { ChartSkeleton, PieSkeleton } from '../components/Skeletons';
 import { HeroSection } from '../components/HeroSection';
+import { StatusBadge } from '../components/StatusBadge';
 
 export const Visualization: React.FC = () => {
     const { bumbuMakkah, bumbuMadinah, telecomActive, telecomData, expeditionData, tenantData, riceData, isLoading } = useData();
@@ -115,7 +116,7 @@ export const Visualization: React.FC = () => {
         if (active && payload && payload.length) {
             return (
             <div className="bg-white/90 backdrop-blur-xl border border-white/60 p-4 rounded-2xl shadow-[0_10px_40px_-10px_rgba(0,0,0,0.1)] text-xs z-50 min-w-[160px]">
-                {label && <p className="font-bold text-[#064E3B] mb-3 font-playfair border-b border-gray-100 pb-2">{label}</p>}
+                {label && <p className="font-bold text-[#064E3B] mb-3 font-display border-b border-gray-100 pb-2">{label}</p>}
                 {payload.map((entry: any, index: number) => (
                     <div key={index} className="flex items-center justify-between gap-4 mb-2 last:mb-0">
                         <div className="flex items-center gap-2">
@@ -142,25 +143,25 @@ export const Visualization: React.FC = () => {
                 currentDate={currentDate}
             >
                 {/* Time Filter Toggle */}
-                <div className="relative">
+                <div className="relative w-full md:w-auto">
                     <button 
                         onClick={() => setIsFilterOpen(!isFilterOpen)}
-                        className="flex items-center gap-2 bg-white/10 backdrop-blur-md px-4 py-2 rounded-xl border border-white/20 text-white font-bold text-[10px] hover:bg-white/20 transition-all min-w-[140px] justify-between shadow-lg shadow-black/5"
+                        className="flex items-center gap-2 bg-white/10 backdrop-blur-md px-4 py-2 rounded-xl border border-white/20 text-white font-bold text-[10px] hover:bg-white/20 transition-all w-full md:w-auto min-w-[140px] justify-between shadow-lg shadow-black/5"
                     >
                         <div className="flex items-center gap-2">
                             <div className="p-1 bg-[#D4AF37]/20 rounded-md">
                                 <Filter size={12} className="text-[#D4AF37]" />
                             </div>
                             <div className="flex flex-col items-start">
-                                <span className="text-[8px] text-emerald-100/70 font-normal uppercase tracking-wider leading-none mb-0.5">Filter Waktu</span>
-                                <span className="leading-none">{filterLabel[timeFilter]}</span>
+                                <span className="text-[10px] text-emerald-100/70 font-normal uppercase tracking-wider leading-none mb-0.5">Filter Waktu</span>
+                                <span className="leading-none text-xs">{filterLabel[timeFilter]}</span>
                             </div>
                         </div>
                         <ChevronDown size={14} className={`text-emerald-200 transition-transform duration-300 ${isFilterOpen ? 'rotate-180' : ''}`} />
                     </button>
 
                     {isFilterOpen && (
-                        <div className="absolute top-full left-0 mt-2 w-48 bg-white/95 backdrop-blur-xl border border-white/40 rounded-xl shadow-2xl z-50 overflow-hidden animate-fade-in-up origin-top-left">
+                        <div className="absolute top-full left-0 mt-2 w-full md:w-48 bg-white/95 backdrop-blur-xl border border-white/40 rounded-xl shadow-2xl z-50 overflow-hidden animate-fade-in-up origin-top-left">
                             <div className="p-1">
                                 {(['all', 'today', 'week', 'month'] as const).map((key) => (
                                     <button
@@ -169,7 +170,7 @@ export const Visualization: React.FC = () => {
                                             setTimeFilter(key);
                                             setIsFilterOpen(false);
                                         }}
-                                        className={`w-full text-left px-3 py-2.5 rounded-lg text-[10px] font-bold transition-all flex items-center justify-between group
+                                        className={`w-full text-left px-3 py-2.5 rounded-lg text-xs font-bold transition-all flex items-center justify-between group
                                             ${timeFilter === key 
                                                 ? 'bg-[#064E3B]/5 text-[#064E3B]' 
                                                 : 'text-gray-500 hover:bg-gray-50 hover:text-[#064E3B]'}`}
@@ -187,30 +188,21 @@ export const Visualization: React.FC = () => {
                 </div>
 
                 {/* Status Badge */}
-                <div className="flex items-center gap-3 bg-white/10 backdrop-blur-md px-4 py-2 rounded-xl border border-white/10 h-full min-h-[38px]">
-                    <div className="text-right">
-                        <p className="text-[8px] text-emerald-100 uppercase tracking-wide">Status Data</p>
-                        <p className="text-[10px] font-bold text-white leading-none">Live Monitoring</p>
-                    </div>
-                    <div className="relative w-2 h-2">
-                        <span className="absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75 animate-ping"></span>
-                        <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
-                    </div>
-                </div>
+                <StatusBadge />
             </HeroSection>
 
             {/* CHART ROW 1 */}
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 xl:grid-cols-3 gap-4 md:gap-6">
                 
                 {/* 1. COMPARISON CHART (Bar) */}
-                <div className="lg:col-span-2">
+                <div className="xl:col-span-2">
                     <GlassCard 
                         title="Komparasi Harga Bumbu" 
                         subtitle={`Rata-rata Harga Pasar (SAR) - ${timeFilter === 'all' ? 'Periode 2026' : timeFilter}`} 
                         className="!bg-white/70 h-full min-h-[400px]"
                         action={<div className="p-2 bg-emerald-50 rounded-lg text-emerald-700"><BarChart3 size={18}/></div>}
                     >
-                        <div className="h-[350px] mt-4 w-full">
+                        <div className="h-[280px] md:h-[350px] mt-4 w-full">
                              {isLoading ? <ChartSkeleton /> : (
                                 <ResponsiveContainer width="100%" height="100%">
                                     <BarChart data={dataPriceComparison} margin={{ top: 20, right: 30, left: 10, bottom: 5 }} barGap={2}>
@@ -225,8 +217,8 @@ export const Visualization: React.FC = () => {
                                             </linearGradient>
                                         </defs>
                                         <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#E5E7EB" />
-                                        <XAxis dataKey="name" fontSize={11} stroke="#6B7280" tickLine={false} axisLine={false} dy={10} fontWeight={500} />
-                                        <YAxis fontSize={11} stroke="#6B7280" tickLine={false} axisLine={false} />
+                                        <XAxis dataKey="name" fontSize={12} stroke="#6B7280" tickLine={false} axisLine={false} dy={10} fontWeight={500} />
+                                        <YAxis fontSize={12} stroke="#6B7280" tickLine={false} axisLine={false} />
                                         <Tooltip cursor={{fill: '#F3F4F6', radius: 8}} content={<CustomTooltip unit="SAR" />} />
                                         <Legend iconType="circle" wrapperStyle={{paddingTop: '20px'}} />
                                         
@@ -240,14 +232,14 @@ export const Visualization: React.FC = () => {
                 </div>
 
                 {/* 2. DONUT CHART (Telco) */}
-                <div className="lg:col-span-1">
+                <div className="xl:col-span-1">
                     <GlassCard 
                         title="Market Share Telco" 
                         subtitle="Estimasi Pengguna Aktif" 
                         className="!bg-white/70 h-full min-h-[400px]"
                         action={<div className="p-2 bg-blue-50 rounded-lg text-blue-700"><Radio size={18}/></div>}
                     >
-                        <div className="h-[350px] mt-4 relative flex items-center justify-center">
+                        <div className="h-[280px] md:h-[350px] mt-4 relative flex items-center justify-center">
                             {isLoading ? <PieSkeleton /> : (
                                 <>
                                     <ResponsiveContainer width="100%" height="100%">
@@ -272,8 +264,8 @@ export const Visualization: React.FC = () => {
                                         </PieChart>
                                     </ResponsiveContainer>
                                     <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none pb-8">
-                                        <span className="text-4xl font-bold text-[#064E3B] font-playfair">{dataTelcoShare.length}</span>
-                                        <span className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mt-1">Provider</span>
+                                        <span className="text-5xl font-bold text-[#064E3B] font-display">{dataTelcoShare.length}</span>
+                                        <span className="text-xs font-bold text-gray-400 uppercase tracking-widest mt-1">Provider</span>
                                     </div>
                                 </>
                             )}
@@ -283,7 +275,7 @@ export const Visualization: React.FC = () => {
             </div>
 
             {/* CHART ROW 2 */}
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 xl:grid-cols-2 gap-4 md:gap-6">
                 
                 {/* 3. Rice Price Comparison */}
                 <GlassCard 
@@ -292,13 +284,13 @@ export const Visualization: React.FC = () => {
                     className="!bg-white/70 min-h-[400px]"
                     action={<div className="p-2 bg-green-50 rounded-lg text-green-700"><ShoppingCart size={18}/></div>}
                 >
-                    <div className="h-[320px] mt-6">
+                    <div className="h-[280px] md:h-[320px] mt-6">
                         {isLoading ? <ChartSkeleton /> : (
                             <ResponsiveContainer width="100%" height="100%">
                                 <BarChart data={dataRicePrice} margin={{ top: 20, right: 30, left: 10, bottom: 5 }} layout="vertical">
                                     <CartesianGrid strokeDasharray="3 3" horizontal={true} vertical={false} stroke="#E5E7EB" />
-                                    <XAxis type="number" fontSize={11} stroke="#6B7280" tickLine={false} axisLine={false} />
-                                    <YAxis dataKey="name" type="category" width={100} fontSize={10} stroke="#6B7280" tickLine={false} axisLine={false} />
+                                    <XAxis type="number" fontSize={12} stroke="#6B7280" tickLine={false} axisLine={false} />
+                                    <YAxis dataKey="name" type="category" width={100} fontSize={11} stroke="#6B7280" tickLine={false} axisLine={false} />
                                     <Tooltip cursor={{fill: '#F3F4F6'}} content={<CustomTooltip unit="SAR" />} />
                                     <Bar dataKey="price" name="Harga Jual" fill={COLORS.primary} radius={[0, 4, 4, 0]} barSize={12} />
                                     <Bar dataKey="origin" name="Harga Asal" fill={COLORS.neutral} radius={[0, 4, 4, 0]} barSize={12} />
@@ -316,12 +308,12 @@ export const Visualization: React.FC = () => {
                     className="!bg-white/70 min-h-[400px]"
                     action={<div className="p-2 bg-purple-50 rounded-lg text-purple-700"><TrendingUp size={18}/></div>}
                 >
-                    <div className="h-[320px] mt-6">
+                    <div className="h-[280px] md:h-[320px] mt-6">
                         {isLoading ? <PieSkeleton /> : (
                             <ResponsiveContainer width="100%" height="100%">
                                 <RadarChart cx="50%" cy="50%" outerRadius="70%" data={dataHotelRevenue}>
                                     <PolarGrid stroke="#E5E7EB" strokeDasharray="4 4" />
-                                    <PolarAngleAxis dataKey="subject" fontSize={11} tick={{ fill: '#4B5563', fontWeight: 'bold' }} />
+                                    <PolarAngleAxis dataKey="subject" fontSize={12} tick={{ fill: '#4B5563', fontWeight: 'bold' }} />
                                     <PolarRadiusAxis angle={30} stroke="none" />
                                     <Radar 
                                         name="Revenue (SAR)" 

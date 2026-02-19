@@ -17,16 +17,16 @@ export const GlassCard: React.FC<GlassCardProps> = ({ children, className = '', 
       <div className="absolute -inset-[100%] bg-gradient-to-r from-transparent via-white/10 to-transparent rotate-45 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000 pointer-events-none"></div>
       
       {(title || subtitle) && (
-        <div className="px-8 py-6 border-b border-gray-100/50 flex items-start md:items-center justify-between relative z-10 bg-white/30">
-          <div className="space-y-1">
-             {title && <h3 className="text-lg font-bold text-[#064E3B] tracking-tight leading-tight">{title}</h3>}
+        <div className="px-5 py-4 md:px-6 md:py-5 border-b border-gray-100/50 flex items-start md:items-center justify-between relative z-10 bg-white/30">
+          <div className="space-y-0.5">
+             {title && <h3 className="text-lg font-bold text-[#064E3B] tracking-tight leading-tight font-display">{title}</h3>}
              {subtitle && <p className="text-xs font-medium text-gray-500 tracking-wide">{subtitle}</p>}
           </div>
           {action && <div className="ml-4">{action}</div>}
         </div>
       )}
       
-      <div className="p-8 relative z-10">
+      <div className="p-5 md:p-6 relative z-10">
         {children}
       </div>
     </div>

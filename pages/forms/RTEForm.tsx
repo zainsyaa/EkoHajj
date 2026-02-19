@@ -83,7 +83,7 @@ export const RTEForm: React.FC<RTEFormProps> = ({ onBack }) => {
 
   return (
     <div className="flex flex-col relative font-sans bg-white/60 backdrop-blur-xl rounded-[2.5rem] border border-white/60 shadow-2xl overflow-hidden animate-fade-in-up">
-      <div className="relative z-20 bg-white/40 backdrop-blur-lg border-b border-white/50 px-8 py-6 overflow-hidden">
+      <div className="relative z-20 bg-white/80 backdrop-blur-lg border-b border-white/50 px-8 py-6 overflow-hidden">
          {/* Watermark */}
          <div className="absolute top-[-20%] right-[-5%] text-[#D4AF37] opacity-5 pointer-events-none transform rotate-12 scale-150">
            <UtensilsCrossed size={300} strokeWidth={0.5} />
@@ -93,13 +93,13 @@ export const RTEForm: React.FC<RTEFormProps> = ({ onBack }) => {
              <div className="flex items-center gap-6">
                  <button onClick={onBack} className="p-3 rounded-2xl hover:bg-white text-gray-500 hover:text-[#D4AF37] transition-all border border-transparent hover:border-gray-200"><ArrowLeft size={22} /></button>
                  <div className="flex items-center gap-5">
-                    <div className="w-16 h-16 rounded-2xl flex items-center justify-center shadow-lg shadow-[#D4AF37]/20 bg-gradient-to-br from-[#D4AF37] to-[#B4941F] text-white ring-4 ring-white/50">
-                        <UtensilsCrossed size={32} strokeWidth={1.5} />
+                    <div className="w-20 h-20 rounded-2xl flex items-center justify-center shadow-lg shadow-[#D4AF37]/20 bg-[#D4AF37] text-white ring-4 ring-white">
+                        <UtensilsCrossed size={40} strokeWidth={1.5} />
                     </div>
                     <div>
-                        <h1 className="text-2xl font-bold text-[#D4AF37] font-playfair leading-tight">Makanan Siap Saji (RTE)</h1>
+                        <h1 className="text-3xl font-bold text-[#D4AF37] font-playfair leading-tight">Makanan Siap Saji (RTE)</h1>
                         <div className="flex items-center gap-2">
-                             <span className="px-2 py-0.5 rounded-full bg-[#D4AF37]/10 border border-[#D4AF37]/20 text-[10px] font-bold text-[#D4AF37] uppercase tracking-widest">Makkah Monitoring</span>
+                             <span className="px-2.5 py-1 rounded-full bg-[#D4AF37]/10 border border-[#D4AF37]/20 text-xs font-bold text-[#D4AF37] uppercase tracking-widest">Makkah Monitoring</span>
                         </div>
                     </div>
                  </div>
@@ -109,30 +109,30 @@ export const RTEForm: React.FC<RTEFormProps> = ({ onBack }) => {
             <div className="flex items-center gap-3 self-end xl:self-auto">
                 <button 
                     onClick={handleReset} 
-                    className="group flex items-center gap-2 px-6 py-2.5 rounded-xl text-xs font-bold text-white bg-gradient-to-br from-red-500 to-red-700 hover:from-red-600 hover:to-red-800 transition-all duration-300 shadow-lg shadow-red-500/30 hover:shadow-red-500/50 hover:-translate-y-0.5 active:scale-95"
+                    className="group flex items-center gap-2 px-6 py-2.5 rounded-xl text-sm font-bold text-white bg-red-600 hover:bg-red-700 transition-all duration-300 shadow-lg shadow-red-500/30 hover:shadow-red-500/50 hover:-translate-y-0.5 active:scale-95"
                 >
-                    <RotateCcw size={16} className="group-hover:-rotate-180 transition-transform duration-500" /> 
+                    <RotateCcw size={18} className="group-hover:-rotate-180 transition-transform duration-500" /> 
                     <span className="hidden sm:inline">Reset Form</span>
                 </button>
 
                 <button 
                     onClick={handleDraft} 
-                    className="group flex items-center gap-2 px-6 py-2.5 rounded-xl text-xs font-bold text-white bg-gradient-to-br from-[#D4AF37] to-[#B4941F] hover:from-[#c4a02f] hover:to-[#967a15] transition-all duration-300 shadow-lg shadow-[#D4AF37]/30 hover:shadow-[#D4AF37]/50 hover:-translate-y-0.5 active:scale-95"
+                    className="group flex items-center gap-2 px-6 py-2.5 rounded-xl text-sm font-bold text-white bg-[#D4AF37] hover:bg-[#b4941f] transition-all duration-300 shadow-lg shadow-[#D4AF37]/30 hover:shadow-[#D4AF37]/50 hover:-translate-y-0.5 active:scale-95"
                 >
-                    <Save size={16} /> <span>Simpan Draft</span>
+                    <Save size={18} /> <span>Simpan Draft</span>
                 </button>
 
                 <button 
                     onClick={handleSubmit} 
-                    className="group flex items-center gap-2 px-6 py-2.5 rounded-xl text-xs font-bold text-white bg-gradient-to-br from-[#064E3B] to-[#042f24] hover:from-[#053d2e] hover:to-[#064E3B] transition-all duration-300 shadow-lg shadow-[#064E3B]/30 hover:shadow-[#064E3B]/50 hover:-translate-y-0.5 active:scale-95"
+                    className="group flex items-center gap-2 px-6 py-2.5 rounded-xl text-sm font-bold text-white bg-[#064E3B] hover:bg-[#053d2e] transition-all duration-300 shadow-lg shadow-[#064E3B]/30 hover:shadow-[#064E3B]/50 hover:-translate-y-0.5 active:scale-95"
                 >
-                    <Send size={16} className="group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" /> 
+                    <Send size={18} className="group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" /> 
                     <span>Submit Laporan</span>
                 </button>
             </div>
          </div>
 
-         <div className="bg-white/40 backdrop-blur-md border border-white/60 rounded-3xl p-8 shadow-sm relative z-10">
+         <div className="bg-white/60 backdrop-blur-md border border-white/60 rounded-3xl p-5 md:p-8 shadow-sm relative z-10">
              <div className="flex items-center gap-3 mb-6 pb-4 border-b border-gray-200/50">
                 <div className="p-2 bg-[#D4AF37]/10 rounded-xl"><FileText size={18} className="text-[#D4AF37]" /></div>
                 <h3 className="text-sm font-bold text-gray-800 uppercase tracking-widest">A. Identitas Lokasi & Petugas</h3>
@@ -150,7 +150,7 @@ export const RTEForm: React.FC<RTEFormProps> = ({ onBack }) => {
          </div>
       </div>
 
-      <div className="p-8">
+      <div className="p-4 md:p-8">
           {/* Section B Header */}
           <div className="flex items-center justify-between mb-6">
               <div className="flex items-center gap-3">
@@ -198,8 +198,8 @@ export const RTEForm: React.FC<RTEFormProps> = ({ onBack }) => {
 
 const PremiumInput = ({ label, icon: Icon, type = "text", value, onChange, placeholder }: any) => (
   <div className="flex flex-col gap-2 group">
-    <label className="text-[10px] font-bold text-gray-400 uppercase tracking-widest flex items-center gap-2 group-focus-within:text-[#D4AF37] transition-colors">
-      <Icon size={12} className="text-gray-300 group-focus-within:text-[#D4AF37] transition-colors" /> {label}
+    <label className="text-xs font-bold text-gray-400 uppercase tracking-widest flex items-center gap-2 group-focus-within:text-[#D4AF37] transition-colors">
+      <Icon size={14} className="text-gray-300 group-focus-within:text-[#D4AF37] transition-colors" /> {label}
     </label>
     <input 
         type={type} 
@@ -208,7 +208,7 @@ const PremiumInput = ({ label, icon: Icon, type = "text", value, onChange, place
             const val = e.target.value;
             onChange(type === 'text' ? val.replace(/\b\w/g, c => c.toUpperCase()) : val);
         }} 
-        className="w-full text-sm font-semibold text-gray-700 bg-white/60 border border-gray-200 rounded-xl px-4 py-3.5 focus:bg-white focus:border-[#D4AF37] focus:ring-4 focus:ring-[#D4AF37]/5 outline-none transition-all placeholder:text-gray-300" 
+        className="w-full text-base font-semibold text-gray-700 bg-white border border-gray-200 rounded-xl px-4 py-3.5 focus:bg-white focus:border-[#D4AF37] focus:ring-4 focus:ring-[#D4AF37]/5 outline-none transition-all placeholder:text-gray-300" 
         placeholder={placeholder} 
     />
   </div>
@@ -229,7 +229,7 @@ const CardInput = ({ icon: Icon, value, onChange, placeholder, type = "text", hi
                 onChange(e);
             }} 
             placeholder={placeholder}
-            className={`w-full bg-gray-50/50 border border-gray-100 rounded-xl py-3 pl-10 text-sm font-semibold text-gray-700 focus:bg-white focus:border-[#D4AF37] focus:ring-2 focus:ring-[#D4AF37]/10 outline-none transition-all placeholder:text-gray-300 ${highlight ? 'text-[#D4AF37]' : ''}`}
+            className={`w-full bg-white border border-gray-100 rounded-xl py-3 pl-10 text-sm font-semibold text-gray-700 focus:bg-white focus:border-[#D4AF37] focus:ring-2 focus:ring-[#D4AF37]/10 outline-none transition-all placeholder:text-gray-300 ${highlight ? 'text-[#D4AF37]' : ''}`}
         />
     </div>
 );

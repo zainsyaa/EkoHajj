@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Sidebar } from './Sidebar';
-import { User, Bell, AlignLeft } from 'lucide-react';
+import { User, Bell, AlignLeft, ChevronDown } from 'lucide-react';
 import { Page } from '../types';
 
 interface LayoutProps {
@@ -31,10 +31,18 @@ export const Layout: React.FC<LayoutProps> = ({ children, currentPage, onNavigat
         isOpen={sidebarOpen}
       />
 
-      <div className={`relative z-10 transition-all duration-500 ease-[cubic-bezier(0.25,0.1,0.25,1)] ${sidebarOpen ? 'ml-72' : 'ml-24'} min-h-screen flex flex-col`}>
+      {/* Mobile Sidebar Overlay */}
+      {sidebarOpen && (
+        <div 
+            className="fixed inset-0 bg-black/20 backdrop-blur-sm z-20 md:hidden animate-fade-in"
+            onClick={() => setSidebarOpen(false)}
+        ></div>
+      )}
+
+      <div className={`relative z-10 transition-all duration-500 ease-[cubic-bezier(0.25,0.1,0.25,1)] ${sidebarOpen ? 'md:ml-72' : 'md:ml-24'} ml-0 min-h-screen flex flex-col`}>
         
         {/* Frosted Header */}
-        <header className="h-20 bg-white/70 backdrop-blur-md border-b border-white/40 px-8 flex items-center justify-between sticky top-0 z-20 shadow-sm transition-all">
+        <header className="h-16 md:h-20 bg-white/70 backdrop-blur-md border-b border-white/40 px-4 md:px-8 flex items-center justify-between sticky top-0 z-20 shadow-sm transition-all">
           
           <div className="flex items-center gap-4">
              <button 
@@ -46,10 +54,10 @@ export const Layout: React.FC<LayoutProps> = ({ children, currentPage, onNavigat
              
              {/* Page Title */}
              <div className="animate-fade-in">
-                <h2 className="text-xl font-bold text-[#064E3B]">
-                    {currentPage === Page.DASHBOARD ? 'DASHBOARD EKOSISTEM EKONOMI HAJI' : currentPage.replace(/_/g, ' ').replace('FORM', '').trim()}
+                <h2 className="text-lg md:text-xl font-bold text-[#064E3B] truncate max-w-[200px] md:max-w-none">
+                    {currentPage === Page.DASHBOARD ? 'DASHBOARD EKOSISTEM' : currentPage.replace(/_/g, ' ').replace('FORM', '').trim()}
                 </h2>
-                <p className="text-xs text-gray-400 font-medium tracking-wide uppercase">Kementerian Haji dan Umrah RI</p>
+                <p className="text-[10px] md:text-xs text-gray-400 font-medium tracking-wide uppercase hidden sm:block">Kementerian Haji dan Umrah RI</p>
              </div>
           </div>
 
@@ -76,7 +84,7 @@ export const Layout: React.FC<LayoutProps> = ({ children, currentPage, onNavigat
         </header>
 
         {/* Content Area */}
-        <main className="p-8 flex-1 relative">
+        <main className="p-4 md:p-8 flex-1 relative">
            {children}
         </main>
         

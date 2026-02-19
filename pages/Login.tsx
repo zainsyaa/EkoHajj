@@ -42,82 +42,82 @@ export const Login: React.FC<LoginProps> = ({ onLogin }) => {
       </div>
 
       {/* --- LOGIN CARD (Matching Dashboard GlassCard Style) --- */}
-      <div className="w-full max-w-md px-6 relative z-10 animate-fade-in-up">
+      <div className="w-full max-w-[400px] md:max-w-[450px] mx-4 relative z-10 animate-fade-in-up">
         
         {/* Card Container - White Glass to match Dashboard Cards */}
-        <div className="bg-white/90 backdrop-blur-2xl rounded-[2.5rem] shadow-[0_20px_60px_-15px_rgba(0,0,0,0.3)] border border-white/50 overflow-hidden relative">
+        <div className="bg-white/90 backdrop-blur-2xl rounded-[2rem] md:rounded-[2.5rem] shadow-[0_20px_60px_-15px_rgba(0,0,0,0.3)] border border-white/50 overflow-hidden relative transition-all duration-300">
             
             {/* Top Decoration */}
-            <div className="h-2 w-full bg-gradient-to-r from-[#064E3B] via-[#10B981] to-[#D4AF37]"></div>
+            <div className="h-1.5 md:h-2 w-full bg-gradient-to-r from-[#064E3B] via-[#10B981] to-[#D4AF37]"></div>
 
-            <div className="p-8 md:p-10">
+            <div className="p-6 sm:p-8 md:p-10">
                 {/* Header */}
-                <div className="text-center mb-8">
-                    <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-[#064E3B] text-white shadow-xl shadow-[#064E3B]/20 mb-4 ring-4 ring-[#064E3B]/5 transform rotate-3">
-                        <Building2 size={32} />
+                <div className="text-center mb-6 md:mb-8">
+                    <div className="inline-flex items-center justify-center w-12 h-12 md:w-16 md:h-16 rounded-2xl bg-[#064E3B] text-white shadow-xl shadow-[#064E3B]/20 mb-4 ring-4 ring-[#064E3B]/5 transform rotate-3 transition-transform hover:rotate-6 duration-300">
+                        <Building2 className="w-6 h-6 md:w-8 md:h-8" />
                     </div>
-                    <h1 className="text-3xl font-bold text-[#064E3B] font-playfair mb-1">
+                    <h1 className="text-2xl md:text-3xl font-bold text-[#064E3B] font-display mb-1.5 tracking-tight">
                         EkoHajj <span className="text-[#D4AF37]">2026</span>
                     </h1>
-                    <p className="text-xs font-bold text-gray-400 tracking-[0.2em] uppercase">
+                    <p className="text-[10px] md:text-xs font-bold text-gray-400 tracking-[0.2em] uppercase">
                         Sistem Monitoring Terintegrasi
                     </p>
                 </div>
 
                 {/* Form */}
-                <form onSubmit={handleSubmit} className="space-y-5">
+                <form onSubmit={handleSubmit} className="space-y-5 md:space-y-6">
                     
-                    <div className="space-y-1.5">
-                        <label className="text-[10px] font-bold text-gray-500 uppercase tracking-wider ml-1">Username / ID Panitia</label>
+                    <div className="space-y-1.5 md:space-y-2">
+                        <label className="text-[10px] md:text-xs font-bold text-gray-500 uppercase tracking-wider ml-1">Username / ID Panitia</label>
                         <div className="relative group">
                             <div className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 group-focus-within:text-[#064E3B] transition-colors">
-                                <User size={18} />
+                                <User size={18} className="md:w-5 md:h-5" />
                             </div>
                             <input 
                                 type="text" 
                                 value={username}
                                 onChange={(e) => setUsername(e.target.value)}
                                 placeholder="Masukkan Username / ID Panitia"
-                                className="w-full bg-gray-50 border border-gray-200 rounded-xl py-3.5 pl-11 pr-4 text-sm font-semibold text-gray-800 placeholder-gray-400 focus:bg-white focus:border-[#064E3B] focus:ring-4 focus:ring-[#064E3B]/10 outline-none transition-all"
+                                className="w-full bg-gray-50 border border-gray-200 rounded-xl py-3 md:py-3.5 pl-11 pr-4 text-sm font-semibold text-gray-800 placeholder-gray-400 focus:bg-white focus:border-[#064E3B] focus:ring-4 focus:ring-[#064E3B]/10 outline-none transition-all"
                             />
                         </div>
                     </div>
 
-                    <div className="space-y-1.5">
-                         <label className="text-[10px] font-bold text-gray-500 uppercase tracking-wider ml-1">Password</label>
+                    <div className="space-y-1.5 md:space-y-2">
+                         <label className="text-[10px] md:text-xs font-bold text-gray-500 uppercase tracking-wider ml-1">Password</label>
                          <div className="relative group">
                             <div className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 group-focus-within:text-[#064E3B] transition-colors">
-                                <Lock size={18} />
+                                <Lock size={18} className="md:w-5 md:h-5" />
                             </div>
                             <input 
                                 type={showPassword ? "text" : "password"}
                                 value={password}
                                 onChange={(e) => setPassword(e.target.value)}
                                 placeholder="••••••••"
-                                className="w-full bg-gray-50 border border-gray-200 rounded-xl py-3.5 pl-11 pr-12 text-sm font-semibold text-gray-800 placeholder-gray-400 focus:bg-white focus:border-[#064E3B] focus:ring-4 focus:ring-[#064E3B]/10 outline-none transition-all"
+                                className="w-full bg-gray-50 border border-gray-200 rounded-xl py-3 md:py-3.5 pl-11 pr-12 text-sm font-semibold text-gray-800 placeholder-gray-400 focus:bg-white focus:border-[#064E3B] focus:ring-4 focus:ring-[#064E3B]/10 outline-none transition-all"
                             />
                             <button 
                                 type="button"
                                 onClick={() => setShowPassword(!showPassword)}
-                                className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 transition-colors"
+                                className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 transition-colors p-1"
                             >
-                                {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+                                {showPassword ? <EyeOff size={18} className="md:w-5 md:h-5" /> : <Eye size={18} className="md:w-5 md:h-5" />}
                             </button>
                         </div>
                     </div>
 
-                    <div className="flex items-center justify-between pt-2">
-                        <label className="flex items-center gap-2 cursor-pointer">
-                            <input type="checkbox" className="w-4 h-4 rounded border-gray-300 text-[#064E3B] focus:ring-[#064E3B]" />
-                            <span className="text-xs font-medium text-gray-500">Ingat Saya</span>
+                    <div className="flex items-center justify-between pt-1">
+                        <label className="flex items-center gap-2 cursor-pointer group">
+                            <input type="checkbox" className="w-4 h-4 rounded border-gray-300 text-[#064E3B] focus:ring-[#064E3B] transition-colors" />
+                            <span className="text-xs font-medium text-gray-500 group-hover:text-gray-700 transition-colors">Ingat Saya</span>
                         </label>
-                        <a href="#" className="text-xs font-bold text-[#D4AF37] hover:text-[#b08d24] transition-colors">Lupa Password?</a>
+                        <a href="#" className="text-xs font-bold text-[#D4AF37] hover:text-[#b08d24] transition-colors hover:underline">Lupa Password?</a>
                     </div>
 
                     <button
                         type="submit"
                         disabled={loading}
-                        className="w-full py-4 mt-4 bg-[#064E3B] hover:bg-[#053d2e] text-white rounded-xl font-bold text-sm shadow-lg shadow-[#064E3B]/30 transition-all transform hover:scale-[1.02] active:scale-[0.98] disabled:opacity-70 disabled:cursor-not-allowed flex items-center justify-center gap-2 group"
+                        className="w-full py-3.5 md:py-4 mt-2 bg-[#064E3B] hover:bg-[#053d2e] text-white rounded-xl font-bold text-sm md:text-base shadow-lg shadow-[#064E3B]/30 transition-all transform hover:scale-[1.02] active:scale-[0.98] disabled:opacity-70 disabled:cursor-not-allowed flex items-center justify-center gap-2 group"
                     >
                         {loading ? (
                              <>
@@ -138,8 +138,8 @@ export const Login: React.FC<LoginProps> = ({ onLogin }) => {
             </div>
 
              {/* Footer inside card */}
-             <div className="bg-gray-50 p-4 text-center border-t border-gray-100">
-                 <p className="text-[10px] text-gray-400">
+             <div className="bg-gray-50/80 p-4 text-center border-t border-gray-100 backdrop-blur-sm">
+                 <p className="text-[10px] md:text-xs text-gray-400 font-medium">
                     &copy; 2026 Kementerian Haji dan Umrah RI.
                  </p>
             </div>

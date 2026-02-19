@@ -107,23 +107,23 @@ export const SpiceForm: React.FC<SpiceFormProps> = ({ onBack }) => {
     <div className="flex flex-col relative font-sans bg-white/60 backdrop-blur-xl rounded-[2.5rem] border border-white/60 shadow-2xl overflow-hidden transition-all duration-500">
       
       {/* HEADER */}
-      <div className="relative z-20 bg-white/40 backdrop-blur-lg border-b border-white/50 overflow-hidden">
+      <div className="relative z-20 bg-white/80 backdrop-blur-lg border-b border-white/50 overflow-hidden">
           {/* Watermark Icon */}
           <div className="absolute top-[-20%] right-[-5%] text-[#064E3B] opacity-5 pointer-events-none transform rotate-12 scale-150">
               <ChefHat size={300} strokeWidth={0.5} />
           </div>
 
-          <div className="px-8 py-6 flex flex-col xl:flex-row xl:items-center justify-between gap-6 relative z-10">
-             <div className="flex items-center gap-6">
-                 <button onClick={onBack} className="p-3 rounded-2xl hover:bg-white text-gray-500 hover:text-[#064E3B] transition-all border border-transparent hover:border-gray-200 shadow-sm"><ArrowLeft size={22} /></button>
-                 <div className="flex items-center gap-5">
-                    <div className={`w-16 h-16 rounded-2xl flex items-center justify-center shadow-lg shadow-[#064E3B]/20 bg-gradient-to-br from-[#064E3B] to-[#042f24] text-white ring-4 ring-white/50`}>
-                        <ChefHat size={32} strokeWidth={1.5} />
+          <div className="px-4 py-4 md:px-8 md:py-6 flex flex-col xl:flex-row xl:items-center justify-between gap-4 md:gap-6 relative z-10">
+             <div className="flex items-start md:items-center gap-4">
+                 <button onClick={onBack} className="p-2 md:p-3 rounded-2xl hover:bg-white text-gray-500 hover:text-[#064E3B] transition-all border border-transparent hover:border-gray-200 shadow-sm shrink-0 mt-1 md:mt-0"><ArrowLeft size={20} className="md:w-[22px] md:h-[22px]" /></button>
+                 <div className="flex items-center gap-4">
+                    <div className={`w-14 h-14 md:w-20 md:h-20 rounded-2xl flex items-center justify-center shadow-lg shadow-[#064E3B]/20 bg-[#064E3B] text-white ring-4 ring-white shrink-0`}>
+                        <ChefHat size={28} className="md:w-[40px] md:h-[40px]" strokeWidth={1.5} />
                     </div>
                     <div>
-                        <h1 className="text-2xl font-bold text-[#064E3B] leading-none tracking-tight font-playfair mb-1.5">Bumbu Pasta</h1>
-                        <div className="flex items-center gap-2">
-                            <span className="px-2 py-0.5 rounded-full bg-[#064E3B]/10 border border-[#064E3B]/20 text-[10px] font-bold text-[#064E3B] uppercase tracking-widest">Layanan Konsumsi</span>
+                        <h1 className="text-xl md:text-3xl font-bold text-[#064E3B] leading-tight tracking-tight font-display mb-1">Bumbu Pasta</h1>
+                        <div className="flex items-center gap-2 flex-wrap">
+                            <span className="px-2 py-0.5 md:px-2.5 md:py-1 rounded-full bg-[#064E3B]/10 border border-[#064E3B]/20 text-[10px] md:text-xs font-bold text-[#064E3B] uppercase tracking-widest">Layanan Konsumsi</span>
                         </div>
                     </div>
                  </div>
@@ -150,25 +150,25 @@ export const SpiceForm: React.FC<SpiceFormProps> = ({ onBack }) => {
                 {/* ACTION BUTTONS */}
                 <button 
                     onClick={handleReset}
-                    className="group flex items-center gap-2 px-6 py-2.5 rounded-xl text-xs font-bold text-white bg-gradient-to-br from-red-500 to-red-700 hover:from-red-600 hover:to-red-800 transition-all duration-300 shadow-lg shadow-red-500/30 hover:shadow-red-500/50 hover:-translate-y-0.5 active:scale-95"
+                    className="group flex items-center gap-2 px-6 py-2.5 rounded-xl text-sm font-bold text-white bg-red-600 hover:bg-red-700 transition-all duration-300 shadow-lg shadow-red-500/30 hover:shadow-red-500/50 hover:-translate-y-0.5 active:scale-95"
                     title="Hapus semua isian"
                 >
-                    <RotateCcw size={16} className="group-hover:-rotate-180 transition-transform duration-500" /> 
+                    <RotateCcw size={18} className="group-hover:-rotate-180 transition-transform duration-500" /> 
                     <span className="hidden sm:inline">Reset Form</span>
                 </button>
                 
                 <button 
                     onClick={handleDraft}
-                    className="group flex items-center gap-2 px-6 py-2.5 rounded-xl text-xs font-bold text-white bg-gradient-to-br from-[#D4AF37] to-[#B4941F] hover:from-[#c4a02f] hover:to-[#967a15] transition-all duration-300 shadow-lg shadow-[#D4AF37]/30 hover:shadow-[#D4AF37]/50 hover:-translate-y-0.5 active:scale-95"
+                    className="group flex items-center gap-2 px-6 py-2.5 rounded-xl text-sm font-bold text-white bg-[#D4AF37] hover:bg-[#b4941f] transition-all duration-300 shadow-lg shadow-[#D4AF37]/30 hover:shadow-[#D4AF37]/50 hover:-translate-y-0.5 active:scale-95"
                 >
-                    <Save size={16} /> <span>Simpan Draft</span>
+                    <Save size={18} /> <span>Simpan Draft</span>
                 </button>
 
                 <button 
                     onClick={handleSubmit}
-                    className="group flex items-center gap-2 px-6 py-2.5 rounded-xl text-xs font-bold text-white bg-gradient-to-br from-[#064E3B] to-[#042f24] hover:from-[#053d2e] hover:to-[#064E3B] transition-all duration-300 shadow-lg shadow-[#064E3B]/30 hover:shadow-[#064E3B]/50 hover:-translate-y-0.5 active:scale-95"
+                    className="group flex items-center gap-2 px-6 py-2.5 rounded-xl text-sm font-bold text-white bg-[#064E3B] hover:bg-[#053d2e] transition-all duration-300 shadow-lg shadow-[#064E3B]/30 hover:shadow-[#064E3B]/50 hover:-translate-y-0.5 active:scale-95"
                 >
-                    <Send size={16} className="group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" /> 
+                    <Send size={18} className="group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" /> 
                     <span>Submit Laporan</span>
                 </button>
              </div>
@@ -194,13 +194,13 @@ export const SpiceForm: React.FC<SpiceFormProps> = ({ onBack }) => {
           </div>
 
           {/* Identity Panel (A. Identitas Lokasi) */}
-          <div className="px-8 pb-2 relative z-10">
-             <div className={`bg-white/40 backdrop-blur-md border border-white/60 rounded-3xl overflow-hidden transition-all duration-500 ease-[cubic-bezier(0.25,1,0.5,1)] shadow-sm relative z-10 ${isIdentityExpanded ? 'max-h-[600px] opacity-100 mb-8 p-8' : 'max-h-0 opacity-0 mb-0 p-0 border-0'}`}>
+          <div className="px-4 md:px-8 pb-2 relative z-10">
+             <div className={`bg-white/60 backdrop-blur-md border border-white/60 rounded-3xl overflow-hidden transition-all duration-500 ease-[cubic-bezier(0.25,1,0.5,1)] shadow-sm relative z-10 ${isIdentityExpanded ? 'max-h-[800px] opacity-100 mb-6 md:mb-8 p-5 md:p-8' : 'max-h-0 opacity-0 mb-0 p-0 border-0'}`}>
                 <div className="flex items-center gap-3 mb-6 pb-4 border-b border-gray-200/50">
                     <div className="p-2 bg-[#064E3B]/10 rounded-xl"><FileText size={18} className="text-[#064E3B]" /></div>
                     <h3 className="text-sm font-bold text-gray-800 uppercase tracking-widest">A. Identitas Lokasi & Petugas ({activeTab})</h3>
                 </div>
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-x-6 gap-y-6">
                   <PremiumInput label="1. Nama Dapur" icon={MapPin} value={kitchenName} 
                       onChange={(val: string) => { setKitchenName(val); updateIdentity('kitchenName', val); }} 
                       placeholder="Isi nama dapur..." />
@@ -231,7 +231,7 @@ export const SpiceForm: React.FC<SpiceFormProps> = ({ onBack }) => {
              <div className="flex justify-center -mt-4 relative z-20">
                  <button 
                     onClick={() => setIsIdentityExpanded(!isIdentityExpanded)}
-                    className="flex items-center gap-2 px-5 py-2 bg-white border border-gray-100 rounded-full text-[10px] font-bold text-gray-500 hover:text-[#064E3B] hover:border-[#064E3B]/20 shadow-lg shadow-gray-100 transition-all hover:shadow-xl hover:-translate-y-0.5"
+                    className="flex items-center gap-2 px-5 py-2 bg-white border border-gray-100 rounded-full text-xs font-bold text-gray-500 hover:text-[#064E3B] hover:border-[#064E3B]/20 shadow-lg shadow-gray-100 transition-all hover:shadow-xl hover:-translate-y-0.5"
                  >
                     {isIdentityExpanded ? 'Tutup Identitas' : 'Buka Identitas'}
                     {isIdentityExpanded ? <ChevronUp size={12} /> : <ChevronDown size={12} />}
@@ -241,7 +241,7 @@ export const SpiceForm: React.FC<SpiceFormProps> = ({ onBack }) => {
       </div>
 
       {/* GRID CONTENT */}
-      <div className="p-8 pt-2 z-10">
+      <div className="p-4 md:p-8 pt-2 z-10">
           
           <div className="flex items-center justify-between mb-6">
               <div className="flex items-center gap-3">
@@ -256,11 +256,11 @@ export const SpiceForm: React.FC<SpiceFormProps> = ({ onBack }) => {
               </div>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-12">
+          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 md:gap-6 mb-12">
             {filteredRecords.map((record, idx) => (
                 <div 
                     key={record.id} 
-                    className="relative bg-white rounded-3xl p-6 border border-gray-100 shadow-sm hover:shadow-xl transition-all group"
+                    className="relative bg-white rounded-3xl p-5 md:p-6 border border-gray-100 shadow-sm hover:shadow-xl transition-all group"
                 >
                    <div className="absolute left-0 top-0 bottom-0 w-1.5 bg-[#D4AF37] rounded-l-3xl"></div>
 
@@ -349,8 +349,8 @@ export const SpiceForm: React.FC<SpiceFormProps> = ({ onBack }) => {
 
 const PremiumInput = ({ label, icon: Icon, type = "text", value, onChange, placeholder }: any) => (
     <div className="flex flex-col gap-2 group">
-        <label className="text-[10px] font-bold text-gray-400 uppercase tracking-widest flex items-center gap-2 group-focus-within:text-[#064E3B] transition-colors">
-            <Icon size={12} className="text-gray-400 group-focus-within:text-[#D4AF37] transition-colors" /> {label}
+        <label className="text-xs font-bold text-gray-400 uppercase tracking-widest flex items-center gap-2 group-focus-within:text-[#064E3B] transition-colors">
+            <Icon size={14} className="text-gray-400 group-focus-within:text-[#D4AF37] transition-colors" /> {label}
         </label>
         <div className="relative">
             <input 
@@ -360,7 +360,7 @@ const PremiumInput = ({ label, icon: Icon, type = "text", value, onChange, place
                     const val = e.target.value;
                     onChange(type === 'text' ? val.replace(/\b\w/g, c => c.toUpperCase()) : val);
                 }} 
-                className="w-full text-sm font-semibold text-gray-700 bg-white/60 border border-gray-200 rounded-xl px-4 py-3.5 focus:bg-white focus:border-[#064E3B] focus:ring-4 focus:ring-[#064E3B]/5 outline-none transition-all shadow-sm placeholder:font-medium placeholder:text-gray-300 hover:border-gray-300 hover:bg-white/80" 
+                className="w-full text-base font-semibold text-gray-700 bg-white border border-gray-200 rounded-xl px-4 py-3.5 focus:bg-white focus:border-[#064E3B] focus:ring-4 focus:ring-[#064E3B]/5 outline-none transition-all shadow-sm placeholder:font-medium placeholder:text-gray-300 hover:border-gray-300" 
                 placeholder={placeholder} 
             />
         </div>
