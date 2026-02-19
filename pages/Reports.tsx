@@ -147,6 +147,62 @@ export const Reports: React.FC = () => {
       }
   };
 
+  const handleExport = () => {
+      if (!processedData || processedData.length === 0) {
+          alert('Tidak ada data untuk diekspor');
+          return;
+      }
+
+      let headers: string[] = [];
+      let keys: string[] = [];
+
+      switch (activeTab) {
+          case 'bumbu':
+              headers = ['Jenis Bumbu', 'Perusahaan', 'Lokasi', 'Dapur', 'Alamat', 'PIC', 'Volume (Ton)', 'Bahan Lain', 'Harga (SAR)', 'Surveyor', 'Tanggal', 'Waktu'];
+              keys = ['name', 'companyName', 'loc', 'kitchenName', 'address', 'pic', 'volume', 'otherIngredients', 'price', 'surveyor', 'date', 'time'];
+              break;
+          case 'beras':
+              headers = ['Perusahaan', 'Jenis Beras', 'Volume (Ton)', 'Harga (SAR)', 'Asal Produk', 'Harga Asal', 'Surveyor', 'Tanggal'];
+              keys = ['companyName', 'riceType', 'volume', 'price', 'originProduct', 'productPrice', 'surveyor', 'date'];
+              break;
+          case 'rte':
+              headers = ['Perusahaan', 'Menu', 'Dapur', 'Alamat', 'PIC', 'Volume (Porsi)', 'Harga (SAR)', 'Surveyor', 'Tanggal', 'Waktu'];
+              keys = ['companyName', 'menu', 'kitchenName', 'address', 'pic', 'volume', 'price', 'surveyor', 'date', 'time'];
+              break;
+          case 'tenant':
+              headers = ['Nama Toko', 'Hotel', 'Lokasi', 'PIC', 'Produk Utama', 'Best Seller', 'Biaya Sewa (SAR)', 'Surveyor', 'Tanggal', 'Waktu'];
+              keys = ['shopName', 'hotelName', 'location', 'pic', 'productType', 'bestSeller', 'rentCost', 'surveyor', 'date', 'time'];
+              break;
+          case 'ekspedisi':
+              headers = ['Perusahaan', 'Hotel', 'Lokasi', 'PIC', 'Berat (Kg)', 'Harga/Kg (SAR)', 'Surveyor', 'Tanggal', 'Waktu'];
+              keys = ['companyName', 'hotelName', 'location', 'pic', 'weight', 'pricePerKg', 'surveyor', 'date', 'time'];
+              break;
+          case 'telco':
+              headers = ['Provider', 'Nama Jemaah', 'Kloter', 'Embarkasi', 'Provinsi', 'Paket Roaming', 'Surveyor', 'Tanggal'];
+              keys = ['providerName', 'respondentName', 'kloter', 'embarkation', 'province', 'roamingPackage', 'surveyor', 'date'];
+              break;
+      }
+
+      const csvContent = [
+          headers.join(','),
+          ...processedData.map(row => keys.map(key => {
+              const val = row[key] || '-';
+              const stringVal = String(val).replace(/"/g, '""');
+              return `"${stringVal}"`;
+          }).join(','))
+      ].join('\n');
+
+      const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.setAttribute('href', url);
+      link.setAttribute('download', `laporan_${activeTab}_${new Date().toISOString().split('T')[0]}.csv`);
+      link.style.visibility = 'hidden';
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+  };
+
   const renderTableBody = () => {
       if (isLoading) {
           return (
@@ -478,7 +534,10 @@ export const Reports: React.FC = () => {
                  <button className="flex items-center gap-2 px-4 py-2 bg-white/10 backdrop-blur-md border border-white/20 rounded-xl text-[10px] font-bold text-white hover:bg-white/20 transition-all shadow-lg group">
                      <Printer size={14} className="text-emerald-200 group-hover:text-white transition-colors" /> Print Laporan
                  </button>
-                 <button className="flex items-center gap-2 px-4 py-2 bg-[#D4AF37] text-[#064E3B] rounded-xl text-[10px] font-bold hover:bg-[#b08d24] hover:text-white shadow-lg shadow-[#D4AF37]/20 transition-all transform hover:-translate-y-0.5">
+                 <button 
+                     onClick={handleExport}
+                     className="flex items-center gap-2 px-4 py-2 bg-[#D4AF37] text-[#064E3B] rounded-xl text-[10px] font-bold hover:bg-[#b08d24] hover:text-white shadow-lg shadow-[#D4AF37]/20 transition-all transform hover:-translate-y-0.5"
+                 >
                      <Download size={14} /> Export CSV
                  </button>
              </div>
